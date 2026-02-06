@@ -1,0 +1,41 @@
+<ul class="account-list account-list--messages">
+    {{#each messages}}
+        <li class="account-listItem account-message{{#unless is_reply}} sent-message{{/unless}}">
+            {{#unless is_reply}}
+                <div class="account-message-avatar-container">
+                    <div class="account-message-avatar">
+                        <div class="account-message-avatar-icon">
+                            <svg aria-hidden="true">
+                                <use xlink:href="#icon-user"></use>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+            {{/unless}}
+            <div class="message-box{{#if is_reply}} is-reply{{/if}}">
+                <div class="account-message-content{{#if is_reply}} is-reply{{/if}}">
+                    <div class="account-returnStatus">
+                        <span>{{date}}</span>
+                    </div>
+
+                    <h5 class="account-product-title{{#if unread}} is-read{{/if}}">
+                        {{subject}}
+                    </h5>
+                    <p class="{{#if unread}}is-read{{/if}}">
+                        {{{nl2br message}}}
+                    </p>
+                </div>
+            </div>
+            {{#if is_reply}}
+                <div class="account-message-avatar-container">
+                    <div class="account-message-avatar">
+                        <img src="{{../../head.favicon}}">
+                    </div>
+                </div>
+            {{/if}}
+        </li>
+        <div class="account-returnStatus-mobile{{#if is_reply}} is-reply{{/if}}">
+            <span>{{date}}</span>
+        </div>
+    {{/each}}
+</ul>

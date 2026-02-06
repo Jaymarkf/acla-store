@@ -1,0 +1,30 @@
+.globalBanner {
+    background-color: stencilColor("global_banner_backgroundColor");
+    border-top: container("border");
+    color: stencilColor("global_banner_foregroundColor");
+    padding: spacing("base");
+    text-align: center;
+}
+
+.globalBanner-label {
+    display: inline-block;
+    font-size: fontSize("smallest");
+    padding: 0 spacing("base");
+
+    @include breakpoint("medium") {
+        font-size: fontSize("smaller");
+
+        + .globalBanner-label {
+            border-left: container("border");
+            border-color: rgba(stencilColor("global_banner_foregroundColor"), 0.5);
+
+            .slick-track & {
+                border: none;
+            }
+        }
+    }
+}
+
+.globalBanner-icon {
+    margin-right: remCalc(5);
+}

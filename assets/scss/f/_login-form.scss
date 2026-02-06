@@ -1,0 +1,195 @@
+$loginForm-bg: stencilColor("loginForm-bg");
+$loginForm-text-color: stencilColor("loginForm-text-color");
+
+.login-form {
+    background: $loginForm-bg;
+    box-shadow: 0 0 1px 0 rgba(0,0,0,0.5);
+    float: none;
+    margin: 0 0 spacing("single");
+    padding: spacing("single");
+
+    @include breakpoint("medium") {
+        margin-bottom: spacing("single");
+        padding: spacing("double") spacing("single");
+    }
+
+    &.login-form--carousel {
+        max-width: 100%;
+        width: 100%;
+    }
+
+    &.login-form--home {
+
+        .form-actions {
+            flex-flow: row wrap;
+            justify-content: center;
+
+            @include breakpoint("small") {
+                justify-content: space-between;
+            }
+
+            @include breakpoint("medium") {
+                justify-content: center;
+            }
+
+            a {
+                margin: 0;
+                padding: 0 spacing("half");
+                width: auto;
+            }
+
+            .forgot-password {
+                margin: 0;
+
+                @include breakpoint("small") {
+                    padding-left: 0;
+                }
+
+                @include breakpoint("medium") {
+                    padding-left: spacing("half");
+                }
+            }
+
+            .login-form__button {
+                width: 100%;
+                margin-bottom: spacing("single");
+
+                @include breakpoint("small") {
+                    flex-grow: 1;
+                    margin-bottom: 0;
+                    max-width: remCalc(230);
+                    order: 1;
+                    width: auto;
+                }
+
+                @include breakpoint("medium") {
+                    margin-bottom: spacing("single");
+                    max-width: none;
+                    order: 0;
+                    width: 100%;
+                }
+            }
+
+            .login-form__links {
+                align-items: center;
+                display: flex;
+                flex-flow: row wrap;
+                justify-content: center;
+                margin: 0;
+            }
+        }
+
+        @include breakpoint("medium") {
+            max-width: 33.33%;
+            min-width: remCalc(330px);
+            order: 0;
+        }
+
+        @include breakpoint("large") {
+            max-width: calc(25% - #{spacing("half")*1.5});
+            min-width: 0;
+            width: 100%;
+            flex: 1;
+        }
+    }
+
+    &.login-form-account {
+        .form-actions {
+            flex-flow: row-reverse nowrap;
+        }
+
+        .login-form__links {
+            display: block;
+            text-align: left;
+        }
+
+        .login-form__button {
+            max-width: remCalc(230);
+        }
+    }
+
+    &.login-form--order-1 {
+        @include breakpoint("large") {
+            order: 0;
+        }
+    }
+
+    &.login-form--order-2 {
+        @include breakpoint("large") {
+            order: 1;
+        }
+    }
+
+    h3 {
+        color: $loginForm-text-color;
+        font-size: $fontSize-small;
+        margin-top: 0;
+        text-align: center;
+    }
+
+    .form-label {
+        color: $loginForm-text-color;
+    }
+
+    .form-actions {
+        display: flex;
+        flex-flow: row nowrap;
+        justify-content: space-between;
+
+        &::after,
+        &::before {
+            display: none;
+        }
+    }
+
+    .forgot-password {
+        color: $loginForm-text-color;
+        padding-right: spacing("third");
+        text-align: left;
+        width: auto;
+    }
+
+    .form-actions a + .login-form__button {
+        margin: 0;
+        width: auto;
+    }
+
+    .login-form__or {
+        color: $loginForm-text-color;
+        display: block;
+        font-size: $fontSize-small;
+        font-weight: $fontWeight-bold;
+        margin: spacing("third") 0;
+        text-align: center;
+    }
+
+    .login-form__create-account {
+        color: $loginForm-text-color;
+        text-align: center;
+    }
+}
+
+.login-form-email {
+    position: relative;
+}
+
+.login-email-sent {
+    align-items: center;
+    background: $loginForm-bg;
+    bottom: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    left: 0;
+    position: absolute;
+    right: 0;
+    text-align: center;
+    top: 0;
+    visibility: hidden;
+    z-index: 10;
+}
+
+.login-email-redo {
+    display: inline-block;
+    margin-top: 1rem;
+}

@@ -1,0 +1,33 @@
+<div class="relatedProduct">
+    <h2 class="productView-title">{{product.title}}</h2>
+
+
+    <a href="{{product.url}}">
+         {{> components/common/responsive-img
+            image=product.main_image
+            class="productView-image--default"
+            fallback_size=theme_settings.productgallery_size
+            lazyload=theme_settings.lazyload_mode
+            default_image=theme_settings.default_image_product
+            otherAttributes="data-main-image"
+        }}
+     </a>
+
+    <div class="productView-price">
+        {{#or customer (if theme_settings.restrict_to_login '===' 0)}}
+            {{> components/products/price price=product.price}}
+        {{else}}
+            {{> components/common/login-for-pricing}}
+        {{/or}}
+    </div>
+
+    {{#each product.custom_fields}}
+        {{#if name '===' 'Blog Post Description'}}
+            <div class="relatedProduct-description">
+                {{{value}}}
+            </div>
+        {{/if}}
+    {{/each}}
+
+    <a href="{{product.url}}" class="button button--primary">Shop Now</a>
+</div>

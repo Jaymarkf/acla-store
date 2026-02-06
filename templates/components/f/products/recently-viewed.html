@@ -1,0 +1,7 @@
+<h2 class="page-heading page-heading--center">{{lang 'account.recent_items.heading' }}</h2>
+
+{{#if settings.data_tag_enabled}}
+    {{> components/products/carousel settings=../settings products=products urls=../urls list="Recent Products"}}
+{{else}}
+    {{> components/products/carousel products=products urls=../urls list="Recent Products"}}
+{{/if}}

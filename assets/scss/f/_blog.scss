@@ -1,0 +1,120 @@
+// Homepage grid styles
+// -----------------------------------------------------------------------------
+
+.blogPosts {
+  @include u-listBullets("none");
+  @include grid-row($behavior: "nest");
+  font-size: 0;
+  margin-top: -spacing("half");
+  padding-top: spacing("half");
+
+  @include breakpoint("small") {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  &::before {
+    display: none;
+  }
+}
+
+.blogPost {
+  @include grid-column(12);
+  display: inline-block;
+  font-size: fontSize("base");
+  margin-bottom: spacing("single");
+  vertical-align: top;
+
+  @include breakpoint("medium") {
+    .postColumns--3 & {
+      width: 33.33333%;
+    }
+
+    .postColumns--4 & {
+      width: 25%;
+    }
+  }
+
+  @include breakpoint("large") {
+    width: 25%;
+
+    .postColumns--2 & {
+      width: 50%;
+    }
+
+    .postColumns--3 & {
+      width: 33.33333%;
+    }
+
+    .postColumns--5 & {
+      width: 20%;
+    }
+  }
+
+  .card-body {
+    text-align: center;
+  }
+
+  .card-img-container {
+    max-height: remCalc(250);
+  }
+}
+
+.card--blogPost {
+  height: 100%;
+  margin-bottom: 0;
+  background: stencilColor("container-fill-base");
+}
+
+.card-body--blogPost {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  justify-content: center;
+}
+
+.blogPost-image {
+  margin: 0;
+  position: relative;
+
+  + .card-body--blogPost {
+    display: block;
+    height: auto;
+  }
+}
+
+.blogPost-thumbnail {
+  width: 100%;
+  height: auto;
+}
+
+.card-title--blogPost {
+  font-weight: fontWeight("bold");
+}
+
+.card-text--blogPost {
+  font-size: $fontSize-base;
+
+  @include breakpoint("medium") {
+    font-size: $fontSize-tiny;
+  }
+}
+
+.blogPosts-more {
+  text-align: center;
+  margin-bottom: spacing("single");
+}
+
+.card-text {
+  &.card-text--summary {
+    color: stencilColor("color-textBase");
+  }
+}
+
+// Related products in posts
+// -----------------------------------------------------------------------------
+
+.relatedContent,
+.relatedProducts {
+  display: none;
+}

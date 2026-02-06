@@ -1,0 +1,7 @@
+{{#each cart.status_messages}}
+    {{#if type '===' 2}}
+        {{> components/common/alert-success message}}
+    {{else}}
+        {{> components/common/alert-info message}}
+    {{/if}}
+{{/each}}

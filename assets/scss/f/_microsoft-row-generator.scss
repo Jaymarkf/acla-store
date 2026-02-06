@@ -1,0 +1,13 @@
+@for $i from 0 through 50 {
+    .microsoft-row-generator-orders--#{$i} {
+        -ms-grid-row: $i + 5;
+
+        @include breakpoint("medium") {
+            -ms-grid-row: $i + 2;
+        }
+    }
+
+    .microsoft-row-generator-first--#{$i} {
+        -ms-grid-row: $i + 1;
+    }
+}

@@ -1,0 +1,10 @@
+{{#and is_active children}}
+<ul class="navList">
+    {{#each children}}
+    <li class="navList-item">
+        <a class="navList-action {{#and is_active (if name '===' ../current_cat)}}navList-action-active{{/and}}" href="{{url}}" alt="{{name}}" title="{{name}}">{{name}}</a>
+        {{> components/f/category/sub-category-children current_cat=../current_cat}}
+    </li>
+    {{/each}}
+</ul>
+{{/and}}

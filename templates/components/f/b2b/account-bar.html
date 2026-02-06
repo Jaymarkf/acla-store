@@ -1,0 +1,61 @@
+  <div class="account-bar flex-component__mobileUp-3 flex-component__mediumUp-5">
+    <div class="account-bar__item">
+      <span class="account-bar__icon">
+          <svg>
+              <use xlink:href="#icon-user"></use>
+          </svg>
+      </span>
+      <div class="account-bar__text">
+        <h4>{{lang 'b2b.account_bar.account.header_text'}}{{#if customer.name}}, {{first (split customer.name ' ')}}{{/if}}</h4>
+        <a href="{{urls.account.index}}" class="account-bar__link">{{lang 'b2b.account_bar.account.link_text'}}</a>
+      </div>
+    </div>
+    <div class="account-bar__item">
+      <span class="account-bar__icon">
+          <svg>
+              <use xlink:href="#icon-history"></use>
+          </svg>
+      </span>
+      <div class="account-bar__text">
+        <h4>{{lang 'b2b.account_bar.orders.header_text'}}</h4>
+        <a href="{{urls.account.orders.all}}" class="account-bar__link">{{lang 'b2b.account_bar.orders.link_text'}}</a>
+      </div>
+    </div>
+    {{#and theme_settings.show_phone_number_in_header settings.phone_number}}
+    <div class="account-bar__item">
+      <span class="account-bar__icon">
+          <svg>
+              <use xlink:href="#icon-phone"></use>
+          </svg>
+      </span>
+      <div class="account-bar__text">
+        <h4>{{lang 'b2b.account_bar.call_us.header_text'}}</h4>
+        <a href="tel:{{settings.phone_number}}" class="account-bar__link">{{lang 'b2b.account_bar.call_us.link_text'}} {{settings.phone_number}}</a>
+      </div>
+    </div>
+    {{/and}}
+    <div class="account-bar__item">
+      <span class="account-bar__icon">
+          <svg>
+              <use xlink:href="#icon-envelope"></use>
+          </svg>
+      </span>
+      <div class="account-bar__text">
+        <h4>{{lang 'b2b.account_bar.messages.header_text'}}</h4>
+        <a href="{{urls.account.inbox}}" class="account-bar__link">{{lang 'b2b.account_bar.messages.link_text'}}</a>
+      </div>
+    </div>
+    {{#if settings.returns_enabled}}
+    <div class="account-bar__item">
+      <span class="account-bar__icon">
+          <svg>
+              <use xlink:href="#icon-reply"></use>
+          </svg>
+      </span>
+      <div class="account-bar__text">
+        <h4>{{lang 'b2b.account_bar.returns.header_text'}}</h4>
+        <a href="{{urls.account.returns}}" class="account-bar__link">{{lang 'b2b.account_bar.returns.link_text'}}</a>
+      </div>
+    </div>
+    {{/if}}
+  </div>

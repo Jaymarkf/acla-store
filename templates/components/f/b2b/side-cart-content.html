@@ -1,0 +1,70 @@
+<div class="side-cart-loading">
+    <div class="side-cart-loading-animation">
+        {{> components/f/animations/loading-animations option=theme_settings.loading-animation}}
+    </div>
+</div>
+<p class="side-cart-placeholder">{{{lang 'b2b.side_cart.empty_cart'}}}</p><div></div>
+{{#each cart.items}}
+    <div class="side-cart-item" data-item-row>
+        <div class="side-cart-item-block side-cart-item-figure">
+            {{#if type '==' 'GiftCertificate'}}
+                <img class="side-cart-item-fixed-image" src="{{cdn ../../theme_settings.default_image_gift_certificate}}" alt="{{lang 'cart.gift_certificate'}}" title="{{lang 'cart.gift_certificate'}}">
+            {{else}}
+                {{> components/common/responsive-img
+                    image=image
+                    class="side-cart-item-image"
+                    fallback_size=../../theme_settings.productthumb_size
+                    lazyload='disabled'
+                    default_image=../../theme_settings.default_image_product
+                }}
+            {{/if}}
+        </div>
+
+        <div class="side-cart-item-info">
+            <div class="change-side-cart-qty"></div>
+
+            <div class="side-cart-item-block side-cart-item-title">
+                <h4 class="side-cart-item-name"><a href="{{url}}">{{ellipsis name 32}}</a></h4>
+                {{#if ../theme_settings.show_sku_in_cart}}<span>{{sku}}</span>{{/if}}
+            </div>
+
+            <div class="side-cart-item-block side-cart-item-quantity">
+                <div class="form-increment">
+                    <input class="form-input form-input--incrementTotal side-cart-item-qty-input"
+                           data-id="qty-{{id}}"
+                           data-product-id="{{product_id}}"
+                           name="qty-{{id}}"
+                           type="tel"
+                           value="{{quantity}}"
+                           data-quantity-min="{{min_purchase_quantity}}"
+                           data-quantity-max="{{max_purchase_quantity}}"
+                           data-quantity-min-error="{{lang 'products.quantity_min' quantity=min_purchase_quantity}}"
+                           data-quantity-max-error="{{lang 'products.quantity_max' quantity=max_purchase_quantity}}"
+                           data-stock-error="{{lang 'b2b.side_cart.popup_messages.qty_error'}}"
+                           min="1"
+                           pattern="[0-9]*"
+                           aria-live="polite"{{#unless can_modify}} disabled{{/unless}}>
+                </div>
+                {{#or ../customer (if ../theme_settings.restrict_to_login '===' 0)}}
+                    {{#and ../../theme_settings.restrict_new_accounts (if ../../customer_group_id '===' 0)}}
+                    {{else}}
+                        <span class="side-cart-item-separator">&times </span><span class="side-cart-item-value">{{#if price_discounted}}{{price_discounted.formatted}}{{else}}{{price.formatted}}{{/if}}</span>
+                    {{/and}}
+                {{else}}
+                    <span class="side-cart-item-value">{{> components/common/login-for-pricing}}</span>
+                {{/or}}
+                {{#if can_modify}}
+                    <a class="cart-remove icon" data-cart-itemid="{{id}}" data-product-id="{{product_id}}" href="#" data-confirm-delete="{{lang 'cart.confirm_delete'}}">
+                        <svg><use xlink:href="#icon-close"></use></svg>
+                    </a>
+                {{else}}
+                    {{#if type '==' 'GiftCertificate'}}
+                        <a class="cart-remove icon" data-cart-itemid="{{id}}" data-product-id="{{product_id}}" href="#" data-confirm-delete="{{lang 'cart.confirm_delete'}}">
+                            <svg><use xlink:href="#icon-close"></use></svg>
+                        </a>
+                    {{/if}}
+                {{/if}}
+            </div>
+        </div>
+    </div>
+{{/each}}

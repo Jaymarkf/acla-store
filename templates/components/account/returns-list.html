@@ -1,0 +1,82 @@
+<ul class="account-list">
+    {{#each returns}}
+        <li class="account-listItem">
+            <div class="account-product account-returns">
+                <div class="account-product-detail return-requested">
+                    <h6 class="account-product-detail-heading">{{lang 'account.returns.date_requested' }}</h6>
+                    <span>{{date_requested}}</span>
+                </div>
+
+                <div class="account-product-detail return-reason">
+                    <h6 class="account-product-detail-heading">{{lang 'account.returns.reason' }}</h6>
+                    <span>{{reason}}</span>
+                </div>
+
+                <div class="account-product-detail return-status">
+                    <h6 class="account-product-detail-heading">{{lang 'b2b.account.orders.status' }}</h6>
+                    <div class="account-orderStatus">
+                        {{#if status '===' 'ReturnStatusPending'}}
+                            <h6 class="account-orderStatus-label">{{lang 'account.returns.status.pending'}}</h6>
+                        {{/if}}
+                        {{#if status '===' 'ReturnStatusReceived'}}
+                            <h6 class="account-orderStatus-label">{{lang 'account.returns.status.received'}}</h6>
+                        {{/if}}
+                        {{#if status '===' 'ReturnStatusAuthorized'}}
+                            <h6 class="account-orderStatus-label">{{lang 'account.returns.status.authorized'}}</h6>
+                        {{/if}}
+                        {{#if status '===' 'ReturnStatusRepaired'}}
+                            <h6 class="account-orderStatus-label">{{lang 'account.returns.status.repaired'}}</h6>
+                        {{/if}}
+                        {{#if status '===' 'ReturnStatusRefunded'}}
+                            <h6 class="account-orderStatus-label">{{lang 'account.returns.status.refunded'}}</h6>
+                        {{/if}}
+                        {{#if status '===' 'ReturnStatusRejected'}}
+                            <h6 class="account-orderStatus-label">{{lang 'account.returns.status.rejected'}}</h6>
+                        {{/if}}
+                        {{#if status '===' 'ReturnStatusCancelled'}}
+                            <h6 class="account-orderStatus-label">{{lang 'account.returns.status.cancelled'}}</h6>
+                        {{/if}}
+                    </div>
+                </div>
+
+                <div class="account-product-detail return-action">
+                    <h6 class="account-product-detail-heading">{{lang 'account.returns.action' }}</h6>
+                    <span>{{action}}</span>
+                </div>
+
+                <div class="account-product-detail return-number">
+                    <div>{{lang 'b2b.account.returns.id' }}{{this.id}}</div>
+                </div>
+
+                <div class="account-product-item">
+                    <div class="account-product-figure">
+                      {{> components/common/responsive-img
+                          image=product.image
+                          fallback_size=../theme_settings.productthumb_size
+                          lazyload=../theme_settings.lazyload_mode
+                      }}
+                    </div>
+
+                    <div class="account-product-order-item return-item">
+                        <span>{{lang 'account.returns.list.product_details' num_products=quantity}} &#215; <a href="{{product.url}}">{{ellipsis product.name 52}}</a></span>
+
+                        {{#if product.options}}
+                            <div class="order-item-options">
+                                {{#each product.options}}
+                                    <span>{{name}}: </span><span>{{> components/common/product-options}}</span>
+                                {{/each}}
+                            </div>
+                        {{/if}}
+                    </div>
+                </div>
+
+                {{#if comments}}
+                    <div class="account-product-detail return-comment">
+                        <h6 class="account-product-detail-heading">{{lang 'account.returns.comments' }}</h6>
+                        <span>{{{comments}}}</span>
+                    </div>
+                {{/if}}
+            </div>
+        </li>
+    {{/each}}
+</ul>

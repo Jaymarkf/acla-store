@@ -1,0 +1,27 @@
+<li class="blogPost">
+    <article class="card card--blogPost">
+        {{#if thumbnail.data}}
+            <figure class="blogPost-image">
+                <a href="{{url}}">
+                    <div class="blogPost-img-container">
+                        {{> components/common/responsive-img
+                            image=thumbnail
+                            class="blogPost-thumbnail"
+                            fallback_size=theme_settings.homepage_blog_size
+                            lazyload=theme_settings.lazyload_mode
+                            default_image=theme_settings.default_image_product
+                        }}
+                    </div>
+                </a>
+            </figure>
+        {{/if}}
+        <div class="card-body card-body--blogPost">
+            <p class="card-text card-text--blogPost">{{date_published}}</p>
+            <h4 class="card-title card-title--blogPost"><a href="{{url}}">{{title}}</a></h4>
+            <p class="card-text card-text--summary">{{{ellipsis summary}}}</p>
+            {{#if author}}
+                <p class="card-text card-text--blogPost">{{lang 'blog.posted_by' name=author}}</p>
+            {{/if}}
+        </div>
+    </article>
+</li>

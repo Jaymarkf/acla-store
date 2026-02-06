@@ -1,0 +1,23 @@
+<div class="subCategories">
+  <ul class="subCategoryCards">
+      {{#each category.subcategories}}
+        <li class="subCategoryCard subCategoryCard--grid">
+          <article class="card">
+            {{#if image}}
+            <div class="subCategory-image">
+              <a href="{{url}}">
+                {{> components/common/responsive-img
+                    image=image
+                    fallback_size=../../theme_settings.productgallery_size
+                    lazyload='disabled'
+                    default_image=../../theme_settings.default_image_product
+                }}
+              </a>
+            </div>
+            {{/if}}
+            <h4 class="card-title {{#if image}}card-title--center{{/if}}"><a href="{{url}}">{{name}}</a></h4>
+          </article>
+        </li>
+    {{/each}}
+  </ul>
+</div>

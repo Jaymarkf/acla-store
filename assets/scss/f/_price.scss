@@ -1,0 +1,109 @@
+$price-primary-color: stencilColor("color-primary");
+$price-secondary-color: stencilColor("color-textSecondary");
+
+.price-section {
+  color: $price-secondary-color;
+  margin-bottom: 0;
+
+  abbr {
+    border-bottom: none;
+    color: inherit;
+    cursor: default;
+    padding-left: spacing("quarter");
+    text-decoration: none;
+  }
+}
+
+.price-section--label {
+  display: inline-block;
+  font-size: fontSize("base");
+  vertical-align: top;
+}
+
+.price-section--wrapper {
+  display: inline-block;
+  display: inline-flex;
+  flex-direction: column;
+}
+
+.price-section--primary {
+  line-height: 1;
+  margin-bottom: spacing("quarter");
+  order: -1;
+  font-weight: $fontWeight-bold;
+
+  &.non-sale-price--withTax,
+  &.non-sale-price--withoutTax,
+  &.rrp-price--withTax,
+  &.rrp-price--withoutTax {
+    font-weight: $fontWeight-normal;
+  }
+}
+
+.price-primary {
+  color: $price-primary-color;
+  font-size: fontSize("small");
+
+  + abbr {
+    color: $price-primary-color;
+  }
+}
+
+.price--rrp {
+  text-decoration: none;
+}
+
+.price--non-sale,
+.price--sale-label {
+  color: stencilColor("price-none-sale-color");
+}
+
+.price--hidden {
+  display: none !important;
+}
+
+.price-section--saving {
+  color: stencilColor("price-saving-color");
+}
+
+.price-section--msrp {
+  color: stencilColor("color-textSecondary");
+}
+
+// -----
+// Quick Search Overrides
+// -----
+.quickSearchResults {
+  .price-section--label {
+    font-size: $fontSize-smallest;
+  }
+
+  .price-section--wrapper {
+    flex-direction: row;
+
+    > * {
+      line-height: 1;
+      margin-bottom: 0;
+    }
+  }
+
+  .price-primary {
+    font-size: $fontSize-smallest;
+  }
+
+  .price-section--withTax,
+  .price-section--withoutTax {
+    + * {
+      margin-left: spacing("half");
+    }
+  }
+
+  // .price-section--withTax {
+  //     font-weight: $fontWeight-bold;
+  //     color: $color-primary;
+  // }
+
+  .price-section--withoutTax {
+    color: $color-textBase;
+  }
+}

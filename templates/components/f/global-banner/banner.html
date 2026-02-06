@@ -1,0 +1,37 @@
+<div class="globalBanner" data-slick='{
+    "arrows": false,
+    "dots": false,
+    "mobileFirst": true,
+    "slidesToShow": 1,
+    "slidesToScroll": 1,
+    "autoplay": true,
+    "responsive": [{
+        "breakpoint": 900,
+        "settings": "unslick"
+    }]
+}'>
+    {{#if theme_settings.global_banner_message_1}}
+        <span class="globalBanner-label">
+            {{#if theme_settings.global_banner_link_1}}<a href="{{theme_settings.global_banner_link_1}}">{{/if}}
+                {{#if theme_settings.global_banner_icon_1}}<i class="globalBanner-icon {{theme_settings.global_banner_icon_1}}"></i> {{/if}}
+                {{theme_settings.global_banner_message_1}}
+            {{#if theme_settings.global_banner_link_1}}</a>{{/if}}
+        </span>
+    {{/if}}
+    {{#if theme_settings.global_banner_message_2}}
+        <span class="globalBanner-label">
+            {{#if theme_settings.global_banner_link_2}}<a href="{{theme_settings.global_banner_link_2}}">{{/if}}
+                {{#if theme_settings.global_banner_icon_2}}<i class="globalBanner-icon {{theme_settings.global_banner_icon_2}}"></i> {{/if}}
+                {{theme_settings.global_banner_message_2}}
+            {{#if theme_settings.global_banner_link_2}}</a>{{/if}}
+        </span>
+    {{/if}}
+    {{#if theme_settings.global_banner_message_3}}
+        <span class="globalBanner-label">
+            {{#if theme_settings.global_banner_link_3}}<a href="{{theme_settings.global_banner_link_3}}">{{/if}}
+                {{#if theme_settings.global_banner_icon_3}}<i class="globalBanner-icon {{theme_settings.global_banner_icon_3}}"></i> {{/if}}
+                {{theme_settings.global_banner_message_3}}
+            {{#if theme_settings.global_banner_link_3}}</a>{{/if}}
+        </span>
+    {{/if}}
+</div>

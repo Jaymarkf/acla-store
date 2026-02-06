@@ -1,0 +1,80 @@
+{{#if product_results.products}}
+    <ul class="productGrid" {{#if settings.data_tag_enabled}} data-list-name="Quick Search Results" {{/if}}>
+        {{#each product_results.products}}
+        <li class="product"  {{#unless settings.data_tag_enabled}} data-event-type="list" data-entity-id="{{id}}" data-position="{{add @index 1}}" data-name="{{name}}" data-product-category="{{#each category}}{{#if @last}}{{this}}{{else}}{{this}}, {{/if}}{{/each}}" data-product-brand="{{brand.name}}" data-product-price="{{#if price.with_tax}}{{price.with_tax.value}}{{else}}{{price.without_tax.value}}{{/if}}"  {{/unless}}>
+            <a class="product-link" href="{{url}}"><span></span></a>
+                <div class="quick-search-card">
+                    {{#if demo}}
+                        <div class="card-img-container">
+                            <img class="card-image lazyload" data-sizes="auto" src="{{cdn 'img/loading.svg'}}" data-src="{{getImage image 'productgallery_size' (cdn ../../theme_settings.default_image_product)}}" alt="{{image.alt}}" title="{{image.alt}}">
+                        </div>
+                    {{else}}
+                        <img class="card-image lazyload" data-sizes="auto" src="{{cdn 'img/loading.svg'}}" data-src="{{getImage image 'productgallery_size' (cdn ../../theme_settings.default_image_product)}}" alt="{{image.alt}}" title="{{image.alt}}">
+                    {{/if}}
+                    <figure class="card-info">
+                        <div class="card-text-container">
+                            {{#if brand.name}}
+                                <div class="card-text card-text-brand">{{brand.name}}</div>
+                            {{/if}}
+                            {{#if sku}}
+                                <div class="card-text card-text-sku">{{lang 'products.sku'}} {{sku}}</div>
+                            {{/if}}
+                            {{#if ../settings.show_product_rating}}
+                                {{#if rating '>' 0}}
+                                    <div class="card-text card-text-rating" data-test-info-type="productRating">
+                                        <span class="rating--small">
+                                            {{> components/products/ratings rating=rating}}
+                                        </span>
+                                    </div>
+                                {{/if}}
+                            {{/if}}
+                        </div>
+                        <h4 class="card-title">
+                            {{#if demo}}
+                                {{name}}
+                            {{else}}
+                                <a href="{{url}}" {{#if settings.data_tag_enabled}} data-event-type="product-click" {{/if}}>{{ellipsis name 64}}</a>
+                            {{/if}}
+                        </h4>
+
+                        <div class="card-text" data-test-info-type="price">
+                            {{#or ../customer (if ../theme_settings.restrict_to_login '===' 0)}}
+                                {{#and ../../theme_settings.restrict_new_accounts (if ../../customer_group_id '===' 0)}}
+                                {{else}}
+                                    {{> components/f/products/price price=price theme_settings=../../../theme_settings customer=customer}}
+                                {{/and}}
+                            {{else}}
+                                {{> components/common/login-for-pricing}}
+                            {{/or}}
+                        </div>
+                        {{> components/products/bulk-discount-rates}}
+
+                        {{#or ../customer (if ../theme_settings.restrict_to_login '===' 0)}}
+                            {{#and ../../theme_settings.restrict_new_accounts (if ../../customer_group_id '===' 0)}}
+                            {{else}}
+                                {{#if stock_level}}
+                                <div class="card-stock{{#unless ../../../../theme_settings.show_stock_level_on_grid}} u-hiddenVisually{{/unless}}{{#if out_of_stock}} card-stock--outStock{{else}} card-stock--inStock{{/if}}">
+                                    <span data-product-stock>{{stock_level}} {{lang 'header.quick_search.stock_left'}}</span>
+                                </div>
+                                {{/if}}
+                                {{#if out_of_stock_message}}
+                                    <span data-product-stock class="card-stock card-stock--outStock">
+                                        {{#if out_of_stock_message}}
+                                            {{out_of_stock_message}}
+                                        {{else}}
+                                            {{lang 'products.sold_out'}}
+                                        {{/if}}
+                                    </span>
+                                {{/if}}
+                            {{/and}}
+                        {{/or}}
+                    </figure>
+                </div>
+            </li>
+        {{/each}}
+    </ul>
+{{else}}
+    <p class="quickSearchMessage">
+        {{{lang 'search.results.quick_count' count=pagination.product_results.total search_query=(sanitize forms.search.query)}}}
+    </p>
+{{/if}}

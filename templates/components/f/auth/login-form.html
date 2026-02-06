@@ -1,0 +1,22 @@
+<form class="flex-component__mobileUp-3 login-form login-form-standard {{#if from_home }}login-form--home {{#if theme_settings.carousel-type "===" "storyboard"}}login-form--order-{{#if carousel.slides.length "===" 1}}1{{else}}{{#if carousel.slides.length "===" 3}}1{{else}}2{{/if}}{{/if}}{{else}}login-form--carousel{{/if}}{{else}}login-form-account{{/if}} form" action="{{urls.auth.check_login}}" method="post">
+    {{inject 'useValidEmail' (lang 'forms.validate.common.email_address')}}
+    {{inject 'enterPass' (lang 'forms.validate.common.password')}}
+    <h3>{{lang 'login.heading'}}</h3>
+    <div class="form-field">
+        <label class="form-label" for="login_email">{{lang 'login.field_email'}}</label>
+        <input class="form-input" name="login_email" id="login_email" type="email">
+    </div>
+    <div class="form-field">
+        <label class="form-label" for="login_pass">{{lang 'login.field_password'}}</label>
+        <input class="form-input" id="login_pass" type="password" name="login_pass">
+    </div>
+    <div class="form-actions"><input type="submit" class="button button--primary login-form__button" value="{{lang 'login.submit_value' }}">
+            <div class="login-form__links">
+                <a class="forgot-password" href="{{urls.auth.forgot_password}}">{{lang 'login.forgot_password'}}</a>
+                {{#if from_home }}
+                      <a class="login-form__create-account" href="{{urls.auth.create_account}}">{{lang 'login.create_account'}}</a>
+                {{/if}}
+            </div>
+
+    </div>
+</form>

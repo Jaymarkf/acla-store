@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html class="no-js {{dashcase (lowercase template_file)}}" lang="{{ locale_name }}">
+    <head>
+        {{#if theme_settings.show_designed_by}}
+        <!--
+             _     _                                     _                    __   _           _                     _ 
+            | |   | |                                   | |                  / _| | |         (_)                   | |
+            | |_  | |__     ___   _ __ ___     ___      | |__    _   _      | |_  | |   __ _   _   _ __        ___  | |
+            | __| | '_ \   / _ \ | '_ ` _ \   / _ \     | '_ \  | | | |     |  _| | |  / _` | | | | '__|      / __| | |
+            | |_  | | | | |  __/ | | | | | | |  __/     | |_) | | |_| |     | |   | | | (_| | | | | |     _  | (__  | |
+            \__|  |_| |_|  \___| |_| |_| |_|  \___|     |_.__/   \__, |     |_|   |_|  \__,_| |_| |_|    (_)  \___| |_|
+                                                                  __/ |                                                
+                                                                 |___/                                                 
+        -->
+        {{/if}}
+        <title>{{ head.title }}</title>
+        {{{ resourceHints }}}
+        {{{ head.meta_tags }}}
+        {{{ head.config }}}
+        {{#block "head"}} {{/block}}
+
+        <link href="{{ head.favicon }}" rel="shortcut icon">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+        <meta name="ft-name" content="{{theme_settings.n}}">
+        <meta name="ft-version" content="{{> components/common/version}}">
+        
+
+        <script nonce="{{nonce}}">
+            // Change document class from no-js to js so we can detect this in css
+            document.documentElement.className = document.documentElement.className.replace('no-js', 'js');
+        </script>
+        {{!-- Load Lazysizes script ASAP so images will appear --}}
+        <script nonce="{{nonce}}">
+            {{!-- Only load visible elements until the onload event fires, after which preload nearby elements. --}}
+            window.lazySizesConfig = window.lazySizesConfig || {};
+            window.lazySizesConfig.loadMode = 1;
+        </script>
+        <script nonce="{{nonce}}" async src="{{cdn 'assets/dist/theme-bundle.head_async.js' resourceHint='preload' as='script'}}"></script>
+        {{ getFontsCollection }}
+        {{{stylesheet '/assets/css/theme.css'}}}
+
+        {{#if theme_settings.custom_store_css}}
+        <link href="{{cdn 'webdav:css/custom.css'}}?c={{random 999999 9999999}}" rel="stylesheet">
+        {{/if}}
+        {{#if theme_settings.developer_store_css}}
+        <link href="https://cdn.jsdelivr.net/gh/flair-themes/{{settings.store_hash}}/custom.css?c={{random 999999 9999999}}" rel="stylesheet">
+        {{/if}}
+        {{#if theme_settings.developer_fixes}}
+        <link href="https://cdn.jsdelivr.net/gh/flair-themes/camden@{{> components/common/version}}/fixes.css?c={{random 999999 9999999}}" rel="stylesheet">
+        {{/if}}
+
+        {{{head.scripts}}}
+        {{{head.rsslinks}}}
+
+        {{inject 'themeSettings' theme_settings}}
+        {{inject 'genericError' (lang 'common.generic_error')}}
+        {{inject 'maintenanceMode' settings.maintenance}}
+        {{inject 'urls' urls}}
+        {{inject 'secureBaseUrl' settings.secure_base_url}}
+        {{inject 'cartId' cart_id}}
+        {{inject 'template' template}}
+        {{inject 'enableAnimations' theme_settings.enable_animations}}
+        {{inject 'navigationDesign' theme_settings.navigation_design}}
+        {{inject 'enableHoverNavigation' theme_settings.enable_hover_navigation}}
+        {{inject 'enableRecentSellers' theme_settings.show_recent_sellers}}
+        {{inject 'recentSellersTimer' (toInt theme_settings.recent_sellers_show_every)}}
+        {{inject 'recentSellersHideAfter' (toInt theme_settings.recent_sellers_hide_after)}}
+        {{inject 'recentSellersIds' theme_settings.recent_sellers_ids}}
+        {{~inject 'authorization' settings.storefront_api.token}}
+        {{~inject 'validationDictionaryJSON' (langJson 'validation_messages')}}
+        {{~inject 'validationFallbackDictionaryJSON' (langJson 'validation_fallback_messages')}}
+        {{~inject 'validationDefaultDictionaryJSON' (langJson 'default_messages')}}
+        {{inject "gridOrderingDictionary" (langJson 'b2b.grid_ordering')}}
+        {{inject "productTaxDisplaySettings" theme_settings.show-tax-label}}
+        {{inject "gridOrderingEnabled" theme_settings.enable_grid_ordering}}
+        {{{snippet 'htmlhead'}}}
+    </head>
+    <body>
+        {{{snippet 'header'}}}
+        <svg data-src="{{cdn 'img/icon-sprite.svg'}}" class="icons-svg-sprite"></svg>
+
+        {{> components/common/header }}
+        {{#or customer (if theme_settings.restrict_to_login '!==' 2) (if page_type '===' 'page') (if page_type '===' 'page_contact_form') (if page_type '===' 'newsletter_subscribe') (if page_type '===' 'createaccount') (if page_type '===' 'forgotpassword') (if page_type '===' 'getnewpassword')}}
+            {{#if theme_settings.restrict_to_login '===' 2}}
+                {{#and theme_settings.restrict_new_accounts (if customer_group_id '===' 0)}}
+                    {{#or (if page_type '===' 'page') (if page_type '===' 'page_contact_form') (if page_type '===' 'newsletter_subscribe') (if page_type '===' 'createaccount') (if page_type '===' 'forgotpassword') (if page_type '===' 'getnewpassword')}}
+                        {{> components/common/body }}
+                    {{else}}
+                        {{> components/f/b2b/body-lockdown }}
+                    {{/or}}
+                {{else}}
+                    {{> components/common/body }}
+                {{/and}}
+            {{else}}
+                {{> components/common/body }}
+            {{/if}}
+        {{else}}
+            {{> components/f/b2b/body-lockdown }}
+        {{/or}}
+
+        {{> components/common/footer }}
+
+        {{#if theme_settings.show_recent_sellers}}
+            {{> components/f/recent-sellers/recent-sellers-popup}}
+        {{/if}}
+
+        <script nonce="{{nonce}}">window.__webpack_public_path__ = "{{cdn 'assets/dist/'}}";</script>
+        <script nonce="{{nonce}}">
+            // Exported in app.js
+            function onThemeBundleMain() {
+                window.stencilBootstrap("{{page_type}}", {{jsContext}}).load();
+            }
+        </script>
+        <script nonce="{{nonce}}" src="{{cdn 'assets/dist/theme-bundle.main.js' resourceHint='preload' as='script'}}" onload="onThemeBundleMain()"></script>
+
+        {{{footer.scripts}}}
+        {{{snippet 'footer'}}}
+        {{> components/f/pagebuilder/info}}
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                const addToCartButton = document.querySelector('#form-action-addToCart');
+                if (addToCartButton) {
+                    addToCartButton.addEventListener('click', function() {
+                        this.value = 'Adding to cart...';
+                    });
+                }
+            });
+        </script>
+    </body>
+</html>

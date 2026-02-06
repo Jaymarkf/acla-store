@@ -1,0 +1,15 @@
+@function set-off-color($color) {
+    @if (lightness($color) > 55) {
+        @return darken($color, 10%); // Lighter colour, return darker colour
+    } @else {
+        @return lighten($color, 10%); // Darker colour, return lighter colour
+    }
+}
+
+@function set-off-color-text($color) {
+    @if (lightness($color) > 55) {
+        @return darken($color, 15%); // Lighter colour, return darker colour
+    } @else {
+        @return lighten($color, 15%); // Darker colour, return lighter colour
+    }
+}

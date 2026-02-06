@@ -1,0 +1,28 @@
+<h2 class="page-heading page-heading--center">{{lang 'blog.recent_posts'}}</h2>
+<ul class="blogPosts postColumns--{{columns}}" data-slick='{
+    "dots": true,
+    "infinite": false,
+    "mobileFirst": true,
+    "slidesToShow": 1,
+    "slidesToScroll": 1,
+    "responsive": [
+        {
+            "breakpoint": 800,
+            "settings":  "unslick"
+        },
+        {
+            "breakpoint": 550,
+            "settings": {
+                "slidesToScroll": 2,
+                "slidesToShow": 2
+            }
+        }
+    ]
+}'>
+    {{#each posts}}
+        {{> components/f/blog/blog-post-card theme_settings=../theme_settings}}
+    {{/each}}
+</ul>
+<div class="blogPosts-more">
+    <a href="{{blog.url}}">{{lang 'blog.view_all'}}</a>
+</div>

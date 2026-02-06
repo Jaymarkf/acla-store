@@ -1,0 +1,63 @@
+
+.page-content.comparePage {
+    overflow-x: auto;
+    width: 100%;
+}
+
+.compareTable {
+    margin-bottom: spacing("double");
+}
+
+// Compare page cards
+
+.compareTable-product {
+    padding-left: spacing("quarter");
+    padding-right: spacing("quarter");
+    width: 300px;
+
+    @include breakpoint("medium") {
+        padding-left: spacing("half");
+        padding-right: spacing("half");
+    }
+}
+
+.compareTable-heading {
+    font-weight: $fontWeight-semibold;
+
+    @include breakpoint("medium") {
+        font-weight: $fontWeight-normal;
+        width: 120px;
+    }
+}
+
+.compareTable-removeProduct {
+    right: -($fontSize-base / 2);
+    top: -($fontSize-base / 2);
+
+    @include breakpoint("medium") {
+        right: -$fontSize-base;
+        top: -$fontSize-base;
+    }
+}
+
+.compareCard {
+    color: $card-text-color;
+
+    .card-text > a {
+        color: $card-text-color;
+        text-decoration: none;
+    }
+}
+
+.compareCard-figure {
+    position: relative;
+}
+
+.compareCard-section {
+    + .compareCard-section {
+        border-top: container("border");
+        padding-top: spacing("half");
+        margin-top: spacing("half");
+    }
+
+}

@@ -1,0 +1,42 @@
+{{inject "enableNewsletterPopup" theme_settings.show_newsletter_popup}}
+{{inject "newsletterPopupDelay" theme_settings.newsletter_popup_delay}}
+{{inject "reappearAfter" theme_settings.newsletter_popup_reappear_after}}
+<div class="newsletterPopup-overlay">
+    <div class="newsletterPopup">
+        <a href="#" class="newsletterPopup-dismiss modal-close" aria-label="{{lang 'common.close'}}" role="button">
+            <span aria-hidden="true">&#215;</span>
+        </a>
+        {{#if theme_settings.newsletter_popup_image}}
+            <img class="newsletterPopup-image" src="{{cdn 'webdav:img/'}}{{theme_settings.newsletter_popup_image}}">
+        {{/if}}
+        <h2 class="newsletterPopup-title">
+            {{#if theme_settings.newsletter_popup_title}}
+                {{theme_settings.newsletter_popup_title}}
+            {{else}}
+                {{lang 'newsletter.subscribe'}}
+            {{/if}}
+        </h2>
+        <p class="newsletterPopup-intro">
+            {{#if theme_settings.newsletter_popup_intro}}
+                {{theme_settings.newsletter_popup_intro}}
+            {{else}}
+                {{lang 'newsletter.subscribe_intro'}}
+            {{/if}}
+        </p>
+        <form class="form" action="{{urls.subscribe.action}}" method="post">
+            <fieldset class="form-fieldset">
+                <input type="hidden" name="action" value="subscribe">
+                <input type="hidden" name="nl_first_name" value="bc">
+                <input type="hidden" name="check" value="1">
+                <div class="form-field">
+                    <label class="form-label is-srOnly" for="nl_email">{{lang 'common.email_address'}}</label>
+                    <div class="form-prefixPostfix wrap">
+                        <input class="form-input" name="nl_email" type="email" value="{{customer.email}}" placeholder="{{lang 'newsletter.email_placeholder'}}">
+                        <input class="button button--primary form-prefixPostfix-button--postfix" type="submit" value="{{lang 'newsletter.subscribe_submit'}}">
+                    </div>
+                </div>
+            </fieldset>
+        </form>
+        <a class="newsletterPopup-dismiss" href="#">{{lang 'newsletter.popup_dismiss'}}</a>
+    </div>
+</div>

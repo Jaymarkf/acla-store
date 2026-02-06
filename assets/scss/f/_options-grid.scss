@@ -1,0 +1,223 @@
+.has-options-grid {
+    display: none;
+
+    &.show {
+        display: block;
+    }
+}
+
+.options-grid {
+    width: 100%;
+
+    @include breakpoint("medium") {
+        display: grid;
+        grid-auto-rows: minmax(30px, auto); // Ensure all rows have a minimum height
+    }
+}
+
+.options-grid--header-row {
+    display: none;
+}
+
+.options-grid--row {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.options-grid--header-row,
+.options-grid--row {
+    @include breakpoint("medium") {
+        display: contents; // Allow direct children to inherit the grid container's layout
+    }
+}
+
+.options-grid--header-cell,
+.options-grid--row-header {
+    padding: spacing("half");
+    text-align: center;
+    overflow: hidden;
+    white-space: nowrap; // Prevent wrapping
+    text-overflow: ellipsis; // Add ellipsis for overflow
+}
+
+.options-grid--header-cell {
+    font-weight: bold;
+    border-right: 1px solid stencilColor("input-border-color");
+    border-bottom: 1px solid stencilColor("input-border-color");
+
+    &:first-of-type {
+        text-align: left;
+    }
+
+    &:last-of-type {
+        border-right: none;
+    }
+}
+
+.options-grid--row-header {
+    width: 100%;
+    font-weight: bold;
+    text-align: left;
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid stencilColor("input-border-color");
+
+    @include breakpoint("medium") {
+        width: auto;
+        border-right: 1px solid stencilColor("input-border-color");
+    }
+
+    &::before {
+        content: attr(data-header-label);
+        padding-right: spacing("eighth");
+
+        @include breakpoint("medium") {
+            content: none;
+            padding-right: 0;
+        }
+    }
+}
+
+.options-grid--row .options-grid--card:nth-child(odd) {
+    border-right: none;
+
+    @include breakpoint("medium") {
+        border-right: 1px solid stencilColor("input-border-color");
+
+        &:last-of-type {
+            border-right: none;
+        }
+    }
+}
+
+.options-grid--card {
+    padding: spacing("single");
+    border-bottom: 1px solid stencilColor("input-border-color");
+    border-right: 1px solid stencilColor("input-border-color");
+    width: 50%;
+
+    @include breakpoint("medium") {
+        width: auto;
+    }
+
+    &:last-of-type {
+        border-right: none;
+    }
+
+    .form-input--incrementTotal {
+        border: 1px solid stencilColor("input-border-color");
+        height: remCalc(40px);
+        width: remCalc(50px);
+    }
+
+    &:has(.feedback--error) {
+        background-image: linear-gradient(135deg, rgba(stencilColor("input-border-color"), 0.4) 8.33%, #ffffff 8.33%, #ffffff 50%, rgba(stencilColor("input-border-color"), 0.4) 50%, rgba(stencilColor("input-border-color"), 0.4) 58.33%, #ffffff 58.33%, #ffffff 100%);
+        background-size: 8.49px 8.49px;
+    }
+}
+
+.options-grid--mobile-option-label::after {
+    content: attr(data-grid-header-label);
+}
+
+.options-grid--sku {
+    font-weight: fontWeight("bold");
+}
+
+.options-grid--image {
+    margin-bottom: spacing("single");
+    height: 60px; // change to stencil helper get-height(stencilString("size_key"));
+}
+
+.options-grid--controls {
+    display: flex;
+    gap: spacing("quarter");
+    margin: spacing("double") auto;
+    justify-content: flex-end;
+    align-items: center;
+    flex-direction: column;
+
+    @include breakpoint("medium") {
+        flex-direction: row;
+    }
+
+    .quickView & {
+        margin-right: spacing("single");
+    }
+}
+
+.options-grid--stock.card-stock--warning {
+    color: $color-warning;
+}
+
+.input-stock--warning:focus {
+    outline-color: $color-warning!important;
+}
+
+.options-grid--low-stock-indicator {
+    display: inline-block;
+    margin-left: spacing('quarter');
+    border-radius: 25px;
+    padding: 0 8px;
+    font-size: remCalc(9px);
+    background-color: $color-warningLight;
+    color: $color-warning;
+    vertical-align: middle;
+}
+
+.options-grid--quantity-container {
+    align-items: center;
+    display: flex;
+    margin: spacing("base") 0 0;
+}
+
+.options-grid--product-total,
+.options-grid--running-total {
+    font-weight: fontWeight("bold");
+    line-height: 1.35;
+
+    span {
+        font-weight: fontWeight("normal");
+    }
+}
+
+.options-grid--product-total {
+    margin-left: spacing("base");
+}
+
+.options-grid--running-total {
+    margin-bottom: spacing("half");
+    min-height: 40px;
+
+    @include breakpoint("medium") {
+        margin-bottom: 0;
+        min-height: auto;
+        width: 100px;
+    }
+}
+
+[data-cart-feedback] {
+    display: none;
+}
+
+.options-grid--feedback {
+    display: block;
+    margin-top: spacing("base");
+
+    &.feedback--error {
+        color: stencilColor("card-outStockColor");
+    }
+
+    &.feedback--success {
+        color: stencilColor("card-inStockColor");
+    }
+}
+
+.options-grid--button {
+    margin: 0;
+    width: 100%;
+
+    @include breakpoint("medium") {
+        width: auto;
+    }
+}

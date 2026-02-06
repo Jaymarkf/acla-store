@@ -1,0 +1,32 @@
+.grid-list-switcher {
+  display: none;
+
+  @include breakpoint(1024px) {
+      align-items: center;
+      display: flex;
+  }
+
+  .switcher {
+    display: block;
+    height: remCalc(14px);
+    margin-left: spacing("half");
+    position: relative;
+    width: remCalc(14px);
+
+    svg {
+        fill: stencilColor("color-textSecondary");
+    }
+
+    &:hover {
+        svg {
+            fill: stencilColor("color-textBase");
+        }
+    }
+
+    &.switch-active {
+        svg {
+            fill: stencilColor("button--primary-backgroundColor");
+        }
+    }
+  }
+}

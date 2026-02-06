@@ -1,0 +1,12 @@
+<div class="form-field form-field--stock">
+  <label class="form-label form-label--alternate {{#unless product.out_of_stock}}form-label--stock{{else}}form-label--out-of-stock{{/unless}}">
+      <span class="productView__stock {{#unless product.stock_level}}u-hiddenVisually{{/unless}}"><span data-product-stock>{{product.stock_level}}</span> {{lang 'products.current_stock'}}</span>
+      {{#if product.out_of_stock}}
+          {{#if product.out_of_stock_message}}
+              {{product.out_of_stock_message}}
+              {{else}}
+              {{lang 'products.sold_out'}}
+          {{/if}}
+      {{/if}}
+  </label>
+</div>

@@ -1,0 +1,33 @@
+.grid {
+    @include u-listBullets("none");
+    @include grid-row($behavior: "nest");
+    font-size: 0;
+}
+
+.gridColumn {
+    @include grid-column(12, $float: none);
+    display: inline-block;
+    font-size: fontSize("base");
+    overflow: hidden;
+    vertical-align: top;
+
+    @include breakpoint("medium") {
+        width: 50%;
+
+        .gridColumns--3 & {
+            width: 33.33333%;
+        }
+    }
+
+    @include breakpoint("large") {
+        width: 25%;
+
+        .gridColumns--2 & {
+            width: 50%;
+        }
+
+        .gridColumns--3 & {
+            width: 33.33333%;
+        }
+    }
+}

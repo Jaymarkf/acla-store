@@ -1,0 +1,267 @@
+<nav class="navPages {{#if theme_settings.enable_sticky_navigation}}top-bar{{/if}}"{{#if theme_settings.enable_sticky_navigation}} data-topbar role="navigation"{{/if}} data-options="{{#if theme_settings.enable_sticky_navigation}}sticky_on: large;{{/if}}">
+    <ul class="navPages-list navPages-list-depth-max {{theme_settings.navigation_design}}">
+        {{#if theme_settings.enable-contextual-navigation}}
+            {{#or
+                (if page_type '===' 'category')
+                (if page_type '===' 'brand')
+                (if ../theme_settings.navigation_design '===' 'simple--enclosed')
+                (if ../theme_settings.navigation_design '===' 'megamenu')
+            }}
+                <li class="navPages-item">
+                    <a class="navPages-action  has-subMenu is-root" href="{{url}}" data-collapsible="navPages-viewAll" id="enclosedTrigger">
+                        {{#if theme_settings.enclosed_category_menu_name}}{{theme_settings.enclosed_category_menu_name}}{{else}}{{lang 'header.navigation.shop_all'}}{{/if}} <i class="icon navPages-action-moreIcon" aria-hidden="true"><svg><use xlink:href="#icon-chevron-down" /></svg></i>
+                    </a>
+                    <div class="navPage-subMenu navPage-subMenu-horizontal navPage-subMenu--{{theme_settings.navigation_design}} enclosed-target" id="navPages-viewAll" aria-hidden="true" tabindex="-1">
+                        <ul class="navPage-subMenu-list">
+                            {{#each categories}}
+                                {{#or (unless ../../theme_settings.hide_navigation_featured_categories) (if name '!==' ../../theme_settings.featured_category_name)}}
+                                    <li class="navPage-subMenu-item-child">
+                                        {{#if children}}
+                                            <a class="navPage-subMenu-action navPages-action has-subMenu" href="{{url}}" data-collapsible="navPages-{{id}}">
+                                                {{name}} <i class="icon navPages-action-moreIcon" aria-hidden="true"><svg><use xlink:href="#icon-chevron-down" /></svg></i>
+                                            </a>
+
+                                            {{#unless ../../../theme_settings.navigation_design '===' 'megamenu'}}
+                                                {{> components/f/navigation/navigation-dropdown
+                                                    navigation_design=../../../../theme_settings.navigation_design
+                                                    hide_view_all=../../../../theme_settings.hide_category_view_all
+                                                    hide_category_image_on_categories=../../../../theme_settings.hide_category_image_on_megamenu
+                                                }}
+                                            {{/unless}}
+                                        {{else}}
+                                            <a class="navPage-subMenu-action navPages-action-depth-max navPages-action" href="{{url}}">{{name}}</a>
+                                        {{/if}}
+                                    </li>
+                                {{/or}}
+                            {{/each}}
+                        </ul>
+                        {{#if ../theme_settings.navigation_design '===' 'megamenu'}}
+                            {{#each categories}}
+                                {{#or (unless ../../theme_settings.hide_navigation_featured_categories) (if name '!==' ../../theme_settings.featured_category_name)}}
+                                    {{#if children}}
+                                        {{> components/f/navigation/navigation-dropdown
+                                            navigation_design=../../../theme_settings.navigation_design
+                                            hide_view_all=../../../theme_settings.hide_category_view_all
+                                            hide_category_image_on_categories=../../../theme_settings.hide_category_image_on_megamenu
+                                        }}
+                                    {{/if}}
+                                {{/or}}
+                            {{/each}}
+                        {{/if}}
+                    </div>
+                </li>
+                {{#each categories}}
+                    {{#if is_active}}
+                        <li class="navPages-item">
+                            <a class="navPages-action" href="{{url}}">{{name}}</a>
+                        </li>
+                        {{#if children}}
+                            {{#each children}}
+                                <li class="navPages-item navPages-contextual">
+                                    {{> components/f/navigation/navigation-list navPageId='contextual' hide_view_all=../../../../theme_settings.hide_category_view_all}}
+                                </li>
+                            {{/each}}
+                        {{/if}}
+                    {{/if}}
+                {{/each}}
+                {{#and (if page_type '===' 'brand') shop_by_brand.length}}
+                    {{#each shop_by_brand}}
+                        <li class="navPages-item">
+                            <a class="navPages-action" href="{{url}}">{{name}}</a>
+                        </li>
+                    {{/each}}
+                    <li class="navPages-item">
+                        <a class="navPages-action" href="{{urls.brands}}">{{lang 'brand.all_brands'}}</a>
+                    </li>
+                {{/and}}
+            {{else}}
+                {{> components/f/navigation/navigation-categories
+                    navigation_design=../theme_settings.navigation_design
+                    hide_view_all=../theme_settings.hide_category_view_all
+                    hide_navigation_featured_categories=../theme_settings.hide_navigation_featured_categories
+                    featured_category_name=../theme_settings.featured_category_name
+                    enable_hide_category_over_amount=../theme_settings.enable_hide_category_over_amount
+                    hide_category_over_amount=../theme_settings.hide_category_over_amount
+                    hide_category_menu_name=../theme_settings.hide_category_menu_name
+                }}
+            {{/or}}
+        {{else}}
+            {{#or
+                (if ../theme_settings.navigation_design '===' 'simple--enclosed')
+                (if ../theme_settings.navigation_design '===' 'megamenu')
+            }}
+                <li class="navPages-item">
+                    <a class="navPages-action  has-subMenu is-root" href="{{url}}" data-collapsible="navPages-viewAll">
+                        {{#if theme_settings.enclosed_category_menu_name}}{{theme_settings.enclosed_category_menu_name}}{{else}}{{lang 'header.navigation.shop_all'}}{{/if}} <i class="icon navPages-action-moreIcon" aria-hidden="true"><svg><use xlink:href="#icon-chevron-down" /></svg></i>
+                    </a>
+                    <div class="navPage-subMenu navPage-subMenu-horizontal navPage-subMenu--{{theme_settings.navigation_design}}" id="navPages-viewAll" aria-hidden="true" tabindex="-1">
+                        <ul class="navPage-subMenu-list">
+                            {{#each categories}}
+                                {{#and ../../theme_settings.hide_navigation_featured_categories (if name '===' ../../theme_settings.featured_category_name)}}
+                                {{else}}
+                                    <li class="navPage-subMenu-item-child">
+                                        {{#if children}}
+                                            <a class="navPage-subMenu-action navPages-action has-subMenu" href="{{url}}" data-collapsible="navPages-{{id}}">
+                                                {{name}} <i class="icon navPages-action-moreIcon" aria-hidden="true"><svg><use xlink:href="#icon-chevron-down" /></svg></i>
+                                            </a>
+
+                                            {{#unless ../../../theme_settings.navigation_design '===' 'megamenu'}}
+                                                {{> components/f/navigation/navigation-dropdown
+                                                    navigation_design=../../../../theme_settings.navigation_design
+                                                    hide_view_all=../../../../theme_settings.hide_category_view_all
+                                                    hide_category_image_on_categories=../../../../theme_settings.hide_category_image_on_megamenu
+                                                }}
+                                            {{/unless}}
+                                        {{else}}
+                                            <a class="navPage-subMenu-action navPages-action-depth-max navPages-action" href="{{url}}">{{name}}</a>
+                                        {{/if}}
+                                    </li>
+                                {{/and}}
+                            {{/each}}
+                        </ul>
+                        {{#if ../theme_settings.navigation_design '===' 'megamenu'}}
+                            {{#each categories}}
+                                {{#and ../../theme_settings.hide_navigation_featured_categories (if name '===' ../../theme_settings.featured_category_name)}}
+                                {{else}}
+                                    {{#if children}}
+                                        {{> components/f/navigation/navigation-dropdown
+                                            navigation_design=../../../theme_settings.navigation_design
+                                            hide_view_all=../../../theme_settings.hide_category_view_all
+                                            hide_category_image_on_categories=../../../theme_settings.hide_category_image_on_megamenu
+                                        }}
+                                    {{/if}}
+                                {{/and}}
+                            {{/each}}
+                        {{/if}}
+                    </div>
+                </li>
+            {{/or}}
+            {{> components/f/navigation/navigation-categories
+                navigation_design=../theme_settings.navigation_design
+                hide_view_all=../theme_settings.hide_category_view_all
+                hide_navigation_featured_categories=../theme_settings.hide_navigation_featured_categories
+                featured_category_name=../theme_settings.featured_category_name
+                enable_hide_category_over_amount=../theme_settings.enable_hide_category_over_amount
+                hide_category_over_amount=../theme_settings.hide_category_over_amount
+                hide_category_menu_name=../theme_settings.hide_category_menu_name
+            }}
+        {{/if}}
+        {{#and theme_settings.show_multi_add theme_settings.multi_add_url}}
+            {{#if theme_settings.restrict_to_login '!==' 2}}
+                 <li class="navPages-item navPages-item-page">
+                     <a class="navPages-action" href="{{theme_settings.multi_add_url}}">{{lang 'b2b.multi_add.nav_item'}}</a>
+                 </li>
+             {{/if}}
+        {{/and}}
+        {{#unless theme_settings.hide_content_navigation}}
+            {{#each pages}}
+                 <li class="navPages-item navPages-item-page">
+                     <a class="navPages-action" href="{{url}}">{{name}}</a>
+                 </li>
+             {{/each}}
+        {{/unless}}
+        {{#and theme_settings.shop_by_brand_show_navigation shop_by_brand.length}}
+             <li class="navPages-item navPages-item-page">
+                 <a class="navPages-action" href="{{urls.brands}}">{{lang 'brand.label'}}</a>
+             </li>
+        {{/and}}
+    </ul>
+    <ul class="navPages-list navPages-list--user">
+        {{#if currency_selector.currencies.length '>' 1}}
+            <li class="navPages-item">
+                <a class="navPages-action has-subMenu" href="#" data-collapsible="navPages-currency" aria-controls="navPages-currency" aria-expanded="false">
+                    <span class="navPages-action__icon">{{{currency_selector.active_currency_flag}}}</span>
+                    {{currency_selector.active_currency_code}}
+                </a>
+                <div class="navPage-subMenu" id="navPages-currency" aria-hidden="true" tabindex="-1">
+                    <ul class="navPage-subMenu-list">
+                        {{#each currency_selector.currencies}}
+                            <li class="navPage-subMenu-item currency-menu-item">
+                                {{{flag}}}
+                                <a class="navPage-subMenu-action navPages-action" href="{{{switch_url}}}">
+                                    {{#if is_active}}
+                                        <strong>{{name}}</strong>
+                                    {{else}}
+                                        {{name}}
+                                    {{/if}}
+                                </a>
+                            </li>
+                        {{/each}}
+                    </ul>
+                </div>
+            </li>
+        {{/if}}
+        {{#if settings.gift_certificates_enabled}}
+            <li class="navPages-item">
+                <a class="navPages-action" href="{{urls.gift_certificate.purchase}}">
+                    <span class="navPages-action__icon"><svg><use xlink:href="#icon-gift"></use></svg></span>
+                    {{lang 'common.gift_cert'}}
+                </a>
+            </li>
+        {{/if}}
+        {{#if customer.store_credit.value '>' 0}}
+            <li class="navPages-item">
+                <a class="navPages-action navPages-action--storeCredit">
+                    {{lang 'common.store_credit_overview' credit=customer.store_credit.formatted}}
+                </a>
+            </li>
+        {{/if}}
+        {{#if theme_settings.product_list_display_mode '==' 'list'}}
+            <li class="navPages-item">
+                <a class="navPages-action navPages-action--compare" href="{{urls.compare}}" data-compare-nav>{{lang 'common.compare'}} <span class="countPill countPill--positive countPill--alt"></span></a>
+            </li>
+        {{/if}}
+        {{#if customer}}
+            <li class="navPages-item">
+                <a class="navPages-action has-subMenu" href="{{urls.account.index}}" data-collapsible="navPages-account">
+                    <span class="navPages-action__icon"><svg><use xlink:href="#icon-user"></use></svg></span>
+                    {{lang 'common.account'}} <i class="icon navPages-action-moreIcon" aria-hidden="true"><svg><use xlink:href="#icon-chevron-down" /></svg></i>
+                </a>
+                <div class="navPage-subMenu" id="navPages-account" aria-hidden="true" tabindex="-1">
+                    <ul class="navPage-subMenu-list">
+                        <li class="navPage-subMenu-item">
+                            <a class="navPage-subMenu-action navPages-action" href="{{urls.account.orders.all}}">{{lang 'account.nav.orders'}}</a>
+                        </li>
+                        {{#if settings.returns_enabled}}
+                            <li class="navPage-subMenu-item">
+                                <a class="navPage-subMenu-action navPages-action" href="{{urls.account.returns}}">{{lang 'account.nav.returns'}}</a>
+                            </li>
+                        {{/if}}
+                        <li class="navPage-subMenu-item">
+                            <a class="navPage-subMenu-action navPages-action" href="{{urls.account.inbox}}">{{lang 'account.mobile_nav.messages'}}</a>
+                        </li>
+                        <li class="navPage-subMenu-item">
+                            <a class="navPage-subMenu-action navPages-action" href="{{urls.account.addresses}}">{{lang 'account.nav.addresses'}}</a>
+                        </li>
+                        {{#if settings.show_payment_methods}}
+                            <li class="navPage-subMenu-item">
+                                <a class="navPage-subMenu-action navPages-action" href="{{urls.account.payment_methods.all}}">{{lang 'account.nav.payment_methods'}}</a>
+                            </li>
+                        {{/if}}
+                        <li class="navPage-subMenu-item">
+                            <a class="navPage-subMenu-action navPages-action" href="{{urls.account.wishlists.all}}">{{lang 'account.mobile_nav.wishlists'}}</a>
+                        </li>
+                        <li class="navPage-subMenu-item">
+                            <a class="navPage-subMenu-action navPages-action" href="{{urls.account.recent_items}}">{{lang 'account.nav.recently_viewed'}}</a>
+                        </li>
+                        <li class="navPage-subMenu-item">
+                            <a class="navPage-subMenu-action navPages-action" href="{{urls.account.details}}">{{lang 'account.nav.settings'}}</a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+            <li class="navPages-item">
+                <a class="navPages-action" href="{{urls.auth.logout}}">{{lang 'common.logout'}}</a>
+            </li>
+        {{else}}
+            <li class="navPages-item">
+                <a class="navPages-action" href="{{urls.auth.login}}">{{lang 'common.account'}}</a>
+            </li>
+        {{/if}}
+        {{#if theme_settings.social_icon_placement_top}}
+            <li class="navPages-item">
+                {{> components/common/social-links}}
+            </li>
+        {{/if}}
+    </ul>
+</nav>

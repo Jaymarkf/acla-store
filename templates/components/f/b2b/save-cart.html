@@ -1,0 +1,18 @@
+<div class="add-to-list__controls">
+    {{#if customer}}
+    <a href="#" class="add-new-list">{{lang 'b2b.save_cart.add_new_link'}}</a>
+    <div class="list-selector">
+    {{#if customer.wishlists}}
+        <span>{{lang 'b2b.save_cart.save_to_list'}}</span>
+        <select name="list-id" id="list-id" class="form-select">
+            {{#each customer.wishlists}}
+            <option value="{{id}}">{{name}} ({{num_items}})</option>
+            {{/each}}
+        </select>
+    {{/if}}
+    </div>
+    <input type="button" data-save-cart class="button button__save-cart" value="{{lang 'b2b.save_cart.button_text'}}" />
+    {{else}}
+    <a href="{{urls.auth.login}}">{{lang 'b2b.save_cart.sign_in'}}</a>
+    {{/if}}
+</div>

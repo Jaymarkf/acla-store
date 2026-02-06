@@ -1,0 +1,85 @@
+{{#contains (get "hostname" (urlParse settings.request.referer)) "mybigcommerce"}}
+<script>
+    function hideNotificationStripInPreviewMode() {
+        const observer = new MutationObserver((mutationsList) => {
+            mutationsList.forEach((mutation) => {
+                const previewModeStyle = document.querySelector('head style#BC-SD-hide-overlay');
+                const notificationStrip = document.getElementById('theme-documentation-strip');
+        
+                if (previewModeStyle && notificationStrip) {
+                    notificationStrip.style.display = 'none';
+                } else if (!previewModeStyle && notificationStrip) {
+                    notificationStrip.style.display = 'flex';
+                }
+            });
+        });
+
+        const head = document.querySelector('head');
+        observer.observe(head, { childList: true });
+  }
+
+  function prependStyledDivWithLinksToParentOnce() {
+    var pb = document;
+
+    var themeNotification = 'theme-documentation-strip';
+
+    if (!pb.getElementById(themeNotification)) {
+      var pbWrapper = pb.body;
+
+      var createNotification = pb.createElement('div');
+      createNotification.id = themeNotification;
+
+      createNotification.style.backgroundColor = 'rgb(49, 52, 64)';
+      createNotification.style.borderBottom = '1px solid rgb(217, 220, 233)';
+      createNotification.style.padding = '14px';
+      createNotification.style.color = '#ffffff';
+      createNotification.style.fontSize = '14px';
+      createNotification.style.textAlign = 'center';
+      createNotification.style.display = 'flex';
+      createNotification.style.justifyContent = 'space-between';
+      createNotification.style.zIndex = '999999';
+
+      createNotification.innerHTML = `
+        <div>
+          {{theme_settings.n}} {{> components/common/version}} by Flair. 
+          <span style="margin-left: 5px;">Contact support@flairconsultancy.com for help.</span> 
+        </div>
+        <div>
+          <a href="https://www.flairthemes.com/category/4-camden-theme" target="_blank" style="color: #ffffff; margin-left: 16px;">Documentation</a> 
+          <a href="https://www.flairconsultancy.com/support" target="_blank" style="color: #ffffff; margin-left: 16px;">Register your theme</a> 
+          <a href="https://www.flairconsultancy.com/services/theme-onboarding/" target="_blank" style="color: #ffffff; margin-left: 16px;">Theme onboarding service</a> 
+          <a href="https://www.flairconsultancy.com/theme-customization/" target="_blank" style="color: #ffffff; margin-left: 16px;">Get a customization quote</a> 
+        </div>
+      `;
+
+      if (pbWrapper.firstChild) {
+        pbWrapper.insertBefore(createNotification, pbWrapper.firstChild);
+      } else {
+        pbWrapper.appendChild(createNotification);
+      }
+
+      var themeDocumentationStrip = pb.getElementById('theme-documentation-strip');
+
+      var links = createNotification.querySelectorAll('a');
+      links.forEach(function(link) {
+        link.addEventListener('click', function(event) {
+          event.preventDefault();
+          var targetUrl = link.href;
+          window.open(targetUrl, '_blank');
+        });
+      });
+    }
+    
+    hideNotificationStripInPreviewMode();
+  }
+
+  if (window.self !== window.top) {
+    prependStyledDivWithLinksToParentOnce();
+  }
+</script>
+<style>
+    #theme-documentation-strip a {
+        pointer-events: all !important;
+    }
+</style>
+{{/contains}}

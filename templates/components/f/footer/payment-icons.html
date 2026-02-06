@@ -1,0 +1,218 @@
+{{#if theme_settings.show_payment_methods}}
+    {{#with theme_settings}}
+        {{#or show_accept_amazon_pay show_accept_amex show_accept_apple_pay show_accept_diners show_accept_discover show_accept_jcb show_accept_klarna show_accept_mastercard show_accept_mcsc show_accept_paypal show_accept_vbv show_accept_visa show_accept_vp show_powered_by_braintree show_powered_by_sage show_powered_by_skrill show_powered_by_square show_powered_by_stripe}}
+            <div class="footer-payment-icons">
+                {{#if show_accept_visa}}
+                    <span>
+                        <svg aria-hidden="true">
+                            <use xlink:href="#icon-payments-visa"></use>
+                        </svg>
+                    </span>
+                {{/if}}
+                {{#if show_accept_mastercard}}
+                    <span>
+                        <svg aria-hidden="true">
+                            <use xlink:href="#icon-payments-mastercard"></use>
+                        </svg>
+                    </span>
+                {{/if}}
+                {{#if show_accept_amex}}
+                    <span class="payment-icon-square">
+                        <svg aria-hidden="true">
+                            <use xlink:href="#icon-payments-american-express-alt"></use>
+                        </svg>
+                    </span>
+                {{/if}}
+                {{#if show_accept_diners}}
+                    <span>
+                        <svg aria-hidden="true">
+                            <use xlink:href="#icon-payments-diners"></use>
+                        </svg>
+                    </span>
+                {{/if}}
+                {{#if show_accept_discover}}
+                    <span>
+                        <svg aria-hidden="true">
+                            <use xlink:href="#icon-payments-discover"></use>
+                        </svg>
+                    </span>
+                {{/if}}
+                {{#if show_accept_jcb}}
+                    <span>
+                        <svg aria-hidden="true">
+                            <use xlink:href="#icon-payments-jcb"></use>
+                        </svg>
+                    </span>
+                {{/if}}
+                {{#if show_accept_vbv}}
+                    <span>
+                        <svg aria-hidden="true">
+                            <use xlink:href="#icon-payments-verified-by-visa"></use>
+                        </svg>
+                    </span>
+                {{/if}}
+                {{#if show_accept_mcsc}}
+                    <span>
+                        <svg aria-hidden="true">
+                            <use xlink:href="#icon-payments-mastercard-securecode"></use>
+                        </svg>
+                    </span>
+                {{/if}}
+                {{#if show_accept_amazon_pay}}
+                    <span>
+                        <svg aria-hidden="true">
+                            <use xlink:href="#icon-payments-amazon-pay-alt"></use>
+                        </svg>
+                    </span>
+                {{/if}}
+                {{#if show_accept_apple_pay}}
+                    <span>
+                        <svg aria-hidden="true">
+                            <use xlink:href="#icon-payments-apple-pay"></use>
+                        </svg>
+                    </span>
+                {{/if}}
+                {{#if show_accept_google_pay}}
+                    <span>
+                        <svg aria-hidden="true">
+                            <use xlink:href="#icon-payments-google-pay"></use>
+                        </svg>
+                    </span>
+                {{/if}}
+                {{#if show_accept_paypal}}
+                    <span>
+                        <svg aria-hidden="true">
+                            <use xlink:href="#icon-payments-paypal"></use>
+                        </svg>
+                    </span>
+                {{/if}}
+                {{#if show_accept_vp}}
+                    <span class="payment-icon-square">
+                        <svg aria-hidden="true">
+                            <use xlink:href="#icon-payments-visa-pay"></use>
+                        </svg>
+                    </span>
+                {{/if}}
+                {{#if show_accept_alipay}}
+                    <span>
+                        <svg aria-hidden="true">
+                            <use xlink:href="#icon-payments-alipay"></use>
+                        </svg>
+                    </span>
+                {{/if}}
+                {{#if show_accept_bancontact}}
+                    <span>
+                        <svg aria-hidden="true">
+                            <use xlink:href="#icon-payments-bancontact-mister-cash"></use>
+                        </svg>
+                    </span>
+                {{/if}}
+                {{#if show_accept_cb}}
+                    <span>
+                        <svg aria-hidden="true">
+                            <use xlink:href="#icon-payments-cb"></use>
+                        </svg>
+                    </span>
+                {{/if}}
+                {{#if show_accept_elo}}
+                    <span class="payment-icon-square">
+                        <svg aria-hidden="true">
+                            <use xlink:href="#icon-payments-elo"></use>
+                        </svg>
+                    </span>
+                {{/if}}
+                {{#if show_accept_giropay}}
+                    <span>
+                        <svg aria-hidden="true">
+                            <use xlink:href="#icon-payments-giropay"></use>
+                        </svg>
+                    </span>
+                {{/if}}
+                {{#if show_accept_hipercard}}
+                    <span>
+                        <svg aria-hidden="true">
+                            <use xlink:href="#icon-payments-hipercard"></use>
+                        </svg>
+                    </span>
+                {{/if}}
+                {{#if show_accept_ideal}}
+                    <span class="payment-icon-square">
+                        <svg aria-hidden="true">
+                            <use xlink:href="#icon-payments-ideal"></use>
+                        </svg>
+                    </span>
+                {{/if}}
+                {{#if show_accept_paysafe}}
+                    <span>
+                        <svg aria-hidden="true">
+                            <use xlink:href="#icon-payments-paysafecard"></use>
+                        </svg>
+                    </span>
+                {{/if}}
+                {{#if show_accept_sepa}}
+                    <span>
+                        <svg aria-hidden="true">
+                            <use xlink:href="#icon-payments-sepa"></use>
+                        </svg>
+                    </span>
+                {{/if}}
+                {{#if show_accept_unionpay}}
+                    <span class="payment-icon-square">
+                        <svg aria-hidden="true">
+                            <use xlink:href="#icon-payments-unionpay"></use>
+                        </svg>
+                    </span>
+                {{/if}}
+                {{#if show_accept_wechat_pay}}
+                    <span class="payment-icon-square">
+                        <svg aria-hidden="true">
+                            <use xlink:href="#icon-payments-wechat-pay"></use>
+                        </svg>
+                    </span>
+                {{/if}}
+                {{#if show_accept_klarna}}
+                    <span>
+                        <svg aria-hidden="true">
+                            <use xlink:href="#icon-payments-klarna-logo"></use>
+                        </svg>
+                    </span>
+                {{/if}}
+                {{#if show_powered_by_braintree}}
+                    <span>
+                        <svg aria-hidden="true">
+                            <use xlink:href="#icon-payments-braintree"></use>
+                        </svg>
+                    </span>
+                {{/if}}
+                {{#if show_powered_by_sage}}
+                    <span>
+                        <svg aria-hidden="true">
+                            <use xlink:href="#icon-payments-sage"></use>
+                        </svg>
+                    </span>
+                {{/if}}
+                {{#if show_powered_by_skrill}}
+                    <span>
+                        <svg aria-hidden="true">
+                            <use xlink:href="#icon-payments-skrill"></use>
+                        </svg>
+                    </span>
+                {{/if}}
+                {{#if show_powered_by_square}}
+                    <span class="payment-icon-square">
+                        <svg aria-hidden="true">
+                            <use xlink:href="#icon-payments-square"></use>
+                        </svg>
+                    </span>
+                {{/if}}
+                {{#if show_powered_by_stripe}}
+                    <span>
+                        <svg aria-hidden="true">
+                            <use xlink:href="#icon-payments-stripe"></use>
+                        </svg>
+                    </span>
+                {{/if}}
+            </div>
+        {{/or}}
+    {{/with}}
+{{/if}}

@@ -1,0 +1,64 @@
+<nav class="navUser sticky">
+    <ul class="navUser-section navUser-section--alt">
+        {{#if customer.store_credit.value '>' 0}}
+        <li class="navUser-item navUser-item--store-credit store-credit">
+            <a class="navUser-action navUser-action--storeCredit"
+               data-dropdown="storeCredit-dropdown"
+               data-options="align:bottom"
+               href="{{urls.cart}}">{{lang 'header.store_credit'}}<span class="store-credit__amount"> {{customer.store_credit.formatted}}</span></a>
+            <div class="dropdown-menu" id="storeCredit-dropdown" data-dropdown-content aria-hidden="true">
+                {{{lang 'common.store_credit' store_credit=customer.store_credit.formatted}}}
+            </div>
+        </li>
+        {{/if}}
+
+        {{#if settings.gift_certificates_enabled}}
+        <li class="navUser-item navUser-item--gift-certificate">
+            <a class="navUser-action" href="{{urls.gift_certificate.purchase}}"><span class="top-utilities-icon"><svg><use xlink:href="#icon-gift"></use></svg></span><span class="navUser-text"> {{lang 'common.gift_cert'}}</span></a>
+        </li>
+        {{/if}}
+
+        <li class="navUser-item navUser-item--account">
+            <a class="navUser-action {{#if customer}}has-dropdown{{/if}}" href="{{urls.account.index}}" {{#if customer}}data-dropdown="accountOptions" aria-controls="accountOptions" aria-expanded="false" data-account-menu{{/if}}><span class="top-utilities-icon"><svg><use xlink:href="#icon-user"></use></svg></span><span class="navUser-text"> {{lang 'common.account'}}</span> {{#if customer}}<span class="navUser-dropdown-arrow"><span class="top-utilities-icon top-utilities-icon--arrow"><svg><use xlink:href="#icon-chevron-down"></use></svg></span></span>{{/if}}</a>
+            {{#if customer}}
+            <ul class="dropdown-menu dropdown-menu--arrow-right is-open f-open-dropdown" id="accountOptions" data-dropdown-content="" aria-hidden="false" tabindex="-1">
+                <li class="dropdown-menu-item">
+                    <a href="{{urls.account.orders.all}}">{{lang 'account.nav.orders'}}</a>
+                </li>
+                {{#if settings.returns_enabled}}
+                <li class="dropdown-menu-item">
+                    <a href="{{urls.account.returns}}">{{lang 'account.nav.returns'}}</a>
+                </li>
+                {{/if}}
+                <li class="dropdown-menu-item">
+                    <a href="{{urls.account.inbox}}">{{lang 'header.messages'}}</a>
+                </li>
+                <li class="dropdown-menu-item">
+                    <a href="{{urls.account.addresses}}">{{lang 'account.nav.addresses'}}</a>
+                </li>
+                {{#if settings.show_payment_methods}}
+                <li class="dropdown-menu-item">
+                    <a href="{{urls.account.payment_methods.all}}">{{lang 'account.nav.payment_methods'}}</a>
+                </li>
+                {{/if}}
+                {{#if settings.show_wishlist}}
+                <li class="dropdown-menu-item">
+                    <a href="{{urls.account.wishlists.all}}">{{lang 'header.wishlists.no_name'}}</a>
+                </li>
+                {{/if}}
+                <li class="dropdown-menu-item">
+                    <a href="{{urls.account.recent_items}}">{{lang 'account.nav.recently_viewed'}}</a>
+                </li>
+                <li class="dropdown-menu-item">
+                    <a href="{{urls.account.details}}">{{lang 'account.nav.settings'}}</a>
+                </li>
+                <li class="dropdown-menu-item">
+                    <a href="{{urls.auth.logout}}">{{lang 'common.logout'}}</a>
+                </li>
+            </ul>
+            {{/if}}
+        </li>
+
+        {{> components/f/header/header-cart}}
+    </ul>
+</nav>

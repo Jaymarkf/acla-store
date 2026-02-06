@@ -1,0 +1,20 @@
+{{#any product.description product.videos.list.length}}
+<article class="productView-description" id="productDescription">
+    <h2 class="productView-title">{{lang 'products.description'}}</h2>
+    {{{region name="product_below_description_title"}}}
+    {{{region name="product_below_description_title--global"}}}
+    <div {{#if settings.data_tag_enabled}} data-event-type="product" {{/if}}>
+        {{{product.description}}}
+        {{{snippet 'product_description'}}}
+    </div>
+    {{{region name="product_below_description_body"}}}
+    {{{region name="product_below_description_body--global"}}}
+
+    {{#if product.videos.list.length}}
+        <h2 class="productView-title">{{lang 'products.videos.header'}}</h2>
+        {{> components/products/videos product.videos}}
+    {{/if}}
+{{{region name="product_below_videos"}}}
+{{{region name="product_below_videos--global"}}}
+</article>
+{{/any}}

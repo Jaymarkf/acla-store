@@ -1,0 +1,55 @@
+// =============================================================================
+// ALERTS
+// =============================================================================
+
+.alertBox {
+    border-radius: $alert-radius;
+    background: stencilColor("color-infoLight");
+    color: stencilColor("color-info");
+
+    svg {
+        fill: stencilColor("color-info");
+    }
+}
+
+.alertBox-icon {
+    .icon {
+        @include square(25px);
+    }
+}
+
+.alertBox--error {
+    background: stencilColor("color-errorLight");
+    color: stencilColor("color-error");
+
+    svg {
+        fill: stencilColor("color-error");
+    }
+}
+
+.alertBox--success {
+    background: stencilColor("color-successLight");
+    color: stencilColor("color-success");
+
+    svg {
+        fill: stencilColor("color-success");
+    }
+}
+
+.alertBox--warning {
+    background: stencilColor("color-warningLight");
+    color: stencilColor("color-warning");
+
+    svg {
+        fill: stencilColor("color-warning");
+    }
+}
+
+.alertBox--info {
+    background: stencilColor("color-infoLight");
+    color: stencilColor("color-info");
+
+    svg {
+            fill: stencilColor("color-info");
+    }
+}

@@ -1,0 +1,7 @@
+<ul class="productCards productCards--{{theme_settings.product_list_display_mode}}">
+    {{#each products}}
+        <li class="productCard productCard--{{../theme_settings.product_list_display_mode}}">
+            {{>components/f/products/card customer_group_id=../customer_group_id settings=../settings show_compare=../show_compare show_rating=../settings.show_product_rating theme_settings=../theme_settings customer=../customer urls=../urls event=../event position=(add @index 1) panel=../panel}}
+        </li>
+    {{/each}}
+</ul>

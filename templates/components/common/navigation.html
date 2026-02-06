@@ -1,0 +1,62 @@
+<nav class="navUser sticky">
+    {{#or (if currency_selector.currencies.length '>' 1) theme_settings.show_phone_number_in_header}}
+    <ul class="navUser-section"{{#if theme_settings.enable_sticky_navigation}} data-topbar data-options="sticky_on:large"{{/if}}>
+        {{> components/common/currency-selector}}
+        {{#and theme_settings.show_phone_number_in_header settings.phone_number}}
+            <li class="navUser-item">
+                <a class="navUser-action" href="tel:{{settings.phone_number}}">{{lang 'header.need_help'}} <i class="fas fa-phone"></i> {{settings.phone_number}}</a>
+            </li>
+        {{/and}}
+    </ul>
+    {{/or}}
+
+    <ul class="navUser-section navUser-section--alt">
+        {{#if customer.store_credit.value '>' 0}}
+            <li class="navUser-item">
+                <a class="navUser-action navUser-action--storeCredit"
+                   data-dropdown="storeCredit-dropdown"
+                   data-options="align:bottom"
+                   href="{{urls.cart}}">
+                        <span class="navUser-action-divider">{{lang 'common.store_credit_overview' credit=customer.store_credit.formatted}}</span>
+                </a>
+                <div class="dropdown-menu" id="storeCredit-dropdown" data-dropdown-content aria-hidden="true">
+                    {{{lang 'common.store_credit' store_credit=customer.store_credit.formatted}}}
+                </div>
+            </li>
+        {{/if}}
+        <li class="navUser-item">
+            <a class="navUser-action navUser-item--compare" href="{{urls.compare}}" data-compare-nav>{{#if theme_settings.replace_utility_menu_with_icons}}<i class="fas fa-exchange"></i>{{else}}{{lang 'common.compare'}}{{/if}} <span class="countPill countPill--positive countPill--alt"></span></a>
+        </li>
+        {{#if theme_settings.social_icon_placement_top}}
+            <li class="navUser-item navUser-item--social">
+                {{> components/common/social-links}}
+            </li>
+            <li class="navUser-item navUser-item--divider">|</li>
+        {{/if}}
+        {{#if settings.gift_certificates_enabled}}
+            <li class="navUser-item">
+                <a class="navUser-action" href="{{urls.gift_certificate.purchase}}">{{#if theme_settings.replace_utility_menu_with_icons}}<i class="fas fa-gift"></i>{{else}}{{lang 'common.gift_cert'}}{{/if}}</a>
+            </li>
+        {{/if}}
+        <li class="navUser-item navUser-item--account">
+            {{#if customer}}
+                <a class="navUser-action" href="{{urls.account.index}}"><i class="fas fa-user"></i> {{lang 'common.account'}}</a>
+                <a class="navUser-action" href="{{urls.auth.logout}}"><i class="fas fa-sign-out"></i> {{lang 'common.logout'}}</a>
+            {{else}}
+                <a class="navUser-action" href="{{urls.account.index}}">{{lang 'common.account'}}</a>
+            {{/if}}
+        </li>
+        <li class="navUser-item navUser-item--cart">
+            <a
+                class="navUser-action"
+                data-cart-preview
+                data-dropdown="cart-preview-dropdown"
+                data-options="align:right"
+                href="{{urls.cart}}">
+                <span class="navUser-item-cartLabel">{{#if theme_settings.replace_utility_menu_with_icons}}<i class="fas fa-shopping-{{theme_settings.cart_icon}}"></i>{{else}}<i class="fas fa-shopping-{{theme_settings.cart_icon}}"></i> <span class="cartLabel"></span>{{/if}}</span> <span class="countPill countPill--positive cart-quantity"></span>
+            </a>
+
+            <div class="dropdown-menu" id="cart-preview-dropdown" data-dropdown-content aria-hidden="true"></div>
+        </li>
+    </ul>
+</nav>

@@ -1,0 +1,12 @@
+{{#or customer (if theme_settings.restrict_to_login '===' 0)}}
+    {{#and theme_settings.restrict_new_accounts (if customer_group_id '===' 0)}}
+        <div class="cart__alert">{{> components/common/alert-info (lang 'b2b.lockdown.account_not_active')}}</div>
+    {{else}}
+        <span class="side-cart-detail"><span>{{lang 'b2b.side_cart.total_items'}}</span><span class="cart-quantity" id="side-cart-quantity">{{cart.quantity}}</span></span>
+        <span class="side-cart-detail"><span>{{lang 'cart.checkout.subtotal'}}:</span><span id="side-cart-subtotal">{{cart.sub_total.formatted}}</span></span>
+        {{#each cart.taxes}}<span class="side-cart-detail"><span>{{name}}:</span><span id="side-cart-taxes">{{cost.formatted}}</span></span>{{/each}}
+        <span class="side-cart-detail"><span>{{lang 'cart.checkout.grand_total'}}:</span><span id="side-cart-total">{{cart.grand_total.formatted}}</span></span>
+    {{/and}}
+{{else}}
+    <div class="cart__alert">{{> components/common/alert-info (lang 'b2b.lockdown.login_to_purchase')}}</div>
+{{/or}}

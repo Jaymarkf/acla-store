@@ -1,0 +1,68 @@
+<ul class="account-list">
+    {{#each orders}}
+        <li class="account-listItem microsoft-row-generator-orders--{{@index}}">
+            <div class="account-product account-orders">
+                <div class="account-product-detail order-placed">
+                    <h6 class="account-product-detail-heading">{{lang 'account.orders.order_placed' }}</h6>
+                    <span>{{this.date}}</span>
+                </div>
+
+                <div class="account-product-detail order-total">
+                    <h6 class="account-product-detail-heading">{{lang 'b2b.account.orders.total' }}</h6>
+                    <span>{{this.total.formatted}}</span>
+                </div>
+
+                <div class="account-product-detail order-status">
+                    <h6 class="account-product-detail-heading
+                    {{#if status '==' }}
+                    {{/if}}">{{lang 'b2b.account.orders.status' }}</h6>
+                    <div class="account-orderStatus">
+                        <h6 class="account-orderStatus-label">{{this.status}}</h6>
+                    </div>
+                </div>
+
+                <div class="account-product-detail order-number">
+                    <div>{{lang 'b2b.account.orders.id' }}{{this.id}}</div>
+                    <div class="order-actions">
+                        {{#if this.details_url}}
+                            <a href="{{this.details_url}}">
+                                <span>{{lang 'b2b.account.orders.details' }}</span>
+                            </a>
+                        {{/if}}
+                        <a data-print-invoice="/account.php?action=print_invoice&order_id={{this.id}}">
+                            <span>{{lang 'b2b.account.orders.invoice'}}</span>
+                        </a>
+                    </div>
+                </div>
+
+                {{#each items}}
+                    <div class="account-product-item microsoft-row-generator-orders--{{@index}}">
+                        <div class="account-product-figure">
+                            {{#if items.0.type '===' 'giftcertificate'}}
+                                <img src="{{cdn ../../theme_settings.default_image_gift_certificate}}" alt="GiftCertificate" title="GiftCertificate">
+                            {{else}}
+                                {{> components/common/responsive-img
+                                    image=image
+                                    class="account-product-image"
+                                    fallback_size=../../theme_settings.productthumb_size
+                                    lazyload=../../theme_settings.lazyload_mode
+                                    default_image=../../theme_settings.default_image_product
+                                }}
+                            {{/if}}
+                        </div>
+
+                        <div class="account-product-order-item">
+                            <span>{{quantity}} &#215; {{ellipsis name 52}}
+                                {{#if refunded '==' 0}}
+                                    {{#if download_url}}
+                                        <a class="order-item-download" href="{{download_url}}">{{lang 'b2b.account.orders.download'}}</a>
+                                    {{/if}}
+                                {{/if}}
+                            </span>
+                        </div>
+                    </div>
+                {{/each}}
+            </div>
+        </li>
+    {{/each}}
+</ul>

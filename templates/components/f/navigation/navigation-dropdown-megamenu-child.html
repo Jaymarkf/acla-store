@@ -1,0 +1,10 @@
+<li class="navPage-subMenu-item-child">
+    <a class="navPage-subMenu-action navPages-action has-subMenu" href="{{url}}">
+        {{name}}
+    </a>
+</li>
+{{#if children}}
+    {{#each children}}
+        {{> components/f/navigation/navigation-dropdown-megamenu-child}}
+    {{/each}}
+{{/if}}

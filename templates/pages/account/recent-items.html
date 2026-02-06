@@ -1,0 +1,25 @@
+
+
+{{#partial "page"}}
+
+{{> components/common/breadcrumbs breadcrumbs=breadcrumbs}}
+
+<div class="account-container account-container--full-width">
+    <h1 class="page-heading">{{lang 'account.recent_items.heading'}}</h1>
+    {{> components/account/navigation account_page='recent_items'}}
+
+    <main class="account">
+        <div class="account-body">
+            <section class="account-content">
+                {{#unless customer.recently_viewed_products.items}}
+                    {{> components/common/alert-info (lang 'account.recent_items.no_items')}}
+                {{/unless}}
+        
+                {{> components/f/category/cards products=customer.recently_viewed_products.items show_compare=false}}
+            </section>
+        </div>
+    </main>
+</div>
+
+{{/partial}}
+{{> layout/base}}

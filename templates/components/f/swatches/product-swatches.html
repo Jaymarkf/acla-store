@@ -1,0 +1,35 @@
+                {{#each product.options}}
+                    {{#if this.type '==' 'Configurable_PickList_Swatch'}}
+                    {{#each this.values}}
+                        {{#if image}}
+                            <div class="form-option form-option-swatch">
+                                <span class='form-option-variant form-option-variant--pattern' title="{{this.label}}" style="background-image: url('{{getImage image "swatch_option_size"}}');"></span>
+                            </div>
+                        {{/if}}
+                        {{#if data.[2]}}
+                            <div class="form-option form-option-swatch">
+                                <div class="form-option--multi">
+                                    <span class='form-option-variant form-option-variant--color color--tritone' title="{{this.label}}" style="background-color: #{{data.[0]}}"></span>
+                                    <span class='form-option-variant form-option-variant--color color--tritone' title="{{this.label}}" style="background-color: #{{data.[1]}}"></span>
+                                    <span class='form-option-variant form-option-variant--color color--tritone' title="{{this.label}}" style="background-color: #{{data.[2]}}"></span>
+                                </div>
+                            </div>
+                        {{else}}
+                            {{#if data.[1]}}
+                                <div class="form-option form-option-swatch">
+                                    <div class="form-option--multi">
+                                        <span class='form-option-variant form-option-variant--color color--duotone' title="{{this.label}}" style="background-color: #{{data.[0]}}"></span>
+                                        <span class='form-option-variant form-option-variant--color color--duotone' title="{{this.label}}" style="background-color: #{{data.[1]}}"></span>
+                                    </div>
+                                </div>
+                            {{else}}
+                                {{#if data.[0]}}
+                                    <div class="form-option form-option-swatch">
+                                        <span class='form-option-variant form-option-variant--color' title="{{this.label}}" style="background-color: #{{data.[0]}}"></span>
+                                    </div>
+                                {{/if}}
+                            {{/if}}
+                        {{/if}}
+                    {{/each}}
+                    {{/if}}
+                {{/each}}

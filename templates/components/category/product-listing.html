@@ -1,0 +1,13 @@
+{{> components/products/filter sort=pagination.category.sort}}
+
+{{#unless theme_settings.hide_product_count_on_category}}
+    {{> components/f/category/show-all}}
+{{/unless}}
+
+{{#if theme_settings.product_list_display_mode '===' 'grid'}}
+    {{> components/products/grid products=category.products show_compare=category.show_compare theme_settings=theme_settings urls=urls}}
+{{else}}
+    {{> components/products/list products=category.products show_compare=category.show_compare theme_settings=theme_settings urls=urls}}
+{{/if}}
+
+{{> components/common/paginator pagination.category}}

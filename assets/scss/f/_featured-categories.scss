@@ -1,0 +1,113 @@
+// Variables for button Settings
+
+$button--featured-color: stencilColor("button--featuredCategory-color");
+$button--featured-colorHover: stencilColor("button--featuredCategory-colorHover");
+$button--featured-colorActive: stencilColor("button--featuredCategory-colorActive");
+$button--featured-backgroundColor: stencilColor("button--featuredCategory-backgroundColor");
+$button--featured-backgroundColorHover: stencilColor("button--featuredCategory-backgroundColorHover");
+$button--featured-backgroundColorActive: stencilColor("button--featuredCategory-backgroundColorActive");
+
+
+.featuredCategories {
+    @include u-listBullets("none");
+    @include grid-row($behavior: "nest");
+    display: flex;
+    flex-flow: row wrap;
+    font-size: 0;
+
+    @include breakpoint("medium") {
+        margin-bottom: - spacing("single");
+    }
+
+
+    &::before {
+        display: none;
+    }
+}
+
+.featuredCategory {
+    @include grid-column(6, $float: none);
+    display: inline-block;
+    font-size: fontSize("base");
+    margin-bottom: spacing("single");
+    overflow: hidden;
+    position: relative;
+    text-align: center;
+    vertical-align: top;
+
+    @include breakpoint("small") {
+        .featuredCategoriesColumns--3 &,
+        .featuredCategoriesColumns--5 &,
+        .featuredCategoriesColumns--6 & {
+            width: 33.33333%;
+        }
+    }
+
+    @include breakpoint("medium") {
+        .featuredCategoriesColumns--3 &,
+        .featuredCategoriesColumns--6 & {
+            width: 33.33333%;
+        }
+
+        .featuredCategoriesColumns--4 & {
+            width: 25%;
+        }
+
+        .featuredCategoriesColumns--5 & {
+            width: 20%;
+        }
+    }
+
+    @include breakpoint("large") {
+        width: 25%;
+
+        .featuredCategoriesColumns--2 & {
+            width: 50%;
+        }
+
+        .featuredCategoriesColumns--3 & {
+            width: 33.33333%;
+        }
+
+        .featuredCategoriesColumns--5 & {
+            width: 20%;
+        }
+
+        .featuredCategoriesColumns--6 & {
+            width: 16.66666%;
+        }
+    }
+
+    img {
+        width: 100%;
+    }
+}
+
+.featuredCategory-noImage {
+    background-color: stencilColor("color-primary");
+    display: flex;
+    height: 100%;
+    width: 100%;
+}
+
+.featuredCategory-name {
+    @include breakpoint("small") {
+        bottom: spacing("single");
+        position: absolute;
+        right: 50%;
+        transform: translateX(50%);
+    }
+}
+
+.button--featured {
+    border-radius: 0;
+    margin: 0;
+    padding-right: spacing("base");
+    padding-left: spacing("base");
+    width: 100%;
+
+    @include breakpoint("small") {
+        border-radius: $global-radius;
+        width: auto;
+    }
+}

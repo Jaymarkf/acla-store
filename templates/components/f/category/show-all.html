@@ -1,0 +1,14 @@
+<div class="productCount">
+    {{#if category.count '<' category.total_products}}
+        {{lang 'category.showing_some' count=category.count total=category.total_products}}
+        <a href="{{category.url}}?limit=100">
+        {{#if category.total_products '<=' '100'}}
+            {{lang 'category.show_all'}}
+        {{else}}
+            {{lang 'category.show_100'}}
+        {{/if}}
+        </a>
+    {{else}}
+        {{lang 'category.showing_all' quantity=category.total_products}}
+    {{/if}}
+</div>

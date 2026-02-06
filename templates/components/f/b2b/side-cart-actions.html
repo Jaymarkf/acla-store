@@ -1,0 +1,25 @@
+{{#or customer (if theme_settings.restrict_to_login '===' 0)}}
+    {{#and theme_settings.restrict_new_accounts (if customer_group_id '===' 0)}}
+    {{else}}
+        <div class="side-cart-action-buttons">
+        <a href="{{urls.cart}}" class="button{{#and theme_settings.enable_minimum_checkout_value (if cart.sub_total.value '<' theme_settings.minimum_checkout_value)}} button--without-checkout{{/and}}">
+            {{lang 'cart.preview.view_cart'}}
+        </a>
+        {{#and theme_settings.enable_minimum_checkout_value (if cart.sub_total.value '<' theme_settings.minimum_checkout_value)}}
+            <div class="cart__alert">{{> components/common/alert-info (lang 'b2b.minimum_order_message' currency=settings.money.currency_token value=theme_settings.minimum_checkout_value remaining=(toFixed (subtract theme_settings.minimum_checkout_value cart.sub_total.value) 2))}}</div>
+        {{else}}
+            <a class="button button--primary" href="{{urls.checkout.single_address}}" title="{{lang 'cart.checkout.title'}}">
+                {{lang 'cart.checkout.button'}}
+            </a>
+        {{/and}}
+        </div>
+        {{#and theme_settings.enable_minimum_checkout_value (if cart.sub_total.value '<' theme_settings.minimum_checkout_value)}}
+        {{else}}
+            {{#if cart.show_multiple_address_shipping}}
+                <a class="button multi-address" href="{{urls.checkout.multiple_address}}">
+                    {{lang 'cart.preview.checkout_multiple'}}
+                </a>
+            {{/if}}
+        {{/and}}
+    {{/and}}
+{{/or}}

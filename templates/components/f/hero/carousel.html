@@ -1,0 +1,54 @@
+<section class="heroCarousel{{#if theme_settings.show-login-on-homepage}}{{#unless customer}} heroCarousel--with-login{{/unless}}{{/if}}"
+    data-slick='{
+        "arrows": {{arrows}},
+        "mobileFirst": true,
+        "slidesToShow": 1,
+        "slidesToScroll": 1,
+        "autoplay": true,
+        "autoplaySpeed": {{carousel.swap_frequency}},
+        "lazyLoad": "anticipated",
+        "arrows": false,
+        "dots": false,
+        "responsive": [
+            {
+                "breakpoint": 800,
+                "settings": {
+                    "arrows": true,
+                    "dots": true
+                }
+            }
+        ]
+    }'>
+    {{#each carousel.slides}}
+    <a href="{{url}}" class="heroCarousel-slide {{#if ../theme_settings.homepage_stretch_carousel_images}}stretch{{/if}} {{#if @first}}heroCarousel-slide--first{{/if}}">
+        <div class="heroCarousel-image-wrapper" {{#and image_height image_width}}style="height: {{multiply (divide image_height image_width) 100}}vw"{{/and}}>
+          {{#if @first}}
+             {{> components/common/responsive-img
+                 image=stencil_image
+                 class="heroCarousel-image"
+                 fallback_size='1280w'
+                 lazyload='disabled'
+             }}
+         {{else}}
+             {{> components/common/responsive-img
+                 image=stencil_image
+                 class="heroCarousel-image"
+                 fallback_size='1280w'
+                 lazyload='lazyload'
+             }}
+         {{/if}}
+        </div>
+        <div class="heroCarousel-content{{#neither heading text}} heroCarousel-content--empty{{/neither}}">
+            {{#if heading}}
+                <h1 class="heroCarousel-title">{{{heading}}}</h1>
+            {{/if}}
+            {{#if text}}
+                <p class="heroCarousel-description">{{{text}}}</p>
+            {{/if}}
+            {{#if button_text}}
+                <span class="heroCarousel-action button button--primary button--large">{{button_text}}</span>
+            {{/if}}
+        </div>
+    </a>
+    {{/each}}
+</section>

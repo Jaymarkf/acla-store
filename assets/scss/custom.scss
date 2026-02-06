@@ -1,0 +1,37 @@
+//for product page
+html.pages-product {
+      .custom-product-description {
+            flex-direction: column;
+            padding: 0 !important;
+            .productView-description {
+                  border: none;
+                  box-shadow: none;
+                  margin-bottom: 0;
+                  padding-bottom: 0;
+                  padding-left: 0;
+                  padding-top: 0;
+                  margin-top: 0;
+                  &:first-of-type {
+                        margin-top: 40px !important;
+                  }
+            }
+      }
+
+      @media (min-width: 1261px) {
+            .productView-img-container {
+                  position: sticky !important;
+                  inset: 0;
+            }
+            .custom-container {
+                  position: sticky;
+                  inset: 0;
+                  top: 50px;
+            }
+      }
+}
+
+//add sticky header <-- 05-02-2026
+header.header {
+      position: sticky;
+      inset: 0;
+}

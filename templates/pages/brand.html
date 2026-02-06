@@ -1,0 +1,73 @@
+---
+brand:
+    products:
+        limit: {{theme_settings.brandpage_products_per_page}}
+---
+{{inject "brandProductsPerPage" theme_settings.brandpage_products_per_page}}
+{{#unless theme_settings.performance_mode_swatches}}
+    {{inject "enableSwatches" theme_settings.show_swatches_on_grid}}
+    {{inject "enableSizes" theme_settings.show_sizes_on_grid}}
+{{/unless}}
+{{inject "enableImageHoverSwitcher" theme_settings.enable_image_hover_switcher}}
+{{inject "enableSideCart" theme_settings.enable_side_cart}}
+{{inject "disableMinicart" theme_settings.enable_side_cart}}
+{{inject "displayMode" theme_settings.product_list_display_mode}}
+{{#partial "head"}}
+    {{#if pagination.brand.previous}}
+        <link rel="prev" href="{{pagination.brand.previous}}">
+    {{/if}}
+    {{#if pagination.brand.next}}
+        <link rel="next" href="{{pagination.brand.next}}">
+    {{/if}}
+{{/partial}}
+
+{{#partial "page"}}
+    {{> components/common/breadcrumbs breadcrumbs=breadcrumbs}}
+
+    <div class="category__header">
+        {{#if brand.image}}
+            <div class="category__image-container">
+                {{> components/common/responsive-img
+                    image=brand.image
+                    class="category__image brand-image"
+                    fallback_size=theme_settings.brand_size
+                    lazyload='disabled'
+                }}
+            </div>
+        {{/if}}
+        <h1 class="category__title">{{brand.name}}</h1>
+    </div>
+
+    {{{snippet 'brand'}}}
+
+    <aside class="page-sidebar" id="faceted-search-container">
+        {{> components/brand/sidebar}}
+    </aside>
+
+    <div class="category-options">
+        {{#if brand.show_compare}}
+            <a class="button category-compare" href="{{urls.compare}}" data-compare-nav>{{lang 'common.compare'}} <span class="countPill countPill--alt"></span></a>
+        {{/if}}
+        {{> components/products/filter sort=pagination.category.sort}}
+        <div class="show-style">
+            {{#unless theme_settings.hide_product_count_on_category}}
+                {{> components/f/category/show-amount}}
+            {{/unless}}
+            {{> components/f/grid-list-switcher/switcher}}
+        </div>
+    </div>
+
+    <div class="page page--full-width"{{#if theme_settings.enable_side_cart}} data-sticky-container="true"{{/if}}>
+        <main class="page-content{{#if theme_settings.enable_side_cart}} side-cart-enabled{{/if}}" id="product-listing-container">
+            {{#if brand.products}}
+                {{> components/f/brand/product-listing settings=../settings}}
+            {{else}}
+                <p>{{lang 'brands.no_products'}}</p>
+            {{/if}}
+        </main>
+        {{#if theme_settings.enable_side_cart}}
+            {{> components/f/b2b/side-cart enable_sticky=true}}
+        {{/if}}
+    </div>
+{{/partial}}
+{{> layout/base}}

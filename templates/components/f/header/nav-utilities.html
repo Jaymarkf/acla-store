@@ -1,0 +1,28 @@
+<nav class="navUser sticky">
+    {{#or (if currency_selector.currencies.length '>' 1) theme_settings.show_phone_number_in_header}}
+    <ul class="navUser-section"{{#if theme_settings.enable_sticky_navigation}} data-topbar data-options="sticky_on:large"{{/if}}>
+        {{> components/common/currency-selector}}
+        {{#and theme_settings.show_phone_number_in_header settings.phone_number}}
+            <li class="navUser-item">
+                <a class="navUser-action" href="tel:{{settings.phone_number}}">{{lang 'header.need_help'}} {{settings.phone_number}}</a>
+            </li>
+        {{/and}}
+        {{#if settings.show_wishlist}}
+            <li class="navUser-item">
+                <a class="navUser-action has-dropdown" href="{{urls.account.wishlists.all}}"{{#if customer.wishlists}} data-dropdown="wishlistsMenu" aria-controls="wishlistsMenu" aria-expanded="false"{{/if}}>{{#if customer.name}}{{lang 'header.wishlists.name' name=(first (split customer.name ' '))}}{{else}}{{lang 'header.wishlists.no_name'}}{{/if}} {{#if customer.wishlists}}<i class="icon" aria-hidden="true"><svg><use xlink:href="#icon-chevron-down" /></svg></i>{{/if}}</a>
+                {{#if customer.wishlists}}
+                    <ul class="dropdown-menu dropdown-menu--arrow-right" id="wishlistsMenu" data-dropdown-content aria-hidden="true" tabindex="-1">
+                    {{#each customer.wishlists}}
+                        <li class="dropdown-menu-item">
+                            <a href="{{view_url}}">
+                                {{name}} ({{num_items}})
+                            </a>
+                        </li>
+                    {{/each}}
+                    </ul>
+                {{/if}}
+            </li>
+        {{/if}}
+    </ul>
+    {{/or}}
+</nav>

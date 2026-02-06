@@ -1,0 +1,79 @@
+<ul class="account-list">
+    <li class="account-listItem">
+        <div class="account-product order-content">
+            {{#each order.items}}
+                {{#if shipping_rows.length}}
+                    {{#each shipping_rows}}
+                        <div class="account-listShipping">
+                            <h5 class="account-listShipping-title">{{lang 'account.orders.details.ship_to_multi' street=address city=city state=state zip=zip country=country}}</h5>
+                        </div>
+                    {{/each}}
+                {{/if}}
+                <div class="account-product-checkItem microsoft-row-generator-first--{{@index}}">
+                    {{#if show_reorder}}
+                        <input class="form-checkbox" type="checkbox" id="account-product-id-{{order_product_id}}" value="{{order_product_id}}">
+                        <label for="account-product-id-{{order_product_id}}" class="form-label">
+                            <span class="is-srOnly">Checkbox {{order_product_id}} label</span>
+                        </label>
+                    {{/if}}
+                    {{#if reorder_message}}
+                        <abbr title="{{{reorder_message}}}">
+                            <svg aria-hidden="true">
+                                <use xlink:href="#icon-times-circle"></use>
+                            </svg>
+                        </abbr>
+                    {{/if}}
+                </div>
+                <div class="account-product-figure microsoft-row-generator-first--{{@index}}">
+                    {{#if type '===' 'giftcertificate'}}
+                        <img src="{{cdn ../../theme_settings.default_image_gift_certificate}}" alt="Gift Certificate" title="Gift Certificate">
+                    {{else}}
+                        {{> components/common/responsive-img
+                            image=image
+                            class="account-product-image"
+                            fallback_size=../../theme_settings.productthumb_size
+                            lazyload=../../theme_settings.lazyload_mode
+                            default_image=../../theme_settings.default_image_product
+                        }}
+                    {{/if}}
+                </div>
+                <div class="account-product-order-item microsoft-row-generator-first--{{@index}}">
+                    <h5 class="account-product-title">{{quantity}} &#215; {{ellipsis name 52}}
+                        {{#if refunded '==' 0}}
+                            {{#if download_url}}
+                                <a class="order-item-download" href="{{download_url}}">{{lang 'b2b.account.orders.download'}}</a>
+                            {{/if}}
+                        {{/if}}
+                    </h5>
+                    {{#if options}}
+                        <div class="order-item-options">
+                            {{#each options}}
+                                <span>{{name}}: </span><span>{{> components/common/product-options}}</span>
+                            {{/each}}
+                        </div>
+                    {{/if}}
+                    {{#if gift_wrapping_name}}
+                        <div class="order-item-wrapping">
+                            <span>{{lang 'account.orders.gift_wrapping'}}</span>
+                            <span>{{gift_wrapping_name}}</span>
+                        </div>
+                    {{/if}}
+                    {{#if event_date}}
+                        <div class="order-items-event">
+                            <span>{{event_date.name}}:</span>
+                            <span>{{event_date.date}}</span>
+                        </div>
+                    {{/if}}
+                    {{#if refunded}}
+                        <p class="account-product-refundQty">{{lang 'account.orders.refunded_quantity' qty=refunded_qty}}</p>
+                    {{else}}
+                        {{#if refunded_qty}}
+                            <p class="account-product-refundQty">{{lang 'account.orders.refunded_quantity' qty=refunded_qty}}</p>
+                        {{/if}}
+                    {{/if}}
+                    <div class="account-product-price"><span class="account-product-price-unit">{{price.formatted}}</span></div>
+                </div>
+            {{/each}}
+        </div>
+    </li>
+</ul>

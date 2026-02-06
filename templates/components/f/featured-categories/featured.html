@@ -1,0 +1,27 @@
+{{#each categories}}
+    {{#if name '===' ../theme_settings.featured_category_name}}
+        {{#if children}}
+            <ul class="featuredCategories featuredCategoriesColumns--{{../../../columns}}">
+            {{#each children}}
+                <li class="featuredCategory">
+                    {{#if image}}
+                        <div class="featuredCategory-image"><a href="{{url}}">
+                          {{> components/common/responsive-img
+                              image=image
+                              fallback_size=theme_settings.productgallery_size
+                              lazyload='disabled'
+                              default_image=theme_settings.default_image_product
+                          }}
+                        </a></div>
+                    {{else}}
+                        <a href="{{url}}" class="featuredCategory-noImage"></a>
+                    {{/if}}
+                    {{#unless ../../../../theme_settings.hide_featured_category_names}}
+                    <div class="featuredCategory-name"><a class="button button--featured" href="{{url}}">{{lang 'home.featured_category_prefix' name=name}}</a></div>
+                    {{/unless}}
+                </li>
+            {{/each}}
+            </ul>
+        {{/if}}
+    {{/if}}
+{{/each}}

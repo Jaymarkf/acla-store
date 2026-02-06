@@ -1,0 +1,538 @@
+//
+// navPages positioning
+// -----------------------------------------------------------------------------
+
+.navPages-container {
+	@include breakpoint("medium") {
+		bottom: auto;
+		left: auto;
+		position: relative;
+		right: auto;
+
+		.header--nav-megamenu & {
+			position: static;
+		}
+
+		@media screen and (max-width: 1460px) {
+			margin-right: spacing("single");
+		}
+	}
+
+	&.is-open {
+		@include breakpoint("medium") {
+			padding-top: 0 !important;
+		}
+	}
+}
+
+.navPages {
+	padding: spacing("half") spacing("single");
+
+	@include breakpoint("medium") {
+		padding: 0;
+	}
+}
+
+.navPages-list {
+	&--user {
+		.subMenu-is-open ~ & {
+			display: none;
+		}
+	}
+}
+
+.navPages-item {
+	@include breakpoint("medium") {
+		display: inline-block;
+		float: none;
+
+		.megamenu & {
+			position: static;
+
+			&.navPages-contextual {
+				position: relative;
+			}
+		}
+
+		// Overrides
+		&[class] {
+			margin-right: spacing("single");
+		}
+
+		&:last-child {
+			margin-right: 0;
+		}
+	}
+}
+
+.navPages-action {
+	display: flex;
+	align-items: center;
+	padding: spacing("third") 0;
+
+	&.is-open {
+		padding-bottom: spacing("half")*1.5;
+		margin-bottom: spacing("half");
+		border-bottom: 1px solid $navPages-list--user-borderColor;
+
+		.navPages-list--user & {
+			padding-bottom: spacing("third");
+			margin-bottom: 0;
+			border-bottom: 0;
+		}
+	}
+
+	&__icon {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		width: remCalc(18px);
+		height: remCalc(18px);
+		position: relative;
+		margin-right: spacing("half");
+	}
+
+	@include breakpoint("medium") {
+		padding: spacing("half") 0;
+
+		&.is-open[class] {
+			padding-bottom: calc(#{spacing("half")} - 2px);
+			margin-bottom: 0;
+			border-bottom: 2px solid $header-bottom-nav-hover;
+		}
+	}
+}
+
+.navPages-action-moreIcon {
+	margin-left: auto;
+	margin-bottom: remCalc(-3px);
+	transition: color 0.15s ease;
+
+	svg {
+		width: remCalc(10px);
+		height: remCalc(10px);
+
+		transition: fill 0.15s ease,
+		stroke 0.15s ease;
+	}
+
+	.navPages-action.is-open & {
+		order: -1;
+		transform: rotate(90deg);
+
+		// Mobile only
+		@media screen and (max-width: 801px) {
+			// Override styles
+			&[class] {
+				margin: 0 spacing("half") 0 0;
+			}
+		}
+	}
+
+	@include breakpoint("medium") {
+		margin-left: spacing("half");
+
+		svg {
+			width: remCalc(8px);
+			height: remCalc(8px);
+		}
+
+		.navPages-action.is-open & {
+			order: initial;
+			transform: none;
+		}
+	}
+}
+
+.navPage-subMenu-image {
+	display: none;
+}
+
+.navPage-subMenu--megamenu .navPage-subMenu-list .navPage-subMenu-item-child .navPage-subMenu-list .navPage-subMenu-item-child .navPage-subMenu-action {
+	font-weight: fontWeight("normal");
+}
+
+@include breakpoint("medium") {
+	// Override
+	.navPage-subMenu-horizontal[class][class] {
+		margin-top: 1px;
+
+		& & {
+			margin-top: 0;
+		}
+	}
+
+	.navPage-subMenu-list[class] {
+		padding: spacing("single") 0;
+		margin-top: 0;
+	}
+
+	.navPage-subMenu-action[class] {
+		padding: spacing("quarter") spacing("single");
+		color: $header-bottom-nav-dropdown-color;
+
+		&.is-open {
+			padding-bottom: spacing("quarter");
+			border: none;
+			opacity: 1;
+			font-weight: $fontWeight-bold;
+		}
+	}
+
+	.navPages-action-moreIcon {
+		.navPage-subMenu-action & {
+			margin-left: auto;
+			transform: rotate(-90deg);
+		}
+
+		.navPage-subMenu-action.is-open & {
+			transform: rotate(-90deg);
+		}
+	}
+
+	.navPage-subMenu-horizontal.is-open {
+		min-height: 100%;
+		margin-left: 100%;
+		width: 100%;
+		z-index: zIndex("low");
+	}
+
+	.navPage-subMenu-horizontal.marketplace-popout.is-open {
+		width: 33.33333vw;
+	}
+
+	.navPages-list-depth-max.subMenu-is-open .is-hidden {
+		display: inline-flex;
+	}
+
+	// Expanded Dropdown
+	.navPage-subMenu--expanded {
+
+		// Overrides
+		&[class][class] {
+			border-left: none;
+		}
+
+		& & {
+			position: static;
+			margin-top: 0;
+			margin-left: 0;
+
+			.navPage-subMenu-list {
+				padding: 0 0 0 spacing("half");
+			}
+		}
+
+		.navPage-subMenu-item-child {
+			flex-wrap: wrap;
+		}
+
+		.navPages-action-moreIcon {
+			display: inline-block;
+			transform: none;
+		}
+
+		.navPage-subMenu-action.is-open {
+			.navPages-action-moreIcon {
+				transform: rotate(180deg);
+			}
+		}
+	}
+
+	// Megamenu
+	.navPage-subMenu--megamenu {
+
+		//Overrides
+		&[class][class] {
+			margin-left: auto;
+			margin-right: auto;
+			max-width: layout("max") + ($container-padding * 4);
+			padding: 0 !important;
+			width: 100%;
+
+			&.is-open {
+				display: flex;
+			}
+		}
+
+		& &[class][class] {
+			position: static;
+			padding: 0 0 0 spacing("half") !important;
+			margin-left: spacing("half");
+		}
+
+		> .navPage-subMenu-list {
+			width: $navPage-subMenu-horizontal-width + ($navPage-subMenu-horizontal-width / 4);
+			margin-left: 0;
+			margin-right: 0;
+			flex-shrink: 0;
+			flex-wrap: wrap;
+
+			> .navPage-subMenu-item-child,
+			> .navPage-subMenu-item-parent {
+				margin-bottom: spacing("quarter");
+				flex: 0 0 100%;
+
+		        @include breakpoint("medium") {
+		            flex: 0 0 calc(100% / 3);
+		        }
+
+		        @include breakpoint("large") {
+		            flex: 0 0 calc(100% / 4);
+		        }
+
+		        @include breakpoint("xxlarge") {
+		            flex: 0 0 calc(100% / 5);
+		        }
+			}
+
+			&.megamenu-subMenu--with-image {
+				> .navPage-subMenu-item-child,
+				> .navPage-subMenu-item-parent {
+					@include breakpoint("medium") {
+			            flex: 0 0 calc(100% / 2);
+			        }
+
+			        @include breakpoint("large") {
+			            flex: 0 0 calc(100% / 3);
+			        }
+
+			        @include breakpoint("xxlarge") {
+			            flex: 0 0 calc(100% / 4);
+			        }
+				}
+			}
+		}
+
+		& & .navPage-subMenu-list {
+			width: 100%;
+			display: flex;
+			flex-shrink: 1;
+
+			.navPage-subMenu-list {
+				display: block;
+				padding: 0;
+
+				.navPage-subMenu-action {
+					color: $color-textSecondary;
+					padding-top: spacing("eighth")/2;
+					padding-bottom: spacing("eighth")/2;
+					font-weight: fontWeight("normal");
+
+					&:focus,
+					&:hover {
+						color: $header-bottom-nav-hover;
+					}
+				}
+			}
+
+			.navPage-subMenu-item-child,
+			.navPage-subMenu-item-parent {
+				width: auto;
+			}
+		}
+
+		.navPage-subMenu-image {
+			display: block;
+			padding: spacing("single");
+			margin-left: spacing("single");
+			max-width: 25%;
+
+			img {
+				max-height: remCalc(290px);
+			}
+		}
+	}
+}
+
+@include breakpoint("large") {
+
+	// Megamenu
+	.navPage-subMenu--megamenu {
+
+		//Overrides
+		&[class][class] {
+			justify-content: flex-start;
+			padding: 0 ($container-padding * 3) !important;
+		}
+	}
+}
+
+//
+// navPages Styling
+// -----------------------------------------------------------------------------
+
+.navPages-container {
+	@include breakpoint("medium") {
+		flex: 1 1 auto;
+		margin: 0;
+		padding-right: spacing("single");
+	}
+
+	@include breakpoint("large") {
+		width: 65%;
+	}
+
+	.navPages-item {
+		color: $mobile-menu-text-color;
+
+		@include breakpoint("medium") {
+			color: $header-bottom-nav-color;
+		}
+	}
+}
+
+.navPages {
+	background-color: $mobile-menu-bg;
+
+	.navPages-action-moreIcon {
+		svg {
+			fill: $mobile-menu-text-color;
+			stroke: $mobile-menu-text-color;
+
+			@include breakpoint("medium") {
+				fill: $header-bottom-nav-color;
+				stroke: $header-bottom-nav-color;
+			}
+		}
+	}
+
+	.navPages-action:focus,
+	.navPages-action:hover,
+	.navPages-action.is-open {
+
+		.navPages-action-moreIcon {
+			svg {
+				fill: $mobile-menu-hover-color;
+				stroke: $mobile-menu-hover-color;
+
+				@include breakpoint("medium") {
+					fill: $header-bottom-nav-hover;
+					stroke: $header-bottom-nav-hover;
+				}
+			}
+		}
+	}
+
+	@include breakpoint("medium") {
+		background-color: transparent;
+		text-align: left;
+	}
+}
+
+.navPages-action {
+	color: $mobile-menu-text-color;
+
+	@include breakpoint("medium") {
+		color: $header-bottom-nav-color;
+	}
+
+	&:focus,
+	&:hover,
+	&.is-open {
+		&[class] {
+			color: $mobile-menu-hover-color;
+			background: transparent;
+
+			@include breakpoint("medium") {
+				color: $header-bottom-nav-hover;
+			}
+		}
+
+		svg {
+			fill: $mobile-menu-hover-color;
+			stroke: $mobile-menu-hover-color;
+
+			@include breakpoint("medium") {
+				fill: $header-bottom-nav-hover;
+				stroke: $header-bottom-nav-hover;
+			}
+		}
+	}
+
+	@include breakpoint("medium") {
+		.navPages & {
+			&.navPage-subMenu-action {
+				color: $header-bottom-nav-dropdown-color;
+
+				svg {
+					fill: $header-bottom-nav-dropdown-color;
+					stroke: $header-bottom-nav-dropdown-color;
+				}
+
+			}
+
+			&.navPage-subMenu-action:focus,
+			&.navPage-subMenu-action:hover,
+			&.navPage-subMenu-action.is-open {
+				color: $header-bottom-nav-dropdown-hover;
+
+				svg {
+					fill: $header-bottom-nav-dropdown-hover;
+					stroke: $header-bottom-nav-dropdown-hover;
+				}
+			}
+		}
+	}
+
+	&.is-root.is-open svg {
+		fill: $mobile-menu-hover-color;
+		stroke: $mobile-menu-hover-color;
+
+		@include breakpoint("medium") {
+			fill: $header-bottom-nav-hover;
+			stroke: $header-bottom-nav-hover;
+		}
+	}
+
+	.navPages-list--user & {
+		color: $mobile-menu-text-color;
+
+		&:focus,
+		&:hover {
+			color: $header-bottom-nav-hover;
+		}
+	}
+
+	&__icon {
+		svg {
+			fill: $color-textSecondary;
+			stroke: $color-textSecondary;
+
+			.navPages-action:focus &,
+			.navPages-action:hover & {
+				fill: $header-bottom-nav-hover;
+				stroke: $header-bottom-nav-hover;
+			}
+		}
+	}
+}
+
+.navPage-subMenu {
+	background-color: $mobile-menu-bg;
+
+	@include breakpoint("medium") {
+		background-color: $header-bottom-nav-dropdown-bg;
+	}
+}
+
+@include breakpoint("medium") {
+	.navPage-subMenu-horizontal.is-open {
+		border-left: 1px solid $container-border-global-color-base;
+	}
+}
+
+// Navigation z-index fix
+// -----------------------------------------------------------------------------
+
+.navPages-container.is-open {
+	z-index: zIndex("low");
+}
+// Contextual navigation links
+// -----------------------------------------------------------------------------
+
+.navPages-contextual > .navPages-action {
+	@include breakpoint("medium") {
+		font-weight: fontWeight("normal");
+	}
+}

@@ -1,0 +1,17 @@
+{{#if carousel}}
+    {{#if theme_settings.carousel-type '===' 'standard'}}
+        {{> components/f/hero/carousel arrows=theme_settings.homepage_show_carousel_arrows}}
+    {{else}}
+        {{> components/f/hero/storyboard}}
+    {{/if}}
+{{/if}}
+{{#if theme_settings.show-login-on-homepage}}
+    {{#unless customer}}
+        {{#if theme_settings.sign_in_mode '===' 'Email+Password'}}
+            {{> components/f/auth/login-form from_home=true}}
+        {{/if}}
+        {{#if theme_settings.sign_in_mode '===' 'Email'}}
+            {{> components/f/auth/login-form-email from_home=true}}
+        {{/if}}
+    {{/unless}}
+{{/if}}

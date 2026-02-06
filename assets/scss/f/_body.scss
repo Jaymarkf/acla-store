@@ -1,0 +1,41 @@
+body {
+    display: flex;
+    flex-flow: column;
+    min-height: 100vh;
+}
+
+.page {
+    margin: auto;
+    max-width: 800px;
+
+    .page-heading {
+      text-align: center;
+    }
+
+    &.page--full-width {
+        width: 100%;
+        max-width: none;
+
+        .page-heading {
+          text-align: left;
+        }
+    }
+
+    .page-content {
+        padding: 0;
+
+        h1 {
+            margin-top: 0;
+        }
+        margin-bottom: 0;
+        ;
+    }
+}
+
+.page-heading {
+  text-align: left;
+
+  &.page-heading--center {
+    text-align: center;
+  }
+}

@@ -1,0 +1,182 @@
+// Form Styles
+
+@mixin form-combined {
+    display:flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+
+    & :first-child {
+        border-radius: 0;
+        border-top-left-radius: $global-radius;
+        border-bottom-left-radius: $global-radius;
+    }
+
+    & :last-child {
+        border-radius: 0;
+        border-top-right-radius: $global-radius;
+        border-bottom-right-radius: $global-radius;
+    }
+
+    .button {
+        margin: 0;
+        width: auto;
+    }
+}
+
+.form-column {
+    .form-field {
+        padding-left: 0;
+        padding-right: 0;
+
+        &.form-field-group {
+            padding-left: spacing("half");
+            padding-right: spacing("half");
+        }
+    }
+}
+
+.form-prefixPostfix {
+    position: relative;
+
+    .button--primary {
+        bottom: 0;
+        position: absolute;
+        right: 0;
+        top: 0;
+    }
+}
+
+.form-field--agree {
+    @include breakpoint("small") {
+        margin-left: auto;
+        width: calc(50% - #{spacing("half")});
+    }
+}
+
+.form-combined {
+    @include form-combined;
+}
+
+.form-combined--smallUp {
+    @include breakpoint("small") {
+        @include form-combined;
+    }
+}
+
+.form-combined--mediumUp {
+    @include breakpoint("medium") {
+        @include form-combined;
+    }
+}
+
+.form-combined--largeUp {
+    @include breakpoint("large") {
+        @include form-combined;
+    }
+}
+
+
+.form-input {
+  color: stencilColor("color-textSecondary");
+
+  &:focus {
+      color: stencilColor("color-textBase");
+  }
+}
+
+.form-label {
+    color: stencilColor("color-textBase");
+    font-weight: $fontWeight-semibold;
+}
+
+.button--subscribe {
+    margin-top: spacing("base");
+    width: 100%;
+}
+
+input:focus {
+    outline-color: stencilColor("color-primary") !important;
+    outline-style: auto !important;
+}
+
+.form-actions {
+    margin-top: 0;
+    text-align: right;
+}
+
+.forgot-password-form,
+#gift-certificate-balance {
+    width: width("12/12");
+
+    @include breakpoint("medium") {
+        width: width("9/12");
+    }
+
+    @include breakpoint("large") {
+        width: width("6/12");
+    }
+
+    .wrap {
+        display: flex;
+    }
+
+    .button {
+        display: inline-block;
+        flex: 0 0 auto;
+        margin: 0;
+        order: 3;
+        position: relative;
+        width: 100%;
+
+        @include breakpoint("medium") {
+            border-bottom-left-radius: 0;
+            border-top-left-radius: 0;
+            order: 2;
+            width: auto;
+        }
+    }
+
+    .form-input {
+        display: inline-block;
+        flex: 1 1 auto;
+        order: 1;
+        position: relative;
+        width: 100%;
+
+        @include breakpoint("medium") {
+            border-bottom-right-radius: 0;
+            border-right: none;
+            border-top-right-radius: 0;
+            width: auto;
+        }
+    }
+
+    span {
+        order: 2;
+        width: 100%;
+
+        @include breakpoint("medium") {
+            order: 3;
+        }
+    }
+}
+
+#gift-certificate-balance {
+    .button {
+        margin-top: spacing("half");
+
+        @include breakpoint("medium") {
+            margin: 0;
+        }
+    }
+}
+
+.search-box--on-page .button {
+    margin-top: spacing("half");
+    width: 100%;
+
+    @include breakpoint("medium") {
+        margin-top: 0;
+        width: auto;
+    }
+}

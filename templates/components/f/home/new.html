@@ -1,0 +1,7 @@
+{{#if products.new}}
+    <div class="flex-component__mobileUp-4">
+        {{{region name="home_above_new_products"}}}
+        {{> components/products/new products=products.new columns=theme_settings.homepage_new_products_column_count urls=urls}}
+        {{{region name="home_below_new_products"}}}
+    </div>
+{{/if}}

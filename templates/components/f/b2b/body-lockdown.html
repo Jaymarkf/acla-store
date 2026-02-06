@@ -1,0 +1,100 @@
+<div class="body">
+    {{#unless theme_settings.hide_promotions_on_lockdown}}
+        {{#if page_type '===' 'default'}}
+        <div class="{{#if page_type '!==' 'product'}}container{{/if}} {{#or (if page_type '===' 'category') (if page_type '===' 'brand') (if page_type '===' 'search')}}category category--{{theme_settings.product_list_display_mode}}{{/or}}">
+            <div class="main full flex-container {{#if theme_settings.carousel-type "===" "storyboard"}}
+                {{#if carousel.slides.length ">" 1}}
+                flex-container--carousel-more-than-one
+                {{/if}}
+                {{#if carousel.slides.length "===" 2}}
+                flex-container--carousel-even
+                {{else}}
+                {{#if carousel.slides.length ">" 3}}
+                flex-container--carousel-even
+                {{else}}flex-container--carousel-odd
+                {{/if}}
+                {{/if}}
+
+                {{#if theme_settings.show-login-on-homepage}}
+                  {{#if customer}}
+                    {{#if carousel.slides.length "===" 2}}
+                      flex-container--no-login-equal
+                    {{else}}
+                    {{#if carousel.slides.length "===" 4}}
+                      flex-container--no-login-equal
+                    {{else}}
+                      flex-container--no-login
+                      {{#if carousel.slides.length "===" 5}}
+                        flex-container--no-login-5
+                      {{/if}}
+                    {{/if}}
+                    {{/if}}
+                  {{else}}
+                    flex-container--login
+                  {{/if}}
+                {{else}}
+                {{#if carousel.slides.length "===" 2}}
+                  flex-container--no-login-equal
+                {{else}}
+                {{#if carousel.slides.length "===" 4}}
+                  flex-container--no-login-equal
+                {{else}}
+                  flex-container--no-login
+                  {{#if carousel.slides.length "===" 5}}
+                    flex-container--no-login-5
+                  {{/if}}
+                {{/if}}
+                {{/if}}
+                {{/if}}
+            {{/if}}">
+                {{> components/f/hero/hero}}
+            </div>
+        </div>
+        {{/if}}
+    {{/unless}}
+    {{#or theme_settings.hide_promotions_on_lockdown (if page_type '!==' 'default')}}
+        <div class="login">
+            {{> components/common/breadcrumbs breadcrumbs=breadcrumbs}}
+
+            <div class="account-container">
+                <h1 class="page-heading">{{lang 'login.heading' }}</h1>
+                <p>
+                    {{lang 'b2b.lockdown.login_required'}}
+                </p>
+                {{#if forms.login.error}}
+                    {{> components/common/alert-error forms.login.error}}
+                {{/if}}
+                {{#if forms.login.success}}
+                    {{> components/common/alert-success forms.login.success}}
+                {{/if}}
+                {{#if customer}}
+                    {{> components/common/alert-success (lang 'b2b.account.not_active')}}
+                {{/if}}
+                <div class="login-row">
+                    {{> components/f/auth/login-form}}
+                    {{#if settings.account_creation_enabled}}
+                        <div class="new-customer">
+                            <div class="panel">
+                                <div class="panel-header">
+                                    <h2 class="panel-title">{{lang 'login.new_customer.heading' }}</h2>
+                                </div>
+                                <div class="panel-body">
+                                    <p class="new-customer-intro">{{lang 'login.new_customer.intro' }}</p>
+                                    <ul class="new-customer-fact-list">
+                                        <li class="new-customer-fact">{{lang 'login.new_customer.fact1' }}</li>
+                                        <li class="new-customer-fact">{{lang 'login.new_customer.fact2' }}</li>
+                                        <li class="new-customer-fact">{{lang 'login.new_customer.fact3' }}</li>
+                                        <li class="new-customer-fact">{{lang 'login.new_customer.fact4' }}</li>
+                                        <li class="new-customer-fact">{{lang 'login.new_customer.fact5' }}</li>
+                                    </ul>
+                                    <a href="{{urls.auth.create_account}}"><button class="button button--primary">{{lang 'login.new_customer.create_account' }}</button></a>
+                                </div>
+                            </div>
+                        </div>
+                    {{/if}}
+                </div>
+            </div>
+        </div>
+    {{/or}}
+    {{> components/common/modal}}
+</div>

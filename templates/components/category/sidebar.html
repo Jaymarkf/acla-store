@@ -1,0 +1,62 @@
+<nav>
+    {{#if theme_settings.show_subcategories_tree}}
+        <div class="sidebarBlock">
+            <ul class="navList">
+                {{#each categories}}
+                    {{#if ../theme_settings.hide_navigation_featured_categories}}
+                        {{#if name '!==' ../../theme_settings.featured_category_name}}
+                            <li class="navList-item">
+                                <a class="navList-action{{#and is_active (if name '===' ../../../../category.name)}} navList-action-active{{/and}}" href="{{url}}" alt="{{name}}" title="{{name}}">{{name}}</a>
+                                {{#and is_active children}}
+                                    <ul class="navList">
+                                        {{#each children}}
+                                            <li class="navList-item">
+                                                <a class="navList-action{{#and is_active (if name '===' ../../../../../category.name)}} navList-action-active{{/and}}" href="{{url}}" alt="{{name}}" title="{{name}}">{{name}}</a>
+                                                {{> components/f/category/sub-category-children current_cat=../../../../../category.name}}
+                                            </li>
+                                        {{/each}}
+                                    </ul>
+                                {{/and}}
+                            </li>
+                        {{/if}}
+                    {{else}}
+                        <li class="navList-item">
+                            <a class="navList-action{{#and is_active (if name '===' ../../../category.name)}} navList-action-active{{/and}}" href="{{url}}" alt="{{name}}" title="{{name}}">{{name}}</a>
+                            {{#and is_active children}}
+                                <ul class="navList">
+                                    {{#each children}}
+                                        <li class="navList-item">
+                                            <a class="navList-action{{#and is_active (if name '===' ../../../../category.name)}} navList-action-active{{/and}}" href="{{url}}" alt="{{name}}" title="{{name}}">{{name}}</a>
+                                            {{> components/f/category/sub-category-children current_cat=../../../../category.name}}
+                                        </li>
+                                    {{/each}}
+                                </ul>
+                            {{/and}}
+                        </li>
+                    {{/if}}
+                {{/each}}
+            </ul>
+        </div>
+    {{else}}
+        {{#if category.subcategories}}
+            {{#unless theme_settings.show_subcategories_as_grid}}
+                <div class="sidebarBlock">
+                    <h5 class="sidebarBlock-heading">{{category.name}}</h5>
+                    <ul class="navList">
+                        {{#each category.subcategories}}
+                            <li class="navList-item">
+                                <a class="navList-action" href="{{url}}" alt="{{name}}" title="{{name}}">{{name}}</a>
+                            </li>
+                        {{/each}}
+                    </ul>
+                </div>
+            {{/unless}}
+        {{/if}}
+    {{/if}}
+
+    {{#if category.faceted_search_enabled}}
+      {{> components/faceted-search/index category}}
+    {{else}}
+      {{> components/category/shop-by-price shop_by_price=category.shop_by_price category_url=category.url}}
+    {{/if}}
+</nav>

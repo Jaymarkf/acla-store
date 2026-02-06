@@ -1,0 +1,162 @@
+// =============================================================================
+// ADDRESS BOX (CSS)
+// =============================================================================
+
+// Address layout
+// -----------------------------------------------------------------------------
+//
+// 1. Using display: inline-block; to vertically align blocks.
+//    Font-size gets redefined under the .address block.
+//
+// -----------------------------------------------------------------------------
+
+.addressList {
+    display: flex;
+    flex-wrap: wrap;
+    font-size: 0; // 1
+    list-style: none;
+    margin-left: -(spacing("half"));
+    margin-right: -(spacing("half"));
+}
+
+.address {
+    align-self: stretch;
+    display: inline-block;
+    margin-bottom: spacing("single");
+    padding: 0 spacing("half");
+    vertical-align: top;
+    width: 100%;
+
+    @include breakpoint("small") {
+        width: grid-calc(6, $total-columns);
+    }
+
+    @include breakpoint("large") {
+        width: grid-calc(4, $total-columns);
+    }
+}
+
+
+// Address
+// -----------------------------------------------------------------------------
+//
+// 1. Redefine the font-size as we're removing white-space on the parent by
+//    reducing the size to 0.
+// 2. On larger screens we position: absolute; the .form-actions so they're
+//    consistently in line. We need to adjust padding to accommodate this.
+//
+// -----------------------------------------------------------------------------
+
+.panel--address {
+    background-color: stencilColor("color-white");
+    font-size: fontSize("base"); // 1
+    height: 100%;
+    position: relative;
+
+    .panel-body {
+        background-color: transparent;
+        height: 100%;
+        margin: 0;
+        padding: spacing("single");
+
+        @include breakpoint("small") {
+            padding: spacing("single") spacing("single") (spacing("single") + spacing("double")); // 3
+        }
+    }
+
+    .form-actions {
+        margin-bottom: -(spacing("half"));
+        margin-top: spacing("single");
+        text-align: left;
+
+        @include breakpoint("small") { // 2
+            bottom: spacing("single");
+            position: absolute;
+            width: auto;
+        }
+
+        a {
+            margin: 0;
+        }
+
+        // scss-lint:disable SelectorDepth, NestingDepth
+        .button {
+            margin-bottom: spacing("half");
+
+            + .button {
+                margin-left: 0;
+                margin-top: 0;
+
+                @include breakpoint("small") {
+                    margin-left: spacing("quarter");
+                }
+            }
+        }
+        // scss-lint:enable SelectorDepth, NestingDepth
+    }
+}
+
+.address-title {
+    margin: 0 0 spacing("half");
+    text-transform: stencilString("header-capitalization");
+}
+
+.address-details {
+    list-style: none;
+    margin: 0 0 spacing("half");
+}
+
+.address-details--postal {
+    font-size: fontSize("smaller");
+}
+
+.address-label,
+.address-description {
+    display: inline-block;
+    font-size: fontSize("base");
+    margin: 0;
+}
+
+.address-label {
+    color: stencilColor("color-textSecondary");
+    font-weight: fontWeight("normal");
+}
+
+.panel--newAddress {
+    border: container("border");
+    display: block;
+    text-align: center;
+    text-decoration: none;
+
+    &:hover {
+
+        // scss-lint:disable SelectorDepth, NestingDepth
+        .address-title {
+            color: stencilColor("color-textLink--hover");
+        }
+        // scss-lint:enable SelectorDepth, NestingDepth
+    }
+
+    .panel-body {
+        background-color: transparent;
+        display: block;
+        height: 100%;
+    }
+
+    .address-title {
+        margin-bottom: 0;
+        transition: all 0.15s ease;
+    }
+}
+
+.address-addNew {
+    left: 50%;
+    position: absolute;
+    top: 50%;
+    transform: translateX(-50%) translateY(-55%);
+}
+
+.address-symbol {
+    font-size: fontSize("hero");
+    line-height: 1;
+}

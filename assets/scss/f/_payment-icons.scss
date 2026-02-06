@@ -1,0 +1,17 @@
+.footer-payment-icons {
+    font-size: 2rem;
+    height: auto;
+
+    span {
+        display: inline-block;
+        height: remCalc(40px);
+        margin: auto spacing("quarter");
+        position: relative;
+        width: remCalc(55px);
+
+        &.payment-icon-square {
+            margin-left: -(spacing("quarter"));
+            margin-right: -(spacing("quarter"));
+        }
+    }
+}

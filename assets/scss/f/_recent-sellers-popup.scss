@@ -1,0 +1,55 @@
+.recent-sellers {
+    bottom: spacing("single");
+    background-color: stencilColor("card-backgroundColor");
+    border-radius: 4px;
+    box-shadow: 0 0 1px rgba(stencilColor("card-boxShadowColor"), 0.5);
+    display: none;
+    left: spacing("single");
+    padding: remCalc(5);
+    position: fixed;
+    z-index: 99;
+    min-height: 100px;
+    width: 100%;
+    max-width: 350px;
+}
+
+.recent-sellers-visible {
+    display: flex;
+}
+
+.recent-sellers-image-container {
+    height: 120px;
+    width: 120px;
+    display: flex;
+    justify-content: center;
+    margin-right: remCalc(10);
+
+    .recent-sellers-image {
+        height: 100%;
+        width: 100%;
+        object-fit: cover;
+    }
+}
+
+.recent-sellers-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+}
+
+.recent-seller-customer,
+.recent-seller-time {
+    font-size: fontSize("tiny");
+}
+
+.recent-seller-product {
+    font-size: fontSize("smaller");
+    font-weight: fontWeight("bold");
+    text-decoration: none;
+}
+
+.recent-seller-price {
+    font-size: fontSize("small");
+    font-weight: fontWeight("bold");
+    color: stencilColor("color-primary");
+}

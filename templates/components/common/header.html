@@ -1,0 +1,69 @@
+{{{region name="above_header_banner--global"}}}
+{{{region name="above_header_banner"}}}
+{{#if banners.top}}
+    {{#if settings.data_tag_enabled}}
+        <div class="banners" data-banner-location="top">
+            {{#each (limit banners.top_metadata 1)}}
+                <div class="banner" data-event-type="promotion" data-entity-id="{{this.id}}" data-name="{{this.banner-name}}" data-position="{{this.location}}" data-name="{{this.banner-name}}">
+                    <div data-event-type="promotion-click">
+                        {{{this.content}}}
+                    </div>
+                </div>
+            {{/each}}
+        </div>
+    {{else}}
+        <div class="banners" data-banner-location="top">
+            <div class="banner">
+                {{{limit banners.top 1}}}
+            </div>
+        </div>
+    {{/if}}
+{{/if}}
+{{{region name="above_header--global"}}}
+{{{region name="above_header"}}}
+<header class="header {{#if customer}}header--customer {{#if theme_settings.logo_size '===' 'original'}} header--logo-original{{/if}}{{#if customer.store_credit.value "===" 0}}header--no-credit{{/if}}{{/if}} {{#if settings.gift_certificates_enabled}}header--gift-certificate-enabled{{else}}header--gift-certificate-disabled{{/if}} {{#and (if (length (split settings.store_logo.title "")) ">" 9) (unless settings.store_logo.image)}}header--logo-large{{/and}} {{#if (first (split theme_settings.logo_size "x")) ">" 250}}header--logo-large{{/if}} {{#if page_type '===' 'product'}}header--no-margin{{/if}} {{#unless theme_settings.show-quick-add-sku}}header--no-quick-add-sku{{/unless}} {{#or settings.store_logo.image theme_settings.svg_logo}} header--logo-image{{/or}} header--nav-{{ theme_settings.navigation_design }} header--width-{{theme_settings.header_width}}" role="banner">
+  <div class="header__inner">
+    <a href="#" class="mobileMenu-toggle {{#and (if (length (split settings.store_logo.title "")) ">" 9) (unless settings.store_logo.image)}}mobileMenu-toggle--text-logo{{/and}}" data-mobile-menu-toggle="menu">
+        <span class="mobileMenu-toggleIcon">Toggle menu</span>
+    </a>
+
+    <div class="header-logo {{#if theme_settings.svg_logo}} header-logo--image {{#if (first (split theme_settings.logo_size "x")) ">" 250}}header-logo--large{{/if}}{{/if}}{{#if theme_settings.logo_size '===' 'original'}} header-logo--original{{/if}}{{#if settings.store_logo.image}} header-logo--image {{#if (first (split theme_settings.logo_size "x")) ">" 250}}header-logo--large{{/if}}{{/if}} {{#and (if (length (split settings.store_logo.title "")) ">" 9) (unless settings.store_logo.image)}}header-logo--large header-logo--text{{/and}} header-logo--{{theme_settings.logo-position}} {{#if theme_settings.enable_sticky_navigation}}sticky{{/if}}  {{#if (first (split theme_settings.logo_size "x")) "<=" 250}}{{#if settings.gift_certificates_enabled}}header-logo--gift-certificate-enabled{{/if}}{{/if}}">
+        {{> components/common/store-logo}}
+    </div>
+
+    <div class="search-utils {{#unless theme_settings.show-quick-add-sku}}search-utils--no-quick-add-sku{{/unless}}">
+        <div class="search {{#unless theme_settings.show-quick-add-sku}}search--no-quick-add-sku{{/unless}}" id="quickSearch" aria-hidden="true" tabindex="-1" data-prevent-quick-search-close>
+            {{#and (if theme_settings.restrict_to_login '===' 2) customer}}
+                {{> components/common/quick-search}}
+            {{else}}
+                {{#if theme_settings.restrict_to_login '!==' 2}}
+                    {{> components/common/quick-search}}
+                {{/if}}
+            {{/and}}
+        </div>
+
+        {{#all theme_settings.show-quick-add-sku (if theme_settings.restrict_to_login '===' 2) customer}}
+            {{> components/f/b2b/quick-add-form}}
+        {{else}}
+            {{#and theme_settings.show-quick-add-sku (if theme_settings.restrict_to_login '!==' 2)}}
+                {{> components/f/b2b/quick-add-form}}
+            {{/and}}
+        {{/all}}
+    </div>
+
+    {{> components/f/header/top-utilities}}
+
+  </div>
+  <div class="header__bottom-nav {{#if customer}}header__bottom-nav--customer{{/if}}">
+    <div class="header__bottom-nav-inner">
+      <div class="navPages-container {{#if theme_settings.enable_sticky_navigation}}sticky{{/if}}" id="menu" data-menu>
+          {{> components/common/navigation-menu}}
+      </div>
+      {{> components/f/header/nav-utilities}}
+    </div>
+  </div>
+
+</header>
+{{{region name="below_header--global"}}}
+{{{region name="below_header"}}}
+{{{region name="header_bottom"}}}

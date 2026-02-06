@@ -1,0 +1,165 @@
+---
+products:
+    new:
+        limit: {{theme_settings.homepage_new_products_count}}
+    featured:
+        limit: {{theme_settings.homepage_featured_products_count}}
+    top_sellers:
+        limit: {{theme_settings.homepage_top_products_count}}
+carousel: {{theme_settings.homepage_show_carousel}}
+blog:
+    recent_posts:
+        limit: {{theme_settings.homepage_blog_posts_count}}
+---
+{{#unless theme_settings.performance_mode_swatches}}
+    {{inject "enableSwatches" theme_settings.show_swatches_on_grid}}
+{{/unless}}
+{{inject "enableImageHoverSwitcher" theme_settings.enable_image_hover_switcher}}
+{{inject "showTwitterFeed" theme_settings.enable_embedded_twitter_feed}}
+{{inject "showInstagramFeed" theme_settings.enable_instagram_feed}}
+{{inject "instagramAccessToken" theme_settings.instagram_access_token}}
+{{inject "instagramPostsCount" theme_settings.instagram_posts_count}}
+
+{{#partial "page"}}
+
+    {{#each shipping_messages}}
+        {{#if type '===' 2}}
+            {{> components/common/alert-success message}}
+        {{else}}
+            {{> components/common/alert-info message}}
+        {{/if}}
+    {{/each}}
+
+<div class="main full flex-container {{#if theme_settings.carousel-type "===" "storyboard"}}
+    {{#if carousel.slides.length ">" 1}}
+    flex-container--carousel-more-than-one
+    {{/if}}
+    {{#if carousel.slides.length "===" 2}}
+    flex-container--carousel-even
+    {{else}}
+    {{#if carousel.slides.length ">" 3}}
+    flex-container--carousel-even
+    {{else}}flex-container--carousel-odd
+    {{/if}}
+    {{/if}}
+
+    {{#if theme_settings.show-login-on-homepage}}
+      {{#if customer}}
+        {{#if carousel.slides.length "===" 2}}
+          flex-container--no-login-equal
+        {{else}}
+        {{#if carousel.slides.length "===" 4}}
+          flex-container--no-login-equal
+        {{else}}
+          flex-container--no-login
+          {{#if carousel.slides.length "===" 5}}
+            flex-container--no-login-5
+          {{/if}}
+        {{/if}}
+        {{/if}}
+      {{else}}
+        flex-container--login
+      {{/if}}
+    {{else}}
+    {{#if carousel.slides.length "===" 2}}
+      flex-container--no-login-equal
+    {{else}}
+    {{#if carousel.slides.length "===" 4}}
+      flex-container--no-login-equal
+    {{else}}
+      flex-container--no-login
+      {{#if carousel.slides.length "===" 5}}
+        flex-container--no-login-5
+      {{/if}}
+    {{/if}}
+    {{/if}}
+    {{/if}}
+{{/if}}">
+    {{> components/f/hero/hero}}
+    {{#and customer theme_settings.show_account_bar}}
+      {{> components/f/b2b/account-bar}}
+    {{/and}}
+    {{#if theme_settings.show_homepage_featured_categories}}
+        <div class="flex-component__mobileUp-1">
+            {{{region name="home_above_featured_categories"}}}
+            {{> components/f/featured-categories/featured columns=theme_settings.featured_category_columns}}
+            {{{region name="home_below_featured_categories"}}}
+        </div>
+    {{/if}}
+
+    {{#if theme_settings.homepage_container_1 "===" "recent"}}
+        {{> components/f/home/recent theme_settings=theme_settings urls=urls customer=customer}}
+    {{/if}}
+    {{#if theme_settings.homepage_container_1 "===" "featured"}}
+    {{> components/f/home/featured products=products}}
+    {{/if}}
+    {{#if theme_settings.homepage_container_1 "===" "top"}}
+    {{> components/f/home/top products=products}}
+    {{/if}}
+    {{#if theme_settings.homepage_container_1 "===" "new"}}
+        {{> components/f/home/new products=products}}
+    {{/if}}
+
+    {{#if theme_settings.homepage_container_2 "===" "recent"}}
+        {{> components/f/home/recent theme_settings=theme_settings urls=urls customer=customer}}
+    {{/if}}
+    {{#if theme_settings.homepage_container_2 "===" "featured"}}
+    {{> components/f/home/featured products=products}}
+    {{/if}}
+    {{#if theme_settings.homepage_container_2 "===" "top"}}
+    {{> components/f/home/top products=products}}
+    {{/if}}
+    {{#if theme_settings.homepage_container_2 "===" "new"}}
+        {{> components/f/home/new products=products}}
+    {{/if}}
+
+    {{#if theme_settings.homepage_container_3 "===" "recent"}}
+        {{> components/f/home/recent theme_settings=theme_settings urls=urls customer=customer}}
+    {{/if}}
+    {{#if theme_settings.homepage_container_3 "===" "featured"}}
+    {{> components/f/home/featured products=products}}
+    {{/if}}
+    {{#if theme_settings.homepage_container_3 "===" "top"}}
+    {{> components/f/home/top products=products}}
+    {{/if}}
+    {{#if theme_settings.homepage_container_3 "===" "new"}}
+        {{> components/f/home/new products=products}}
+    {{/if}}
+
+    {{#if theme_settings.homepage_container_4 "===" "recent"}}
+        {{> components/f/home/recent theme_settings=theme_settings urls=urls customer=customer}}
+    {{/if}}
+    {{#if theme_settings.homepage_container_4 "===" "featured"}}
+    {{> components/f/home/featured products=products}}
+    {{/if}}
+    {{#if theme_settings.homepage_container_4 "===" "top"}}
+    {{> components/f/home/top products=products}}
+    {{/if}}
+    {{#if theme_settings.homepage_container_4 "===" "new"}}
+        {{> components/f/home/new products=products}}
+    {{/if}}
+
+    {{#if settings.blog_enabled}}
+        <div class="flex-component__mobileUp-6">
+            {{{region name="home_above_blog_summary"}}}
+            {{#if theme_settings.show_articles_on_homepage}}
+                {{> components/f/blog/home-articles-list posts=blog.recent_posts columns=theme_settings.homepage_blog_posts_column_count}}
+            {{/if}}
+            {{{region name="home_below_blog_summary"}}}
+        </div>
+    {{/if}}
+
+    {{#if theme_settings.enable_embedded_twitter_feed}}
+        <div class="flex-component__mobileUp-6">
+            {{> components/f/social/twitter-feed}}
+        </div>
+    {{/if}}
+
+    {{#if theme_settings.enable_instagram_feed}}
+        <div class="flex-component__mobileUp-6">
+            {{> components/f/social/instagram-feed}}
+        </div>
+    {{/if}}
+</div>
+{{/partial}}
+{{> layout/base}}

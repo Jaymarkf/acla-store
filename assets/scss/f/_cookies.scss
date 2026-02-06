@@ -1,0 +1,19 @@
+.cookieMessage {
+    bottom: 0;
+    position: fixed;
+    width: 100%;
+    z-index: zIndex("highest");
+
+    .button {
+        margin: 0;
+    }
+}
+
+.cookieMessage-container {
+    padding: spacing("base");
+}
+
+.cookieMessage-text p {
+    font-size: fontSize("smallest");
+    margin: 0;
+}

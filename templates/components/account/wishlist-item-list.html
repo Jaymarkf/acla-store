@@ -1,0 +1,25 @@
+<div class="container category category--grid category--list">
+    <div class="category-options">
+        <div class="show-style">
+          {{> components/f/grid-list-switcher/switcher}}
+        </div>
+    </div>
+
+    <div class="page--full-width page--{{theme_settings.product_list_display_mode}}" data-sticky-container="true">
+        <main class="page-content{{#if theme_settings.enable_side_cart}} side-cart-enabled{{/if}}" id="product-listing-container">
+            <ul class="productCards productCards--grid">
+                {{#each wishlist.items}}
+                    <li class="productCard productCard--grid">
+                        {{> components/f/products/card id=product_id theme_settings=../theme_settings show_remove=../show_remove customer_group_id=../customer_group_id customer=../customer}}
+                    </li>
+                {{/each}}
+            </ul>
+
+            {{> components/account/wishlist-paginator wishlist.pagination id=wishlist.id}}
+        </main>
+
+        {{#if theme_settings.enable_side_cart}}
+            {{> components/f/b2b/side-cart enable_sticky=true}}
+        {{/if}}
+    </div>
+</div>

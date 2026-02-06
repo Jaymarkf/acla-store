@@ -1,0 +1,82 @@
+// Add to cart modal
+
+.previewCart {
+
+    @include breakpoint("medium") {
+        display: grid;
+        grid-column-gap: spacing("single");
+        grid-template-columns: 2fr 1fr;
+    }
+
+    &::before, &::after {
+        display: none;
+    }
+
+    .card {
+        display: block;
+        float: none;
+        margin-bottom: spacing("single");
+        padding: spacing("single");
+        width: auto;
+
+        @include breakpoint("medium") {
+            margin-bottom: 0;
+        }
+    }
+
+    .productView {
+
+        @include breakpoint(400px) {
+            display: flex;
+            flex-direction: row;
+        }
+    }
+
+    .productView-image {
+        margin: 0;
+        min-height: 0;
+
+        @include breakpoint(400px) {
+            width: grid-calc(4, $total-columns);
+            order:0
+        }
+    }
+
+    .productView-img-container {
+        &::after {
+            padding-bottom: 100%;
+        }
+    }
+
+    .productView-details {
+        margin-bottom: 0;
+        @include breakpoint(400px) {
+            width: grid-calc(8, $total-columns);
+        }
+    }
+
+    .productView-title {
+        font-weight: fontWeight("bold");
+        margin-bottom: spacing("base");
+    }
+}
+
+.suggestiveCart {
+
+    .productCard--grid {
+        width: 100%;
+        margin-bottom: spacing("single");
+
+        @include breakpoint(1024px) {
+            width: 25%;
+        }
+    }
+
+    h4 {
+        margin-bottom: spacing("single");
+    }
+}
+
+.button--viewCart {
+    color: stencilColor("color-primary");
+}

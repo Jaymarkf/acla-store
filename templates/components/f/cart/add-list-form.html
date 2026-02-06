@@ -1,0 +1,26 @@
+<div class="modal-header">
+    <h2 class="modal-header-title">{{lang 'b2b.save_cart.add_new'}}</h2>
+</div>
+<div class="modal-body add-new-list-form">
+    <div class="form-field">
+        <label class="form-label" for="wishlistname">
+            {{lang 'forms.wishlist.name'}}
+            <small>{{lang 'common.required' }}</small>
+        </label>
+        <input class="form-input" name="wishlistname" id="wishlistname" value="Saved cart - {{moment 'now' 'MMM Do YYYY'}}">
+    </div>
+    <div class="form-field">
+        <input type="checkbox" class="form-checkbox" name="publicwishlist" id="publicwishlist" {{#if forms.wishlist.is_public}}checked{{/if}}>
+        <label class="form-label" for="publicwishlist">{{lang 'forms.wishlist.public' }}</label>
+
+    </div>
+    <div class="form-actions">
+        {{#if forms.wishlist.id}}
+            <input type="submit" class="button button--primary" value="{{lang 'account.wishlists.save'}}">
+            <input type="hidden" name="wishlistid" value="{{forms.wishlist.id}}">
+        {{else}}
+            <input type="submit" class="button button--primary"
+                   value="{{lang 'account.wishlists.create'}}">
+        {{/if}}
+    </div
+</div>

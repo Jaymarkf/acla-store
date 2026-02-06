@@ -1,0 +1,73 @@
+$card--alternate-backgroundColor: stencilColor("card-backgroundColor");
+$card-icon-color: stencilColor("color-textBase");
+$color-text-link: stencilColor("color-text-link");
+
+.account-bar {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
+  width: 100%;
+
+  @include breakpoint("medium") {
+    margin-bottom: spacing("single");
+  }
+
+  .account-bar__item {
+    align-items: center;
+    background: stencilColor("container-fill-base");
+    box-shadow: 0 0 1px 0 rgba(0, 0, 0, 0.5);
+    display: flex;
+    flex: 1 1 auto;
+    flex-flow: row nowrap;
+    margin-bottom: spacing("half");
+    padding: spacing("single");
+    position: relative;
+    width: 100%;
+
+    @include breakpoint("medium") {
+      margin-right: spacing("half") * 1.5;
+      width: calc(33.33% - #{spacing("half") * 1.5 * 4 / 5});
+    }
+
+    @include breakpoint("large") {
+      margin: 0 spacing("half") * 1.5 0 0;
+      width: calc(20% - #{spacing("half") * 1.5 * 4 / 5});
+    }
+
+    &:nth-of-type(3) {
+      @include breakpoint("medium") {
+        @media only screen and (max-width: 1260px) {
+          margin-right: 0;
+        }
+      }
+    }
+
+    &:last-of-type {
+      margin-right: 0;
+    }
+  }
+
+  .account-bar__icon {
+    display: block;
+    font-size: remCalc(32px);
+    height: remCalc(30px);
+    margin-right: spacing("half") * 1.5;
+    position: relative;
+    width: remCalc(30px);
+
+    svg {
+      fill: $card-icon-color;
+    }
+  }
+
+  h4 {
+    color: stencilColor("color-textBase");
+    font-size: $fontSize-base;
+    margin: 0;
+  }
+
+  .account-bar__link {
+    font-size: $fontSize-base;
+    font-weight: $fontWeight-semibold;
+  }
+}

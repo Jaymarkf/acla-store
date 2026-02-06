@@ -1,0 +1,19 @@
+<li class="navUser-item navUser-item--cart">
+    <a
+        class="navUser-action"
+        data-cart-preview
+        data-dropdown="cart-preview-dropdown"
+        data-options="align:right"
+        href="{{urls.cart}}">
+        <span class="navUser-item-cartLabel">{{#if theme_settings.replace_utility_menu_with_icons}}<span class="top-utilities-icon"><svg><use xlink:href="#icon-shopping-{{theme_settings.cart_icon}}"></use></svg></span>{{else}}<span class="top-utilities-icon"><svg><use xlink:href="#icon-shopping-{{theme_settings.cart_icon}}"></use></svg></span><span class="cartLabel"></span>{{/if}}</span> <span class="countPill countPill--positive cart-quantity">{{cart.quantity}}</span>
+    </a>
+
+    <div class="dropdown-menu" id="cart-preview-dropdown" data-dropdown-content aria-autoclose="false" aria-hidden="true">
+        <div class="side-cart side-cart-container">
+            <div class="side-cart-title">{{lang 'b2b.side_cart.cart'}}</div>
+            <div class="side-cart-content"></div>
+            <div class="side-cart-details"></div>
+            <div class="side-cart-actions"></div>
+        </div>
+    </div>
+</li>

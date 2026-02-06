@@ -1,0 +1,5 @@
+{{#and theme_settings.show_customer_recent_items customer.recently_viewed_products.items}}
+    <div class="flex-component__mobileUp-4">
+        {{> components/f/products/recently-viewed products=customer.recently_viewed_products.items columns="5" urls=urls}}
+    </div>
+{{/and}}

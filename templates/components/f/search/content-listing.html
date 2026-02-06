@@ -1,0 +1,9 @@
+{{> components/search/content-sort-box sort=pagination.content_results.sort}}
+<ul class="news-info-list">
+    {{#each content_results}}
+    <li class="news-info-list-item">
+        <strong><a href="{{url}}">{{{title}}}</a></strong> ({{type}})
+        <p>{{{content}}}</p>
+    </li>
+    {{/each}}
+</ul>

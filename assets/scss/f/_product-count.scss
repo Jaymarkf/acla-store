@@ -1,0 +1,32 @@
+.productCount {
+  display: none;
+
+  @include breakpoint("medium") {
+    display: block;
+  }
+
+  .productCount__show {
+    color: stencilColor("color-textBase");
+    font-size: $fontSize-smallest;
+    font-weight: $fontWeight-bold;
+    margin-right: spacing("third");
+  }
+
+  .productCount__show,
+  .productCount__item {
+    color: stencilColor("color-textBase");
+    font-size: $fontSize-smallest;
+    margin-right: spacing("half");
+  }
+
+  .productCount__item {
+    &:hover {
+      color: stencilColor("color-textLink");
+    }
+
+    &.productCount__item--active {
+      color: stencilColor("color-textLink");
+      text-decoration: none;
+    }
+  }
+}

@@ -1,0 +1,30 @@
+<ul class="breadcrumbs{{#unless theme_settings.hide_mobile_breadcrumbs}} breadcrumbs--mobile-show{{/unless}}{{#if theme_settings.hide_breadcrumbs}} breadcrumbs--desktop-hide{{/if}}">
+    {{#each breadcrumbs}}
+        <li class="breadcrumb {{#if @last}}is-active{{/if}}">
+            {{#or @last (if url "==" null)}}
+                <span class="breadcrumb-label">{{#replace "Wishlist" name}}{{lang 'account.wishlists.default_list_name'}}{{else}}{{name}}{{/replace}}</span>
+            {{else}}
+                <a href="{{url}}" class="breadcrumb-label"><span>{{name}}</span></a>
+            {{/or}}
+        </li>
+    {{/each}}
+</ul>
+<script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement":
+        [
+            {{#each breadcrumbs}}
+            {
+                "@type": "ListItem",
+                "position": {{add @index 1}},
+                "item": {
+                    "@id": {{{JSONstringify url}}},
+                    "name": {{{JSONstringify name}}}
+                }
+            }{{#unless @last}},{{/unless}}
+            {{/each}}
+        ]
+    }
+</script>

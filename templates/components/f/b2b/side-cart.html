@@ -1,0 +1,12 @@
+<aside class="side-cart-container side-cart{{#if page_type "===" "search"}} product-sidecart{{/if}}{{#if page_type "===" "search"}}{{#if forms.search.section '!=' 'product'}} category--hide{{/if}}{{/if}}" id="side-cart-container"{{#if enable_sticky}} data-sticky data-margin-top="10"{{/if}}>
+    <div class="side-cart-title">{{lang 'b2b.side_cart.cart'}}</div>
+    <div class="side-cart-content">{{> components/f/b2b/side-cart-content}}</div>
+    {{#if theme_settings.show-quick-add-sku}}
+    <div class="side-cart-sku-add">
+        <div class="add-side-cart-sku-item"></div>
+        {{> components/f/b2b/side-cart-quick-add-sku}}
+    </div>
+    {{/if}}
+    <div class="side-cart-details">{{> components/f/b2b/side-cart-details}}</div>
+    <div class="side-cart-actions">{{> components/f/b2b/side-cart-actions}}</div>
+</aside>

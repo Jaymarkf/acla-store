@@ -1,0 +1,45 @@
+{{#and (unless navigation_design '===' 'simple--enclosed') (unless navigation_design '===' 'megamenu')}}
+    {{#each categories}}
+        {{#or (unless ../hide_category_over_amount) (if @index '<' ../hide_category_over_amount)}}
+            {{#and ../../hide_navigation_featured_categories (if name '===' ../../featured_category_name)}}
+            {{else}}
+                <li class="navPages-item">
+                    {{> components/f/navigation/navigation-list navigation_design=../../../navigation_design hide_view_all=../../../hide_view_all}}
+                </li>
+            {{/and}}
+        {{/or}}
+    {{/each}}
+    {{#if enable_hide_category_over_amount}}
+        <li class="navPages-item">
+            <a class="navPages-action  has-subMenu is-root" href="{{url}}" data-collapsible="navPages-viewAll">
+                {{lang hide_category_menu_name}} <i class="icon navPages-action-moreIcon" aria-hidden="true"><svg><use xlink:href="#icon-chevron-down" /></svg></i>
+            </a>
+            <div class="navPage-subMenu navPage-subMenu-horizontal navPage-subMenu--{{../../navigation_design}}" id="navPages-viewAll" aria-hidden="true" tabindex="-1">
+                <ul class="navPage-subMenu-list">
+                    {{#each categories}}
+                        {{#if @index '>=' ../../hide_category_over_amount}}
+                            {{#and ../../hide_navigation_featured_categories (if name '===' ../../featured_category_name)}}
+                            {{else}}
+                                <li class="navPage-subMenu-item-child">
+                                    {{#if children}}
+                                        <a class="navPage-subMenu-action navPages-action has-subMenu" href="{{url}}" data-collapsible="navPages-{{id}}">
+                                            {{name}} <i class="icon navPages-action-moreIcon" aria-hidden="true"><svg><use xlink:href="#icon-chevron-down" /></svg></i>
+                                        </a>
+
+                                        {{> components/f/navigation/navigation-dropdown
+                                            navigation_design=../../../../navigation_design
+                                            hide_view_all=../../../../hide_view_all
+                                            hide_category_image_on_categories=../../../../hide_category_image_on_categories
+                                        }}
+                                    {{else}}
+                                        <a class="navPage-subMenu-action navPages-action-depth-max navPages-action" href="{{url}}">{{name}}</a>
+                                    {{/if}}
+                                </li>
+                            {{/and}}
+                        {{/if}}
+                    {{/each}}
+                </ul>
+            </div>
+        </li>
+    {{/if}}
+{{/and}}

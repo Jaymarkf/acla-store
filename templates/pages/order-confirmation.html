@@ -1,0 +1,50 @@
+{{#partial "head"}}
+{{{ checkout.checkout_head }}}
+{{{ stylesheet '/assets/css/optimized-checkout.css' }}}
+{{ getFontsCollection }}
+
+{{#if theme_settings.custom_checkout_css}}
+<link href="{{cdn 'webdav:css/checkout.css'}}?c={{random 999999 9999999}}" rel="stylesheet">
+{{/if}}
+{{#if theme_settings.developer_checkout_css}}
+<link href="https://cdn.jsdelivr.net/gh/flair-themes/{{settings.store_hash}}/checkout.css?c={{random 999999 9999999}}" rel="stylesheet">
+{{/if}}
+{{#if theme_settings.developer_fixes}}
+<link href="https://cdn.jsdelivr.net/gh/flair-themes/camden@latest/fixes.css?c={{random 999999 9999999}}" rel="stylesheet">
+{{/if}}
+
+<script type="text/javascript">
+    window.language = {{{langJson 'optimized_checkout'}}};
+</script>
+
+{{{head.scripts}}}
+
+{{/partial}}
+
+{{#partial "page"}}
+<header class="checkoutHeader optimizedCheckout-header">
+    <div class="checkoutHeader-content">
+        <h1 class="is-srOnly">{{lang 'checkout.title'}}</h1>
+        <h2 class="checkoutHeader-heading">
+            <a class="checkoutHeader-link" href="{{urls.home}}">
+                {{#if checkout.header_image}}
+                    {{#if theme_settings.svg_logo}}
+                        <img class="checkoutHeader-logo svg-logo" src="{{cdn 'webdav:img/'}}{{theme_settings.svg_logo}}" alt="{{settings.store_logo.title}}" title="{{settings.store_logo.title}}" width="{{first (split theme_settings.logo_size 'x')}}" height="{{last (split theme_settings.logo_size 'x')}}">
+                    {{else}}
+                      <img alt="{{settings.store_logo.title}}" class="checkoutHeader-logo" id="logoImage" src="{{ checkout.header_image }}"/>
+                    {{/if}}
+                {{ else }}
+                    <span class="header-logo-text">{{settings.store_logo.title}}</span>
+                {{/if}}
+            </a>
+        </h2>
+    </div>
+</header>
+
+{{{ checkout.order_confirmation_content }}}
+
+{{{ footer.scripts }}}
+
+{{/partial}}
+
+{{> layout/empty}}

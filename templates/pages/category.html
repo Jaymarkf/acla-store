@@ -1,0 +1,95 @@
+---
+category:
+    shop_by_price: true
+    products:
+        limit: {{theme_settings.categorypage_products_per_page}}
+---
+{{inject "categoryProductsPerPage" theme_settings.categorypage_products_per_page}}
+{{#unless theme_settings.performance_mode_swatches}}
+    {{inject "enableSwatches" theme_settings.show_swatches_on_grid}}
+    {{inject "enableSizes" theme_settings.show_sizes_on_grid}}
+{{/unless}}
+{{inject "enableImageHoverSwitcher" theme_settings.enable_image_hover_switcher}}
+{{inject "productCount" category.count}}
+{{inject "productTotal" category.total_products}}
+{{inject "enableInfiniteScrolling" theme_settings.enable_infinte_scrolling}}
+{{inject "enableSideCart" theme_settings.enable_side_cart}}
+{{inject "disableMinicart" theme_settings.enable_side_cart}}
+{{inject "displayMode" theme_settings.product_list_display_mode}}
+{{#partial "head"}}
+    {{#if pagination.category.previous}}
+        <link rel="prev" href="{{pagination.category.previous}}">
+    {{/if}}
+    {{#if pagination.category.next}}
+        <link rel="next" href="{{pagination.category.next}}">
+    {{/if}}
+{{/partial}}
+
+{{#partial "page"}}
+
+{{> components/common/breadcrumbs breadcrumbs=breadcrumbs}}
+
+<div class="category__header" id="headerTitleContainer">
+  {{#unless theme_settings.hide_category_image_on_categories}}
+      {{#if category.image}}
+          <div class="category__image-container">
+              {{> components/common/responsive-img
+               image=category.image
+               class="category__image"
+               fallback_size=theme_settings.zoom_size
+               lazyload=theme_settings.lazyload_mode
+               }}
+          </div>
+      {{/if}}
+  {{/unless}}
+
+  {{> components/f/category/header-title}}
+</div>
+
+{{{snippet 'categories'}}}
+
+<div class="page-sidebar" id="faceted-search-container">
+    {{> components/category/sidebar}}
+</div>
+
+<div class="category-options">
+    {{#if category.show_compare}}
+        <a class="button category-compare" href="{{urls.compare}}" data-compare-nav>{{lang 'common.compare'}} <span class="countPill countPill--alt"></span></a>
+    {{/if}}
+
+    {{> components/products/filter sort=pagination.category.sort}}
+
+    <div class="show-style">
+      {{#unless theme_settings.hide_product_count_on_category}}
+          {{> components/f/category/show-amount}}
+      {{/unless}}
+
+      {{> components/f/grid-list-switcher/switcher}}
+    </div>
+</div>
+
+<div class="page--full-width page--{{theme_settings.product_list_display_mode}}" data-sticky-container="true">
+    <main class="page-content{{#if theme_settings.enable_side_cart}} side-cart-enabled{{/if}}" id="product-listing-container">
+        {{#and category.subcategories theme_settings.show_subcategories_as_grid}}
+            {{> components/f/category/sub-categories}}
+        {{/and}}
+
+        {{#if category.products}}
+            {{> components/f/category/product-listing settings=../settings}}
+        {{else}}
+            {{#if theme_settings.show_subcategories_as_grid}}
+                {{#unless category.subcategories}}
+                    <p>{{lang 'categories.no_products'}}</p>
+                {{/unless}}
+            {{else}}
+                <p>{{lang 'categories.no_products'}}</p>
+            {{/if}}
+        {{/if}}
+    </main>
+
+    {{#if theme_settings.enable_side_cart}}
+        {{> components/f/b2b/side-cart enable_sticky=true}}
+    {{/if}}
+</div>
+{{/partial}}
+{{> layout/base}}

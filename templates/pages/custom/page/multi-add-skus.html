@@ -1,0 +1,82 @@
+{{inject 'template' template}}
+{{inject 'addingToCart' (lang 'b2b.multi_add.adding_to_cart')}}
+{{inject 'skuError' (lang 'b2b.multi_add.sku_error')}}
+{{inject 'csvMissingSkuHeader' (lang 'b2b.multi_add.csv_missing_sku_header')}}
+{{inject 'csvMissingQtyHeader' (lang 'b2b.multi_add.csv_missing_qty_header')}}
+
+{{#partial "page"}}
+
+    {{> components/common/breadcrumbs breadcrumbs=breadcrumbs}}
+
+    <main class="page">
+
+        {{{region name="above_page_title"}}}
+        <h1 class="page-heading">{{ page.title }}</h1>
+        {{{region name="below_page_title"}}}
+
+        {{#if page.sub_pages}}
+        {{{region name="above_page_navigation"}}}
+        <nav class="navBar navBar--sub">
+            <ul class="navBar-section account-navigation">
+            {{#each page.sub_pages}}
+                <li class="navBar-item"><a class="navBar-action" href="{{url}}">{{title}}</a></li>
+            {{/each}}
+            </ul>
+        </nav>
+        {{{region name="below_page_navigation"}}}
+        {{/if}}
+
+        <div class="page-content multi-add-skus">
+            {{{region name="above_page_content"}}}
+            {{#replace '%%Syndicate%%' page.content}}
+                {{> components/page/rss_feed}}
+            {{else}}
+                <p>{{{page.content}}}</p>
+            {{/replace}}
+            {{{region name="below_page_content"}}}
+
+            {{> components/common/alert-error ''}}
+
+            <form class="multi-add" action="/cart.php" method="post" enctype="multipart/form-data">
+                <div class="multi-add__headers">
+                    <h6>{{lang 'b2b.multi_add.header_name'}}</h6>
+                    <h6>{{lang 'b2b.multi_add.header_quantity'}}</h6>
+                    <div class="multi-add__actions-spacer"></div>
+                </div>
+
+                <input type="hidden" name="action" value="add">
+
+                <div class="multi-add__row">
+                    <input name="sku[]" type="text" placeholder="{{lang 'b2b.multi_add.input_value'}}" data-multi-sku autocomplete="off" class="multi-add-sku">
+                    <input name="qty[]" type="tel" value="1" data-multi-qty>
+
+                    <button type="button" class="multi-add__remove-button multi-add__remove-button--last" disabled><svg><use xlink:href="#icon-remove"></use></svg></button>
+                    <button type="button" class="multi-add__add-button"><svg><use xlink:href="#icon-add"></use></svg></button>
+
+                    <span class="multi-add__result"></span>
+                </div>
+
+                <input type="submit" class="multi-add__submit-button button button--primary" data-message="{{lang 'b2b.multi_add.success'}}" value="{{lang 'b2b.multi_add.submit'}}">
+
+                <input type="file" class="csv-file" name="file" id="file"/>
+                <label for="file" class="button">{{lang 'b2b.multi_add.upload_csv'}}</label>
+
+                <a href="{{urls.cart}}" class="multi_add__cart-button button">{{lang 'cart.preview.view_cart'}}</a>
+            </form>
+        </div>
+
+        {{#if page.feed}}
+            <ul>
+                {{#each page.feed}}
+                    <li>
+                        <h6><a href="{{url}}" target="_blank">{{title}}</a></h6>
+                        <p>{{content}}</p>
+                    </li>
+                {{/each}}
+            </ul>
+        {{/if}}
+    </main>
+
+{{/partial}}
+
+{{> layout/base}}

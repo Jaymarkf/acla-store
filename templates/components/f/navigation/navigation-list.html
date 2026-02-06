@@ -1,0 +1,10 @@
+{{#if children}}
+    {{#if name}}
+        <a class="navPages-action{{#if navPageId '===' 'contextual'}} navPages-action-depth-max{{/if}} has-subMenu is-root" href="{{url}}" data-collapsible="navPages{{#if navPageId}}-{{navPageId}}{{/if}}-{{id}}">
+            {{name}} <i class="icon navPages-action-moreIcon" aria-hidden="true"><svg><use xlink:href="#icon-chevron-down" /></svg></i>
+        </a>
+    {{/if}}
+    {{> components/f/navigation/navigation-dropdown navigation_design=navigation_design navPageId=navPageId hide_view_all=hide_view_all}}
+{{else}}
+    <a class="navPages-action{{#unless navPageId '===' 'contextual'}}  navPages-action-depth-max{{/unless}}" href="{{url}}">{{name}}</a>
+{{/if}}

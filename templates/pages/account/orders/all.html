@@ -1,0 +1,31 @@
+---
+customer:
+    orders:
+        limit: 10
+---
+
+{{#partial "page"}}
+
+{{> components/common/breadcrumbs breadcrumbs=breadcrumbs}}
+
+<div class="account-container">
+    <h1 class="page-heading">{{lang 'account.orders.heading' }}</h1>
+    {{> components/account/navigation account_page='orders'}}
+
+    <main class="account">
+        <div class="account-body">
+            <section class="account-content">
+                {{#if customer.orders.length}}
+                    {{> components/account/orders-list orders=customer.orders}}
+                    {{> components/common/small-paginator pagination.orders}}
+                {{else}}
+                    {{> components/common/alert-info (lang 'account.orders.none')}}
+                {{/if}}
+            </section>
+        </div>
+        {{{snippet 'account'}}}
+    </main>
+</div>
+
+{{/partial}}
+{{> layout/base}}

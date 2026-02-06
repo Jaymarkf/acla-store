@@ -1,0 +1,27 @@
+.pagination {
+  margin: 0 auto;
+}
+
+.pagination-list {
+  display: flex;
+  justify-content: center;
+
+  .pagination-item {
+    align-items: center;
+    display: flex;
+
+    .pagination-link {
+      padding-bottom: 0;
+      padding-top: 0;
+
+    }
+  }
+
+  .pagination-link--previous, .pagination-link--next {
+      text-decoration:underline;
+
+      .icon svg {
+          fill: stencilColor("color-textLink");
+      }
+  }
+}

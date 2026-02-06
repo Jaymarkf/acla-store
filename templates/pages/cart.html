@@ -1,0 +1,56 @@
+{{inject "disableMinicart" "true"}}
+{{inject "cartId" cart.cart_id}}
+{{inject "showCartCountdown" theme_settings.show_cart_countdown}}
+{{inject "cartCountdownTimer" theme_settings.cart_countdown_timer}}
+{{inject "cartCountdownEndMessage" theme_settings.cart_countdown_ended_message}}
+{{inject 'cancelButtonText' (lang 'common.cancel')}}
+{{#partial "page"}}
+{{inject 'invalidEntryMessage' (lang 'cart.invalid_entry_message')}}
+<div class="page--full-width cart">
+
+    <main class="page-content" data-cart>
+        {{> components/common/breadcrumbs breadcrumbs=breadcrumbs}}
+
+        {{> components/cart/page-title}}
+
+        <div data-cart-status>
+            {{> components/cart/status-messages}}
+        </div>
+
+        <div class="cart__container {{#unless cart.items.length}}cart__container--empty{{/unless}}">
+
+            {{#if cart.items.length}}
+                <div class="loadingOverlay"></div>
+
+                <form name="cart" class="cart-list-form" action="{{urls.cart}}" method="POST">
+                    <div class="cart__items" data-cart-content>
+                        <div class="loading-overlay">
+                            <div class="loading-animation">
+                                {{> components/f/animations/loading-animations option=theme_settings.loading-animation}}
+                                <p class="list-feedback"></p>
+                            </div>
+                        </div>
+                        {{> components/cart/content}}
+                    </div>
+                    {{#if theme_settings.enable_save_cart}}
+                        {{> components/f/b2b/save-cart}}
+                    {{/if}}
+                </form>
+
+                <div class="cart__totals" data-cart-totals>
+                    {{> components/cart/totals}}
+
+                    {{{region name="cart_below_totals"}}}
+                </div>
+            {{else}}
+                <h3>{{lang 'cart.checkout.empty_cart'}}</h3>
+                <a href="{{categories.[0].url}}" class="button button--primary">{{lang 'cart.continue_shopping'}}</a>
+                {{{ remote_api_scripts }}}
+            {{/if}}
+
+            {{{snippet 'cart'}}}
+        </div>
+    </main>
+</div>
+{{/partial}}
+{{> layout/base}}

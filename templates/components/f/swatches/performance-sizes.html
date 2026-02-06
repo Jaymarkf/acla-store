@@ -1,0 +1,12 @@
+<div class="card-sizes">
+    <div class="card-label">{{lang 'products.sizes_available'}}</div>
+    {{#each custom_fields}}
+        {{#if name "===" "Sizes Available"}}
+            {{#each (arrayify (split value))}}
+                <div class="form-option">
+                    <span class="form-option-variant">{{chop this}}</span>
+                </div>
+            {{/each}}
+        {{/if}}
+    {{/each}}
+</div>

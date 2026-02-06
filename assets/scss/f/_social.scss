@@ -1,0 +1,55 @@
+// Homepage grid styles
+// -----------------------------------------------------------------------------
+
+.instagramContainer {
+    display: none;
+}
+
+.instagramFeed {
+    @include u-listBullets("none");
+    @include grid-row($behavior: "nest");
+    font-size: 0;
+}
+
+.instagramFeed-post {
+    @include grid-column(12, $float: none);
+    display: inline-block;
+    font-size: fontSize("base");
+    overflow: hidden;
+    vertical-align: top;
+
+    @include breakpoint("medium") {
+        width: 50%;
+
+        .postColumns--3 & {
+            width: 33.33333%;
+        }
+    }
+
+    @include breakpoint("large") {
+        width: 25%;
+
+        .postColumns--2 & {
+            width: 50%;
+        }
+
+        .postColumns--3 & {
+            width: 33.33333%;
+        }
+    }
+}
+
+// Override AddThis styling
+
+.addthis_toolbox a.at300b {
+    width: remCalc($socialLinks-iconSize)!important;
+
+    .google_plusone_iframe_widget {
+        display: none;
+    }
+}
+
+.facebookRecommendBtn {
+    position: relative!important;
+    height: 20px!important;
+}

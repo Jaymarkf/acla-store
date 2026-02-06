@@ -1,0 +1,14 @@
+<div class="body {{#if page_type '===' 'product'}}body--product-page{{/if}}" data-currency-code="{{currency_selector.active_currency_code}}">
+    {{#block "hero"}} {{/block}}
+    <div class="{{#if page_type '!==' 'product'}}container{{/if}} {{#or (if page_type '===' 'category') (if page_type '===' 'brand') (if page_type '===' 'search')}}category category--{{theme_settings.product_list_display_mode}}{{/or}}">
+        {{#block "page"}} {{/block}}
+    </div>
+    {{> components/common/modal}}
+    {{> components/common/alert-modal}}
+</div>
+
+{{#if theme_settings.show_customer_recent_items}}
+    {{#or (if page_type '===' 'category') (if page_type '===' 'brand') (if page_type '===' 'search')}}
+        {{> components/f/category/recent-items}}
+    {{/or}}
+{{/if}}

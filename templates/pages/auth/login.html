@@ -1,0 +1,39 @@
+{{#partial "page"}}
+    <div class="login">
+        {{> components/common/breadcrumbs breadcrumbs=breadcrumbs}}
+        
+        <div class="account-container">
+            <h1 class="page-heading">{{lang 'login.heading' }}</h1>
+            {{#if forms.login.error}}
+                {{> components/common/alert-error forms.login.error}}
+            {{/if}}
+            {{#if forms.login.success}}
+                {{> components/common/alert-success forms.login.success}}
+            {{/if}}
+            <div class="login-row">
+                {{> components/f/auth/login-form}}
+                {{#if settings.account_creation_enabled}}
+                    <div class="new-customer">
+                        <div class="panel">
+                            <div class="panel-header">
+                                <h2 class="panel-title">{{lang 'login.new_customer.heading' }}</h2>
+                            </div>
+                            <div class="panel-body">
+                                <p class="new-customer-intro">{{lang 'login.new_customer.intro' }}</p>
+                                <ul class="new-customer-fact-list">
+                                    <li class="new-customer-fact">{{lang 'login.new_customer.fact1' }}</li>
+                                    <li class="new-customer-fact">{{lang 'login.new_customer.fact2' }}</li>
+                                    <li class="new-customer-fact">{{lang 'login.new_customer.fact3' }}</li>
+                                    <li class="new-customer-fact">{{lang 'login.new_customer.fact4' }}</li>
+                                    <li class="new-customer-fact">{{lang 'login.new_customer.fact5' }}</li>
+                                </ul>
+                                <a href="{{urls.auth.create_account}}"><button class="button button--primary">{{lang 'login.new_customer.create_account' }}</button></a>
+                            </div>
+                        </div>
+                    </div>
+                {{/if}}
+            </div>
+        </div>
+    </div>
+{{/partial}}
+{{> layout/base}}

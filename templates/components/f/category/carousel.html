@@ -1,0 +1,32 @@
+<section class="productCarousel"
+    data-list-name="{{list}}"
+    data-slick='{
+        "dots": true,
+        "infinite": false,
+        "mobileFirst": true,
+        "slidesToShow": 1,
+        "slidesToScroll": 1,
+        "responsive": [
+            {
+                "breakpoint": 1024,
+                "settings": {
+                    "slidesToScroll": 3,
+                    "slidesToShow": {{ columns }}
+                }
+            },
+            {
+                "breakpoint": 550,
+                "settings": {
+                    "slidesToScroll": 2,
+                    "slidesToShow": 2
+                }
+            }
+        ]
+    }'
+>
+    {{#each products}}
+    <div class="productCarousel-slide">
+        {{> components/f/products/card customer_group_id=../customer_group_id settings=../settings show_rating=../settings.show_product_rating theme_settings=../theme_settings customer=../customer urls=../urls event="list" position=(add @index 1) panel=(dashcase ../list)}}
+    </div>
+    {{/each}}
+</section>

@@ -1,0 +1,13 @@
+{{#for 1 (length (arrayify (split theme_settings.recent_buyers ",")))}}
+<div class="recent-sellers recent-sellers-{{$index}} animate__animated">
+    <div class="recent-sellers-image-container">
+        <img src="" class="recent-sellers-image">
+    </div>
+    <div class="recent-sellers-info">
+        <span class="recent-seller-customer">{{last (first (arrayify (split ../theme_settings.recent_buyers ",")) $index)}} {{lang 'conversions.recent_sellers.purchased'}}</span>
+        <a href="{{url}}" class="recent-seller-product">{{name}}</a>
+        <span class="recent-seller-price">{{prices.price.formatted}}</span>
+        <span class="recent-seller-time">{{last (first (arrayify (split ../theme_settings.recent_buyers_timing ",")) $index)}} {{lang 'conversions.recent_sellers.timing'}}</span>
+    </div>
+</div>
+{{/for}}

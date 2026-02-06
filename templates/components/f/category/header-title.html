@@ -1,0 +1,17 @@
+<h1 class="category__title">{{category.name}}</h1>
+{{#if category.total_products '!==' 0}}
+    <span class="category__title-count">
+        {{#if category.count '<' category.total_products}}
+            ({{lang 'category.showing_some' count=category.count total=category.total_products}})
+        {{else}}
+            ({{lang 'category.showing_all' quantity=category.total_products}})
+        {{/if}}
+    </span>
+{{/if}}
+{{#if category.description}}
+    <div class="category__description">
+        {{{region name="above_category_description"}}}
+        {{{category.description}}}
+        {{{region name="below_category_description"}}}
+    </div>
+{{/if}}

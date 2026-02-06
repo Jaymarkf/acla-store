@@ -1,0 +1,25 @@
+.productView-options .form-action.form-action--buy-button {
+    @include breakpoint("medium") {
+        display: block;
+    }
+}
+
+.button--buy-now {
+    background-color: stencilColor("buy_now_button_background_color");
+    border: 1px solid stencilColor("buy_now_button_border_color");
+    color: stencilColor("buy_now_button_text_color");
+
+    &:hover {
+        background-color: stencilColor("buy_now_button_background_colorHover");
+        border: 1px solid stencilColor("buy_now_button_border_colorHover");
+        color: stencilColor("buy_now_button_text_colorHover");
+    }
+
+    &:active,
+    &:focus {
+        background-color: stencilColor("buy_now_button_background_colorActive");
+        border: 1px solid stencilColor("buy_now_button_border_colorActive");
+        outline-color: stencilColor("buy_now_button_border_colorActive")!important;
+        color: stencilColor("buy_now_button_text_colorActive");
+    }
+}

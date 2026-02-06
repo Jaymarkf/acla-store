@@ -1,0 +1,209 @@
+address {
+    font-style: normal;
+}
+
+.footer {
+    border-top: none;
+    margin-top: auto;
+    padding: 0;
+}
+
+.container--footer {
+    padding-top: (spacing("base") * 2);
+}
+
+.wrapper--footerBase {
+    background-color: stencilColor("footer-base-backgroundColor");
+    padding: (spacing("base") * 2) 0;
+}
+
+.footer-info-col {
+    color: stencilColor("footer-textColor");
+    font-size: fontSize("base");
+
+    @include breakpoint("medium") {
+        width: width("6/12");
+    }
+
+    i, svg {
+        color: stencilColor("footer-textColor");
+        fill: stencilColor("footer-textColor");
+        stroke: stencilColor("footer-textColor");
+    }
+}
+
+.footer-info-col--social {
+    // scss-lint:disable NestingDepth
+    .icon {
+        svg {
+            fill: stencilColor("footer-textColor");
+            stroke: stencilColor("footer-textColor");
+
+            &:hover {
+                fill: set-off-color(stencilColor("footer-textColor"));
+                stroke: set-off-color(stencilColor("footer-textColor"));
+            }
+        }
+    }
+    // scss-lint:enable NestingDepth
+}
+
+.footer-info-col--small {
+    @include breakpoint("medium") {
+        width: width("2/12");
+    }
+}
+
+.footer-info-col--base {
+    margin-bottom: 0;
+
+    @include breakpoint("small") {
+        text-align: left;
+    }
+
+    @include breakpoint("medium") {
+        display: inline-block;
+        float: right;
+        vertical-align: bottom;
+    }
+
+    &.footer-info-col--icons {
+        margin-bottom: spacing("single");
+
+        @include breakpoint("small") {
+            float: right;
+            margin-bottom: 0;
+        }
+
+        @include breakpoint("medium") {
+            text-align: right;
+        }
+    }
+}
+
+.footer-info-col--matchSubscription {
+    @include breakpoint("medium") {
+        margin-left: auto;
+        width: width("8/12");
+    }
+}
+
+.footer-info-col--subscription {
+    @include breakpoint("small") {
+        text-align: center;
+        width: width("12/12");
+    }
+
+    @include breakpoint("medium") {
+        text-align: left;
+        width: width("4/12");
+    }
+
+    .form {
+        margin: 0;
+
+        .form-input {
+            @include breakpoint("large") {
+                border-right: none;
+            }
+        }
+    }
+}
+
+.footer-info-heading {
+    color: stencilColor("footer-headingColor");
+    font-size: fontSize("smaller");
+    margin-top: 0;
+}
+
+.footer-info-list {
+    line-height: 2;
+
+    a {
+        color: stencilColor("footer-textColor");
+        font-size: $fontSize-smaller;
+
+        @include breakpoint("medium") {
+            font-size: $fontSize-base;
+        }
+
+        // scss-lint:disable NestingDepth
+        &:hover {
+            color: set-off-color(stencilColor("footer-textColor"));
+        }
+        // scss-lint:enable NestingDepth
+
+    }
+}
+
+.footer-copyright {
+    text-align: center;
+
+    @include breakpoint("small") {
+        text-align: left;
+    }
+
+    > .powered-by {
+        color: stencilColor("footer-textColor");
+
+        span + span {
+            &:before {
+                content: "| ";
+
+            }
+        }
+    }
+
+    a {
+        color: stencilColor("footer-textColor");
+        text-decoration: underline;
+
+        // scss-lint:disable NestingDepth
+        &:hover {
+            color: set-off-color(stencilColor("footer-textColor"));
+        }
+        // scss-lint:enable NestingDepth
+    }
+}
+
+.footer-payment-icons {
+    i, svg {
+        fill: stencilColor("footer-textColor");
+        stroke: none;
+    }
+}
+
+
+@supports (display: flex) {
+    @include breakpoint("small") {
+
+        .footer-info--base {
+            align-items: center;
+            display: flex;
+            flex-direction: row-reverse;
+            justify-content: space-between;
+        }
+
+        .footer-payment-icons {
+            display: inline-flex;
+            flex-wrap: wrap;
+            justify-content: start;
+
+            i {
+                padding-top: spacing("half");
+                margin-right: remCalc(4);
+            }
+        }
+
+        .footer-info-col--subscription {
+            flex-grow: 2;
+        }
+    }
+
+    @include breakpoint("medium") {
+        .footer-info {
+            display: flex;
+            justify-content: space-between;
+        }
+    }
+}

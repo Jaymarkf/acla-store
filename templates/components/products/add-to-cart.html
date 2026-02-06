@@ -1,0 +1,75 @@
+<div id="add-to-cart-wrapper" {{#unless product.can_purchase}}style="display: none"{{/unless}}>
+{{#if product.availability}}
+    <div class="form-field form-field--stock">
+        <label class="form-label form-label--alternate">
+            <p class="productView-availability">{{product.availability}}</p>
+        </label>
+    </div>
+{{/if}}
+
+{{> components/f/products/stock}}
+
+{{#if theme_settings.show_product_quantity_box}}
+    <div class="form-field form-field--increments">
+        <label class="form-label form-label--alternate" for="qty[]">{{lang 'products.quantity'}}</label>
+
+        <div class="cart-add-container">
+            <div class="form-increment" data-quantity-change>
+                <input class="form-input form-input--incrementTotal"
+                       data-id="qty-{{product.id}}"
+                       id="qty[]"
+                       data-product-id="{{product.id}}"
+                       name="qty[]"
+                       type="tel"
+                       value="{{#if product.min_purchase_quantity}}{{product.min_purchase_quantity}}{{else}}1{{/if}}"
+                       data-quantity-min="{{product.min_purchase_quantity}}"
+                       data-quantity-max="{{product.max_purchase_quantity}}"
+                       data-quantity-min-error="{{lang 'products.quantity_min' quantity=product.min_purchase_quantity}}"
+                       data-quantity-max-error="{{lang 'products.quantity_max' quantity=product.max_purchase_quantity}}"
+                       min="{{#if product.min_purchase_quantity}}{{product.min_purchase_quantity}}{{else}}1{{/if}}"
+                       {{#if product.max_purchase_quantity}}max="{{product.max_purchase_quantity}}"{{/if}}
+                       pattern="[0-9]*"
+                       aria-live="polite">
+            </div>
+
+            {{#if settings.bulk_discount_enabled}}
+                <div class="productView-info-bulkPricing">
+                    {{> components/products/bulk-discount-rates bulk_discount_rates=product.bulk_discount_rates}}
+                </div>
+            {{/if}}
+        </div>
+    </div>
+{{/if}}
+
+{{#if theme_settings.show_watchers}}
+    {{> components/f/products/watching}}
+{{/if}}
+
+<div class="alertBox productAttributes-message" style="display:none">
+    <div class="alertBox-column alertBox-icon">
+        <icon glyph="ic-success" class="icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"></path></svg></icon>
+    </div>
+    <p class="alertBox-column alertBox-message"></p>
+</div>
+{{#or customer (if theme_settings.restrict_to_login '===' 0)}}
+    {{#and theme_settings.restrict_new_accounts (if customer_group_id '===' 0)}}
+    {{else}}
+    <div class="add-to-cart-buttons">
+        <div class="form-action">
+            <input id="form-action-addToCart" data-wait-message="{{lang 'products.adding_to_cart'}}"
+                class="button button--primary" type="submit"
+                value="{{#if product.pre_order}}{{lang 'products.pre_order'}}{{else}}{{lang 'products.add_to_cart'}}{{/if}}">
+        </div>
+        {{#unless product.pre_order}}
+            {{> components/products/buy-now}}
+        {{/unless}}
+        {{#if this.with_wallet_buttons}}
+            <div class="add-to-cart-wallet-buttons" data-add-to-cart-wallet-buttons>
+                {{> components/common/wallet-buttons}}
+            </div>
+        {{/if}}
+        {{{snippet 'product_addtocart'}}}
+    </div>
+    {{/and}}
+{{/or}}
+</div>

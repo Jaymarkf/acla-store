@@ -1,0 +1,8 @@
+<div class="productView-watchers" {{#and theme_settings.watchers_randomise (if (random 0 3) '==' 0)}}style="display: none;"{{/and}}>
+    <i class="icon" aria-hidden="true">
+        <svg>
+            <use xlink:href="#icon-eye"></use>
+        </svg>
+    </i>
+    <span id="product_watchers">{{random (toInt theme_settings.watchers_min) (toInt theme_settings.watchers_max)}}</span> people looking at this.
+</div>

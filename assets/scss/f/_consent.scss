@@ -1,0 +1,48 @@
+#consent-manager-update-banner {
+    display: none!important;
+}
+
+#consent-manager {
+    right: auto!important;
+    bottom: 10px !important;
+    left: 10px !important;
+    width: 250px !important;
+  
+    * {
+		font-size: 12px !important;
+        font-family: stencilFontFamily("body-font") !important;
+	}
+}
+
+#consent-manager > div > div {
+    background: stencilColor("body-bg") !important;
+    box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, stencilColor("container-border-global-color-base") 0px 0px 0px 1px;
+}
+
+#consent-manager > div > div > div > div {
+    flex-direction: column !important;
+    width: 100% !important;
+
+    p {
+        color: stencilColor("color-textBase") !important;
+    }
+	
+	button {
+		margin-left: 0 !important;
+		margin-bottom: 8px !important;
+        display: inline-block !important;
+        background: stencilColor("button--default-backgroundColor") !important;
+        border-color: stencilColor("button--default-borderColor") !important;
+        border-width: 1px !important;
+        border-style: solid !important;
+        color: stencilColor("button--default-color") !important;
+        font-family: stencilFontFamily("headings-font") !important;
+        font-weight: 600 !important;
+
+        &:first-child {
+            background: stencilColor("button--primary-backgroundColor") !important;
+            color: stencilColor("button--primary-color") !important;
+            border-color: stencilColor("button--primary-borderColor") !important;
+        }
+	}
+}

@@ -1,0 +1,12 @@
+{{inject 'noCompareMessage' (lang 'compare.no_compare')}}
+
+<div {{#if settings.data_tag_enabled}} data-list-name="Category: {{category.name}}" {{/if}} class="productCategoryCompare" id="product-listing-container">
+        {{#if settings.data_tag_enabled}}
+            {{> components/f/category/cards products=category.products show_compare=category.show_compare theme_settings=theme_settings urls=urls event="list"}}
+        {{else}}
+            {{> components/f/category/cards products=category.products show_compare=category.show_compare theme_settings=theme_settings urls=urls}}
+        {{/if}}
+
+</div>
+
+{{> components/common/paginator pagination.category}}

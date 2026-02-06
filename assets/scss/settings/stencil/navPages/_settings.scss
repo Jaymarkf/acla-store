@@ -1,0 +1,14 @@
+@import '../../../f/functions';
+// =============================================================================
+// NAV PAGES (Settings)
+// =============================================================================
+$navPage-borderColor:                               set-off-color(stencilColor("mobile-menu-bg"));
+$navPage-childList-borderColor:                     $navPage-borderColor;
+$navPage-subMenu-horizontal-backgroundColor:        stencilColor("mobile-menu-bg");
+$navPage-subMenu-horizontal-height:                 auto;
+$navPage-subMenu-horizontal-width:                  rem-calc(215px);
+$navPage-subMenu-item--is-highlighted-background:   #c8bdb2;
+$navPage-subMenu-item--is-highlighted-color:        #000;
+$navPages-action-moreIcon-borderColor:              #d6cdc0;
+$navPages-backgroundColor:                          stencilColor("mobile-menu-bg");
+$navPages-list--user-borderColor:                   $navPage-borderColor;

@@ -1,0 +1,9 @@
+<form action="{{urls.compare}}" method='POST' {{#if settings.data_tag_enabled}} data-list-name="Search Results" {{/if}}>
+        {{#if settings.data_tag_enabled}}
+            {{> components/f/category/cards products=product_results.products show_compare=product_results.show_compare event="list" theme_settings=theme_settings}}
+         {{else}}
+            {{> components/f/category/cards products=product_results.products show_compare=product_results.show_compare theme_settings=theme_settings}}
+        {{/if}}
+</form>
+
+{{> components/common/paginator pagination.product_results}}

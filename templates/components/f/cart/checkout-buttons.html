@@ -1,0 +1,41 @@
+{{#or customer (if theme_settings.restrict_to_login '===' 0)}}
+    {{#and theme_settings.restrict_new_accounts (if customer_group_id '===' 0)}}
+        <div class="cart__alert">{{> components/common/alert-info (lang 'b2b.lockdown.account_not_active')}}</div>
+    {{else}}
+        {{#if cart.show_primary_checkout_button}}
+            <div class="cart-actions">
+                {{#and theme_settings.enable_minimum_checkout_value (if cart.sub_total.value '<' theme_settings.minimum_checkout_value)}}
+                {{else}}
+                    <a class="button button--primary" href="{{urls.checkout.single_address}}" title="{{lang 'cart.checkout.title'}}">{{lang 'cart.checkout.button'}}</a>
+                    {{#if cart.show_multiple_address_shipping}}
+                        <a class="checkoutMultiple" href="{{urls.checkout.multiple_address}}">
+                            {{lang 'cart.preview.checkout_multiple'}}
+                        </a>
+                    {{/if}}
+                {{/and}}
+            </div>
+            {{#and theme_settings.enable_minimum_checkout_value (if cart.sub_total.value '<' theme_settings.minimum_checkout_value)}}
+            <div class="cart__alert">
+                {{> components/common/alert-info (lang 'b2b.minimum_order_message' currency=settings.money.currency_token value=theme_settings.minimum_checkout_value remaining=(toFixed (subtract theme_settings.minimum_checkout_value cart.sub_total.value) 2))}}
+            </div>
+            {{/and}}
+        {{else}}
+            <div class="cart-actions">
+                <a class="button" href="{{urls.home}}" title="{{lang 'cart.continue_shopping'}}">{{lang 'cart.continue_shopping'}}</a>
+            </div>
+        {{/if}}
+
+        {{#if cart.additional_checkout_buttons}}
+            {{#and theme_settings.enable_minimum_checkout_value (if cart.sub_total.value '<' theme_settings.minimum_checkout_value)}}
+            {{else}}
+                <div class="cart-additionalCheckoutButtons">
+                    {{#each cart.additional_checkout_buttons}}
+                        {{{this}}}
+                    {{/each}}
+                </div>
+            {{/and}}
+        {{/if}}
+    {{/and}}
+{{else}}
+    <div class="cart__alert">{{> components/common/alert-info (lang 'b2b.lockdown.login_to_purchase')}}</div>
+{{/or}}

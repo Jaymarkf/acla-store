@@ -1,0 +1,29 @@
+.slick-dotted.slick-slider {
+    margin-bottom: 0;
+}
+
+.slick-dots {
+    bottom: auto;
+    margin-top: spacing("half");
+    position: relative;
+}
+
+.slick-list {
+    margin-bottom: -#{spacing("half")};
+    margin-top: -#{spacing("half")};
+}
+
+.slick-dots li {
+    height: remCalc(17px);
+    width: remCalc(17px);
+
+    button,
+    button::before {
+        height: remCalc(10px);
+        width: remCalc(10px);
+    }
+
+    &:only-child {
+        display: none;
+    }
+}

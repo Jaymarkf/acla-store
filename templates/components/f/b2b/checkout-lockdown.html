@@ -1,0 +1,9 @@
+<div class="optimizedCheckout-container">
+    <h3 class="optimizedCheckout-lockdown optimizedCheckout-headingPrimary">
+        {{lang 'b2b.minimum_order_message' currency=settings.money.currency_token value=theme_settings.minimum_checkout_value remaining=(toFixed (subtract theme_settings.minimum_checkout_value cart.sub_total.value) 2)}}
+    </h3>
+
+    <a href="{{urls.home}}">
+        {{lang 'cart.continue_shopping'}}
+    </a>
+</div>

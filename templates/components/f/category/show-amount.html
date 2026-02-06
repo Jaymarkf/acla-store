@@ -1,0 +1,11 @@
+{{#and (if category.total_products '>' '12') (length pagination.category.links)}}
+<div class="productCount js-product-count">
+    <span class="productCount__show">{{lang 'category.show'}}</span>
+    {{#gte (ceil (divide category.total_products 12)) pagination.category.current}}<a href="{{setURLQueryParam (setURLQueryParam (concat settings.base_url pagination.category.links.[0].url) "page" (toPrecision pagination.category.current)) "limit" "12"}}" class="productCount__item" data-count="12">12</a>{{/gte}}
+    {{#gte (ceil (divide category.total_products 24)) pagination.category.current}}<a href="{{setURLQueryParam (setURLQueryParam (concat settings.base_url pagination.category.links.[0].url) "page" (toPrecision pagination.category.current)) "limit" "24"}}" class="productCount__item" data-count="24">24</a>{{/gte}}
+    {{#gte (ceil (divide category.total_products 36)) pagination.category.current}}<a href="{{setURLQueryParam (setURLQueryParam (concat settings.base_url pagination.category.links.[0].url) "page" (toPrecision pagination.category.current)) "limit" "36"}}" class="productCount__item" data-count="36">36</a>{{/gte}}
+    {{#gte (ceil (divide category.total_products 48)) pagination.category.current}}<a href="{{setURLQueryParam (setURLQueryParam (concat settings.base_url pagination.category.links.[0].url) "page" (toPrecision pagination.category.current)) "limit" "48"}}" class="productCount__item" data-count="48">48</a>{{/gte}}
+    {{#gte (ceil (divide category.total_products 96)) pagination.category.current}}<a href="{{setURLQueryParam (setURLQueryParam (concat settings.base_url pagination.category.links.[0].url) "page" (toPrecision pagination.category.current)) "limit" "96"}}" class="productCount__item" data-count="96">96</a>{{/gte}}
+    {{#if category.total_products '<=' '100'}}<a href="{{setURLQueryParam (concat settings.base_url pagination.category.links.[0].url) "limit" "100"}}" class="productCount__item" data-count="100">All</a>{{/if}}
+</div>
+{{/and}}

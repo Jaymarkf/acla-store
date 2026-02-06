@@ -1,0 +1,40 @@
+{{inject 'addSuccess' (lang 'b2b.side_cart.success')}}
+
+<div class="sku-add sku-add--sku">
+  <form
+    class="form js-quick-add"
+    action="{{urls.cart}}"
+    method="post"
+    enctype="multipart/form-data"
+    data-error="{{lang 'b2b.side_cart.popup_messages.sku_error'}}"
+  >
+    <div class="add-sku-item"></div>
+    <fieldset class="form-fieldset">
+      <div class="form-field">
+        <div class="form-input-wrap">
+          <input
+            class="form-input form-input--sku-num"
+            name="sku"
+            type="text"
+            placeholder="{{lang 'b2b.header.sku_text'}}"
+            data-sku
+            autocorrect="off"
+          />
+          <input
+            class="form-input form-input--sku-qty"
+            name="qty"
+            type="tel"
+            value="1"
+            min="1"
+            data-qty
+            autocomplete="off"
+          />
+        </div>
+        <span class="quick-add-result"></span>
+        <button type="submit" class="search-button" type="submit">
+          {{lang 'b2b.header.sku_button'}}
+        </button>
+      </div>
+    </fieldset>
+  </form>
+</div>

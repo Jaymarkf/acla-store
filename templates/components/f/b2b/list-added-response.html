@@ -1,0 +1,8 @@
+{{#if customer.wishlists}}
+    <span>{{lang 'b2b.save_cart.save_to_list'}}</span>
+    <select name="list-id" id="list-id" class="form-select">
+        {{#each customer.wishlists}}
+        <option value="{{id}}"{{#if @last}} selected{{/if}}>{{name}} ({{num_items}})</option>
+        {{/each}}
+    </select>
+{{/if}}

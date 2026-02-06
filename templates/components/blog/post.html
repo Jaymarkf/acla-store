@@ -1,0 +1,66 @@
+<article class="blog">
+    {{#if post.thumbnail}}
+        <div class="blog-post-figure">
+            <figure class="blog-thumbnail">
+                <a href="{{post.url}}">
+                  {{> components/common/responsive-img
+                      image=post.thumbnail
+                      fallback_size=theme_settings.blog_size
+                      lazyload=theme_settings.lazyload_mode
+                  }}
+                </a>
+            </figure>
+        </div>
+    {{/if}}
+
+    <div class="blog-post-body">
+        <header class="blog-header">
+            <h2 class="blog-title">
+                <a href="{{post.url}}">{{post.title}}</a>
+            </h2>
+            <p class="blog-date">{{#if post.author}}{{lang 'blog.posted_by' name=post.author}} on {{/if}}{{post.date_published}}</p>
+            {{{region name="blog_below_title"}}}
+        </header>
+
+        <div class="blog-post">
+            {{#if post.body}}
+                {{{region name="blog_above_content"}}}
+                {{{post.body}}}
+                {{{region name="blog_below_content"}}}
+            {{else}}
+                {{{post.summary}}}
+                {{#if post.show_read_more}}
+                    &hellip; <a href="{{url}}">read more</a>
+                {{/if}}
+            {{/if}}
+        </div>
+
+
+        {{#if show_tags}}
+            {{#if post.tags}}
+                <ul class="tags">
+                    {{#each post.tags}}
+                    {{#startsWith "RP:" name}}
+                        {{#if ../../theme_settings.enable_editorial_mode}}
+                            {{inject "relatedProduct" name}}
+                        {{/if}}
+                    {{else}}
+                        <li class="tag">
+                            <a href="{{url}}">#{{name}}</a>
+                        </li>
+                    {{/startsWith}}
+                    {{/each}}
+                </ul>
+            {{/if}}
+        {{/if}}
+
+        {{>components/common/share url=post.url}}
+        {{{region name="blog_below_share"}}}
+
+        {{#if theme_settings.enable_editorial_mode}}
+        <div class="relatedProducts">
+            <h2 class="blog-title">{{lang 'blog.related_products'}}</h2>
+        </div>
+        {{/if}}
+    </div>
+</article>

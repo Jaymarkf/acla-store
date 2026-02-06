@@ -1,0 +1,11 @@
+{
+  "customLayouts": {
+    "brand": {},
+    "category": {},
+    "page": {},
+    "product": {}
+  },
+  "normalStoreUrl": "https://architects-corner-la.mybigcommerce.com",
+  "port": 3000,
+  "packageManager": "npm"
+}

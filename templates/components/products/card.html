@@ -1,0 +1,183 @@
+<article class="card {{#if alternate}}card--alternate{{/if}}" {{#if settings.data_tag_enabled}} data-event-type="{{event}}" data-entity-id="{{id}}" data-position="{{position}}" data-name="{{name}}" data-product-category="{{#each category}}{{#if @last}}{{this}}{{else}}{{this}}, {{/if}}{{/each}}" data-product-brand="{{brand.name}}" data-product-price="{{#if price.with_tax}}{{price.with_tax.value}}{{else}}{{price.without_tax.value}}{{/if}}"  {{/if}}>
+    {{#if show_compare}}
+        <label class="button button--small card-figcaption-button" for="compare-{{id}}">
+            {{lang 'products.compare'}} <input type="checkbox" name="products[]" value="{{id}}" id="compare-{{id}}" data-compare-id="{{id}}">
+        </label>
+    {{/if}}
+    <figure class="card-figure">
+        <div class="card-tags">
+            {{#or price.sale_price_with_tax price.sale_price_without_tax}}
+                {{#if theme_settings.show_sale_tags}}
+                    {{> components/f/tags/sale-tag}}
+                    {{#if theme_settings.show_percentage_saving}}
+                        {{> components/f/tags/sale-saving price=price}}
+                    {{/if}}
+                {{/if}}
+            {{/or}}
+            {{#if theme_settings.show_custom_product_labels}}
+                {{#each custom_fields}}
+                    {{#or (if this.name '===' 'Promotion Label') (if name '===' 'GridTag')}}
+                        {{> components/f/tags/custom-tag}}
+                    {{/or}}
+                {{/each}}
+            {{/if}}
+            {{#if theme_settings.show_selling_fast_tags}}
+                {{#if stock_level}}
+                    {{#if stock_level '<=' low_stock_level}}
+                        {{> components/f/tags/selling-fast}}
+                    {{/if}}
+                {{/if}}
+            {{/if}}
+        </div>
+        {{#if demo}}
+            <div class="card-img-container">
+                {{> components/common/responsive-img
+                    image=image
+                    class="card-image"
+                    fallback_size=theme_settings.productgallery_size
+                    lazyload=theme_settings.lazyload_mode
+                    default_image=theme_settings.default_image_product
+                }}
+            </div>
+        {{else}}
+            <a href="{{url}}" {{#if settings.data_tag_enabled}} data-event-type="product-click" {{/if}}>
+                <div class="card-img-container">
+                  {{> components/common/responsive-img
+                      image=image
+                      class="card-image"
+                      fallback_size=theme_settings.productgallery_size
+                      lazyload=theme_settings.lazyload_mode
+                      default_image=theme_settings.default_image_product
+                  }}
+                </div>
+            </a>
+        {{/if}}
+        <figcaption class="card-figcaption">
+            <div class="card-figcaption-body">
+                {{#unless hide_product_quick_view}}
+                    {{#if theme_settings.show_product_quick_view}}
+                        {{#unless demo}}
+                            <a href="#" class="button button--small card-figcaption-button quickview" data-product-id="{{id}}">{{lang 'products.quick_view'}}</a>
+                        {{/unless}}
+                    {{/if}}
+                {{/unless}}
+            </div>
+        </figcaption>
+    </figure>
+    <div class="card-body">
+        {{#if show_rating}}
+            <p class="card-text" data-test-info-type="productRating">
+                <span class="rating--small">
+                    {{> components/products/ratings rating=rating}}
+                </span>
+            </p>
+        {{/if}}
+        {{#if brand.name}}
+            <p class="card-text" data-test-info-type="brandName">{{brand.name}}</p>
+        {{/if}}
+        {{#if sku}}
+            <p class="card-text">{{lang 'products.sku'}} {{sku}}</p>
+        {{/if}}
+        <h4 class="card-title">
+            {{#if demo}}
+                {{name}}
+            {{else}}
+                <a href="{{url}}" {{#if settings.data_tag_enabled}} data-event-type="product-click" {{/if}}>{{name}}</a>
+            {{/if}}
+        </h4>
+
+        <div class="card-text" data-test-info-type="price">
+            {{#or customer (if theme_settings.restrict_to_login '===' 0)}}
+                {{> components/products/price price=price}}
+            {{else}}
+                {{> components/common/login-for-pricing}}
+            {{/or}}
+        </div>
+        {{> components/products/bulk-discount-rates}}
+
+
+        <div class="card-buttons">
+            {{#if theme_settings.show_wishlist_on_grid}}
+                <a href="{{add_to_wishlist_url}}" class="button button--small card-figcaption-button">{{lang 'account.wishlists.add_item'}}</a>
+            {{/if}}
+            {{#or customer (if theme_settings.restrict_to_login '===' 0)}}
+                {{#if show_cart_action}}
+                    {{#if has_options}}
+                        <a href="{{url}}" class="button button--small card-figcaption-button quickview" data-product-id="{{id}}">{{lang 'products.choose_options'}}</a>
+                    {{/if}}
+                    {{#if pre_order}}
+                        <a href="{{pre_order_add_to_cart_url}}" class="button button--small card-figcaption-button">{{lang 'products.pre_order'}}</a>
+                    {{/if}}
+                    {{#if add_to_cart_url }}
+                        <form class="form" method="post" action="{{urls.cart}}" enctype="multipart/form-data"
+                          data-cart-item-add>
+                            <input type="hidden" name="action" value="add">
+                            <input type="hidden" name="product_id" value="{{id}}"/>
+                            <input class="form-input form-input--incrementTotal"
+                                   name="qty[]"
+                                   type="tel"
+                                   value="{{#if min_purchase_quantity}}{{min_purchase_quantity}}{{else}}1{{/if}}"
+                                   data-quantity-min="{{min_purchase_quantity}}"
+                                   data-quantity-max="{{max_purchase_quantity}}"
+                                   min="1"
+                                   pattern="[0-9]*"
+                                   aria-live="polite">
+                            <input data-wait-message="{{lang 'products.adding_to_cart'}}" class="button button--primary" type="submit"
+                               value="{{#if pre_order}}{{lang 'products.pre_order'}}{{else}}{{lang 'products.add_to_cart'}}{{/if}}">
+                        </form>
+                    {{/if}}
+                    {{#if out_of_stock_message }}
+                        <a href="{{url}}" class="button button--small card-figcaption-button" data-product-id="{{id}}">{{out_of_stock_message}}</a>
+                    {{/if}}
+                {{/if}}
+            {{/or}}
+        </div>
+
+        {{#if theme_settings.show_swatches_on_grid}}
+            {{#if theme_settings.performance_mode_swatches}}
+                {{> components/f/swatches/performance-swatches}}
+            {{else}}
+                {{#if has_options}}
+                <div class="card-swatches {{#if theme_settings.enable_circular_swatches}}swatches--round{{/if}}" data-url="{{url}}" data-id="{{id}}">
+                </div>
+                {{/if}}
+            {{/if}}
+        {{/if}}
+
+        {{#if theme_settings.show_sizes_on_grid}}
+            {{#if theme_settings.performance_mode_swatches}}
+                {{> components/f/swatches/performance-sizes}}
+            {{else}}
+                {{#if has_options}}
+                <div class="card-sizes" data-url="{{url}}" data-id="{{id}}">
+                </div>
+                {{/if}}
+            {{/if}}
+        {{/if}}
+
+        {{#if theme_settings.show_stock_level_on_grid}}
+            {{#if stock_level}}
+                {{lang 'products.current_stock'}}
+                <span class="card-stock">{{stock_level}}</span>
+            {{/if}}
+        {{/if}}
+
+        {{#if theme_settings.show_custom_fields_on_grid}}
+            {{#each custom_fields}}
+                {{#or (if name '===' 'Blog Post Description') (if name '===' 'Promotion Label') (if name '===' 'GridTag') (if name '===' 'Related Content') (if name '===' 'Short Description') (if name '===' 'Color Swatch') (if name '===' 'Pattern Swatch') (if name '===' 'Sizes Available') (if name '===' 'Theme_OGP')}}
+                {{else}}
+                <div>
+                    <span class="card-label-name">{{name}}:</span>
+                    <span class="card-label-value">{{{value}}}</span>
+                </div>
+                {{/or}}
+            {{/each}}
+        {{/if}}
+
+        {{#if theme_settings.show_availability_on_grid}}
+            {{#if availability}}
+                <span class="card-availability">{{availability}}</span>
+            {{/if}}
+        {{/if}}
+    </div>
+</article>

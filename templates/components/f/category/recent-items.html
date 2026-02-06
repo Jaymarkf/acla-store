@@ -1,0 +1,10 @@
+{{#if customer.recently_viewed_products.items}}
+    <div {{#if settings.data_tag_enabled}} data-list-name="Category: {{category.name}}" {{/if}} class="container category-recent-items">
+        <h2 class="page-heading">{{lang 'account.recent_items.heading' }}</h2>
+        {{#if settings.data_tag_enabled}}
+            {{> components/products/carousel products=customer.recently_viewed_products.items theme_settings=theme_settings columns=5 urls=urls event="list" list="Recent Products" panel="RecentProducts"}}
+        {{else}}
+            {{> components/products/carousel products=customer.recently_viewed_products.items theme_settings=theme_settings columns=5 urls=urls list="Recent Products" panel="RecentProducts"}}
+        {{/if}}
+    </div>
+{{/if}}

@@ -1,0 +1,8 @@
+{{#each product.custom_fields}}
+    {{#if name '===' 'Related Content'}}
+        {{inject "relatedContent" value}}
+        <div class="relatedContent">
+            <h2 class="page-heading">{{lang 'products.related_content'}}</h2>
+        </div>
+    {{/if}}
+{{/each}}

@@ -1,0 +1,12 @@
+                {{#each product.options}}
+                    {{#if this.type '===' 'Configurable_PickList_Set'}}
+                        {{#if this.display_name '===' ../../theme_settings.size_label}}
+                            <div class="card-label">{{lang 'products.sizes_available'}}</div>
+                            {{#each this.values}}
+                                <div class="form-option">
+                                    <span class="form-option-variant">{{this.label}}</span>
+                                </div>
+                            {{/each}}
+                        {{/if}}
+                    {{/if}}
+                {{/each}}

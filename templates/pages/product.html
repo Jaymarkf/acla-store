@@ -1,0 +1,219 @@
+---
+product:
+    videos:
+        limit: {{theme_settings.productpage_videos_count}}
+    reviews:
+        limit: {{theme_settings.productpage_reviews_count}}
+    related_products:
+        limit: {{theme_settings.productpage_related_products_count}}
+    similar_by_views:
+        limit: {{theme_settings.productpage_similar_by_views_count}}
+gql: "query productById(
+    $productId: Int!
+  ) {
+    site {
+      settings {
+        tax {
+          pdp
+        }
+      }
+      product(entityId: $productId) {
+        variants(isPurchasable: true, first: 250) {
+          edges {
+            node {
+              entityId
+              sku
+              defaultImage {
+                ...ImageFields
+              }
+              inventory {
+                aggregated {
+                  availableToSell
+                  warningLevel
+                }
+                isInStock
+              }
+              productOptions {
+                edges {
+                  node {
+                    displayName
+                    ... on MultipleChoiceOption {
+                      values {
+                        edges {
+                          node {
+                            label
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+              priceWithoutTax:prices(includeTax:false) {
+                price {
+                  ...MoneyFields
+                }
+                salePrice {
+                  ...MoneyFields
+                }
+                retailPrice {
+                  ...MoneyFields
+                }
+                saved {
+                  ...MoneyFields
+                }
+                bulkPricing {
+                  minimumQuantity
+                  maximumQuantity
+                  ... on BulkPricingFixedPriceDiscount {
+                    price
+                  }
+                  ... on BulkPricingPercentageDiscount {
+                    percentOff
+                  }
+                  ... on BulkPricingRelativePriceDiscount {
+                    priceAdjustment
+                  }
+                }
+              }
+              priceWithTax:prices(includeTax:true) {
+                price {
+                  ...MoneyFields
+                }
+                salePrice {
+                  ...MoneyFields
+                }
+                retailPrice {
+                  ...MoneyFields
+                }
+                saved {
+                  ...MoneyFields
+                }
+                bulkPricing {
+                  minimumQuantity
+                  maximumQuantity
+                  ... on BulkPricingFixedPriceDiscount {
+                    price
+                  }
+                  ... on BulkPricingPercentageDiscount {
+                    percentOff
+                  }
+                  ... on BulkPricingRelativePriceDiscount {
+                    priceAdjustment
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  
+  fragment ImageFields on Image {
+    imageUrl: url(width: 120)
+  }
+  
+  fragment MoneyFields on Money {
+    formatted
+  }"
+---
+{{#unless theme_settings.performance_mode_swatches}}
+    {{inject "enableSwatches" theme_settings.show_swatches_on_grid}}
+{{/unless}}
+{{inject "enableImageHoverSwitcher" theme_settings.enable_image_hover_switcher}}
+{{inject "enableSelectedOptionLabel" theme_settings.show_selected_option_on_label}}
+{{inject "addToCartMode" theme_settings.add_to_cart_mode}}
+{{inject "watchers" theme_settings.show_watchers}}
+{{inject "watchers_min" (toInt theme_settings.watchers_min)}}
+{{inject "watchers_max" (toInt theme_settings.watchers_max)}}
+{{inject "watchers_update" (toInt theme_settings.watchers_update)}}
+{{#partial "page"}}
+
+    <div>
+        <div class="product-breadcrumbs">
+            {{> components/common/breadcrumbs breadcrumbs=breadcrumbs}}
+        </div>
+
+        {{#each product.shipping_messages}}
+            <div class="container upsell">
+                {{#if type '===' 2}}
+                    {{> components/common/alert-success message}}
+                {{else}}
+                    {{> components/common/alert-info message}}
+                {{/if}}
+            </div>
+        {{/each}}
+
+        {{#each product.reviews.messages}}
+            <div class="container upsell">
+                {{#if error}}
+                    {{> components/common/alert-error error}}
+                {{/if}}
+                {{#if success}}
+                    {{> components/common/alert-success success}}
+                {{/if}}
+            </div>
+        {{/each}}
+
+        {{> components/products/product-view settings=../settings}}
+
+        <div class="container">
+            {{{region name="product_above_reviews"}}}
+            {{{region name="product_above_reviews--global"}}}
+            {{#and settings.show_product_reviews product.reviews.total}}
+                {{#if product.num_reviews "!==" 0}}
+                    {{> components/products/reviews reviews=product.reviews product=product urls=urls}}
+                {{/if}}
+            {{/and}}
+            {{#if theme_settings.enable_editorial_mode}}
+                {{> components/f/products/related-article}}
+            {{/if}}
+            {{{region name="product_below_reviews"}}}
+            {{{region name="product_below_reviews--global"}}}
+
+            {{#or product.related_products product.similar_by_views}}
+            {{{region name="product_above_cross_sell"}}}
+            {{{region name="product_above_cross_sell--global"}}}
+            <div class="productView-carousel">
+              {{#if product.related_products}}
+              {{{region name="product_above_related_products"}}}
+              {{{region name="product_above_related_products--global"}}}
+              <h2 class="productView-title">{{lang 'products.related_products'}}</h2>
+              {{#if settings.data_tag_enabled}}
+                  {{> components/products/carousel settings=../settings products=product.related_products columns=5 list="Related Products" panel="Related Products"}}
+              {{else}}
+                  {{> components/products/carousel products=product.related_products columns=5 list="Related Products" panel="Related Products"}}
+              {{/if}}
+              {{{region name="product_below_related_products"}}}
+              {{{region name="product_below_related_products--global"}}}
+              {{/if}}
+
+
+              {{#and theme_settings.show_customer_recent_items customer.recently_viewed_products.items}}
+                  <h2 class="productView-title">{{lang 'account.recent_items.heading' }}</h2>
+                  {{#if settings.data_tag_enabled}}
+                      {{> components/products/carousel products=customer.recently_viewed_products.items theme_settings=theme_settings columns=5 urls=urls event="list" panel="RecentProducts"}}
+                  {{else}}
+                      {{> components/products/carousel products=customer.recently_viewed_products.items theme_settings=theme_settings columns=5 urls=urls panel="RecentProducts"}}
+                  {{/if}}
+              {{/and}}
+
+
+              {{#if product.similar_by_views}}
+              {{{region name="product_above_similar_by_views"}}}
+              {{{region name="product_above_similar_by_views--global"}}}
+              <h2 class="productView-title">{{lang 'products.similar_by_views'}}</h2>
+              {{> components/products/carousel settings=../settings products=product.similar_by_views columns=5 list="Customers Also Viewed" panel="CustomersViewed"}}
+              {{{region name="product_below_similar_by_views"}}}
+              {{{region name="product_below_similar_by_views--global"}}}
+              {{/if}}
+            </div>
+            {{{region name="product_below_cross_sell"}}}
+            {{{region name="product_below_cross_sell--global"}}}
+            {{/or}}
+        </div>
+    </div>
+    {{> components/products/schema}}
+{{/partial}}
+{{> layout/base}}

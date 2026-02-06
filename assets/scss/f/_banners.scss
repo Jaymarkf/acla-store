@@ -1,0 +1,35 @@
+.banners.homepage {
+    margin-bottom: spacing("single");
+
+    &.lower {
+        margin-top: spacing("double");
+    }
+}
+
+.banners {
+    background-color: stencilColor("global_banner_backgroundColor");
+    color: stencilColor("banner-text-color");
+    padding: 0;
+
+    a {
+        color: stencilColor("banner-text-color");
+    }
+}
+
+.banner {
+    margin: auto;
+    max-width: layout("max") + ($container-padding * 4);
+    padding: spacing("half") $container-padding;
+    width: 100%;
+
+    @include breakpoint("large") {
+        padding: spacing("half") ($container-padding * 4);
+    }
+
+    &.banner--footer {
+        padding: spacing("single") $container-padding;
+        @include breakpoint("large") {
+            padding: spacing("single") ($container-padding * 4);
+        }
+    }
+}

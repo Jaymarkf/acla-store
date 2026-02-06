@@ -1,0 +1,11 @@
+{{#if cart.status_messages}}
+    {{#each cart.status_messages}}
+        {{#if type '==' 0}}
+            {{trim message}}
+        {{/if}}
+    {{/each}}
+{{else}}
+    {{#if page_type '!=' 'cart'}}
+        {{{lang 'b2b.header.sku_error_stock'}}}
+    {{/if}}
+{{/if}}

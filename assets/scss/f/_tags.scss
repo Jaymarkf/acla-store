@@ -1,0 +1,31 @@
+.card-tags {
+    position: absolute;
+    z-index: zIndex("lowest");
+    text-transform: uppercase;
+}
+
+.card-tag {
+    margin-bottom: spacing("quarter");
+    text-align: right;
+}
+
+.storeTag {
+    display: inline-block;
+    font-weight: fontWeight("bold");
+    padding: spacing("eighth") spacing("half");
+}
+
+.customTag {
+    background-color: $card-tag-backgroundColor;
+    color: $card-tag-color;
+}
+
+.lowStock {
+    background-color: stencilColor("selling_fast_tag_backgroundColor");
+    color: stencilColor("selling_fast_tag_text_color");
+}
+
+.saleTag {
+    background-color: stencilColor("sale_tag_backgroundColor");
+    color: stencilColor("sale_tag_text_color");
+}
