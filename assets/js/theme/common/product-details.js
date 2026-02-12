@@ -7,6 +7,7 @@ import _ from 'lodash';
 import Wishlist from '../wishlist';
 import swal from '../global/sweet-alert';
 import bannerUtils from './utils/banner-utils';
+import { getCartItemJF,updateOptions,updateProduct } from './custom-jay';
 
 export default class ProductDetails {
     constructor($scope, context, productAttributesData = {}) {
@@ -40,7 +41,9 @@ export default class ProductDetails {
         $atcBtn.on('click', event => {
             if (! $form[0].checkValidity()) {
                 $form[0].reportValidity();
+                $('#form-action-addToCart').val('Add to Cart');
             } else {
+
                 this.addProductToCart(event, $form[0]);
             }
         });
@@ -78,6 +81,10 @@ export default class ProductDetails {
         this.previewModal = modalFactory('#previewModal')[0];
         this.quickviewModal = modalFactory('#modal')[0];
     }
+
+
+
+
 
     /**
      * https://stackoverflow.com/questions/49672992/ajax-request-fails-when-sending-formdata-including-empty-file-input-in-safari
@@ -366,16 +373,19 @@ export default class ProductDetails {
                 } else {
                     qty++;
                 }
-            } else if (qty > 1) {
-                // If quantity min option is set
-                if (quantityMin > 0) {
-                    // Check quantity does not fall below min
-                    if ((qty - 1) >= quantityMin) {
-                        qty--;
-                    }
-                } else {
-                    qty--;
-                }
+            // } else if (qty > 0) {
+            //     // If quantity min option is set
+            //     if (quantityMin > 0) {
+            //         // Check quantity does not fall below min
+            //         if ((qty - 1) >= quantityMin) {
+            //             qty--;
+            //         }
+            //     } else {
+            //         qty--;
+            //     }
+            // }
+            }else{
+                qty = Math.max(qty - 1, 0); // never go below 0
             }
 
             // update hidden input
@@ -406,7 +416,8 @@ export default class ProductDetails {
      * Add a product to cart
      *
      */
-    addProductToCart(event, form) {
+       addProductToCart(event, form) {
+        const self = this;
         const $addToCartBtn = $('#form-action-addToCart', $(event.target));
         const originalBtnVal = $addToCartBtn.val();
         const waitMessage = $addToCartBtn.data('waitMessage');
@@ -443,6 +454,7 @@ export default class ProductDetails {
                 text: minErr,
                 type: 'error',
             }).catch(swal.noop);
+            $('#form-action-addToCart').val('Add to Cart');
         } else if (qtyMax > 0 && newQty > qtyMax) {
             $addToCartBtn
                 .val(originalBtnVal)
@@ -452,6 +464,7 @@ export default class ProductDetails {
                 text: maxErr,
                 type: 'error',
             }).catch(swal.noop);
+             $('#form-action-addToCart').val('Add to Cart');
         } else if (newQty < 0 || Number.isNaN(newQty)) {
             $addToCartBtn
                 .val(originalBtnVal)
@@ -465,51 +478,194 @@ export default class ProductDetails {
                 type: 'error',
             })
                 .catch(swal.noop);
+            $('#form-action-addToCart').val('Add to Cart');
         } else {
-            this.$overlay.show();
+                const output = updateOptions();
 
-            // Add item to cart
-            utils.api.cart.itemAdd(this.filterEmptyFilesFromForm(new FormData(form)), (err, response) => {
-                const errorMessage = err || response.data.error;
+                const itemName =   $('h1.productView-title').text();
+                const input_qty = $('input[id="qty[]"]').val();
+                const result =  window.live_cart ? window.live_cart.lineItems.physicalItems : this.context.cartItems;
 
-                this.$overlay.hide();
+                if (output.status === "add-to-cart") {
+                    this.addProductNormally(form, $addToCartBtn, originalBtnVal);
+                } else if (output.status === "popup-decline") {
+                    this.showEcCartPopup(
+                       itemName,
+                        input_qty,
+                        output.sku
+                    );
+                } else if (output.status === "popup-choose") {
 
-                $addToCartBtn
-                    .val(originalBtnVal)
-                    .prop('disabled', false);
+                       document.querySelector('.ec-qty-popup__container').style.display = 'block';
+                       const itemId = result.find((item)=> item.sku === output.sku );
+                       const live_qty = itemId.quantity;
+                       const cartVariantId = itemId.id;
+                       const option_name = itemId.options ? itemId.options[0].value : output.title;
+                       this.showUpdateCartPopup(
+                        itemName,
+                        live_qty,
+                        input_qty, 
+                        output.sku, 
+                        option_name,
+                        ()=>{ //on ADD
+                            this.addProductNormally(form, $addToCartBtn, originalBtnVal);
+                        },
+                        ()=>{ //on Replace
+                              updateProduct(utils, cartVariantId, input_qty, (updatedCartId) => {
+                                this.updateCartContent(this.previewModal, updatedCartId);
+                                
+                            });
+                        },
+                        ()=>{ //onclose
+                            document.querySelector('.ec-qty-popup__container').style.display = 'none';
+                        });
 
-                // Guard statement
-                if (errorMessage) {
-                    // Strip the HTML from the error message
-                    const tmp = document.createElement('DIV');
-                    tmp.innerHTML = errorMessage;
-
-                    return showAlertModal(tmp.textContent || tmp.innerText);
                 }
 
-                if (this.quickviewModal) {
-                    this.quickviewModal.close();
-                }
-
-                // Open preview modal and update content
-                if (this.previewModal) {
-                    if (this.context.addToCartMode === 'popup') {
-                        // this.previewModal.open();
-                    }
-
-                    this.updateCartContent(this.previewModal, response.data.cart_item.id);
-                     $('#form-action-addToCart').val('Added to cart!');
-                     setTimeout(() => {
-                         $('#form-action-addToCart').val('Add to Cart');
-                     }, 1000);
-                } else {
-                    this.$overlay.show();
-                    // if no modal, redirect to the cart page
-                    this.redirectTo(response.data.cart_item.cart_url || this.context.urls.cart);
-                }
-            });
+            //   
         }
     }
+    
+
+
+/**
+ * Add product to cart normally
+ * @param {HTMLFormElement} form - The product form
+ * @param {jQuery} $addToCartBtn - Add-to-cart button
+ * @param {string} originalBtnVal - Original text of the button
+ */
+addProductNormally(form, $addToCartBtn, originalBtnVal) {
+
+    this.$overlay.show();
+    //else of checker
+    utils.api.cart.itemAdd(this.filterEmptyFilesFromForm(new FormData(form)), (err, response) => {
+        const errorMessage = err || response.data.error;
+        this.$overlay.hide();
+
+        $addToCartBtn
+            .val(originalBtnVal)
+            .prop('disabled', false);
+
+        // Guard: show error if exists
+        if (errorMessage) {
+            const tmp = document.createElement('DIV');
+            tmp.innerHTML = errorMessage;
+            $('#form-action-addToCart').val('Add to Cart');
+            return showAlertModal(tmp.textContent || tmp.innerText);
+        }
+
+        // Close quickview modal if open
+        if (this.quickviewModal) {
+            $('#form-action-addToCart').val('Add to Cart');
+            this.quickviewModal.close();
+        }
+
+        // Preview modal logic
+        if (this.previewModal) {
+
+
+          
+            if (this.context.addToCartMode === 'popup') {
+                // this.previewModal.open();
+            }
+
+            //custom call js
+            getCartItemJF(utils,response);
+
+
+            this.updateCartContent(this.previewModal, response.data.cart_item.id);
+            $('#form-action-addToCart').val('Added to cart!');
+            setTimeout(() => {
+                $('#form-action-addToCart').val('Add to Cart');
+            }, 1000);
+            
+
+
+        } else {
+            // If no modal, show overlay and redirect to cart page
+            this.$overlay.show();
+            this.redirectTo(response.data.cart_item.cart_url || this.context.urls.cart);
+        }
+     
+    });
+
+}
+
+
+    /**
+     * Show the update cart popup when the user tries to add a product that's already in the cart
+     * @param {string} itemName - Name of the product
+     * @param {number} quantity - Quantity already in cart
+     */
+    showUpdateCartPopup(itemName, quantity,livequantity, sku,optionName, onAdd, onReplace, onClose) {
+    const $popup = $('.ec-qty-popup__container');
+
+    const message = `
+        You currently have qty: <strong>${quantity}</strong> in your cart for item: <strong>${itemName} (${sku} : ${optionName} )</strong><br><br>
+        Choose to <strong>ADD Qty:</strong> ${livequantity}<br><br>
+        or <strong>REPLACE WITH Qty:</strong> ${livequantity}
+    `;
+
+    $popup.find('.ec-qty-popup__message').html(message);
+    $popup.fadeIn(200);
+
+    // Button handlers
+    $popup.find('.ec-qty-popup__btn--add').off('click').on('click', () => {
+        if (typeof onAdd === 'function') onAdd();
+        $popup.fadeOut(200);
+    });
+
+    $popup.find('.ec-qty-popup__btn--replace').off('click').on('click', () => {
+        if (typeof onReplace === 'function') onReplace();
+        $popup.fadeOut(200);
+    });
+
+    $popup.find('.ec-qty-popup__btn--close').off('click').on('click', () => {
+        if (typeof onClose === 'function') onClose();
+        $popup.fadeOut(200);
+    });
+    }
+    
+
+
+
+
+    /**
+     * Show the ecommerce cart popup
+     * @param {string} itemName - Name of the product
+     * @param {number} quantity - Quantity already in cart
+    */
+    showEcCartPopup(itemName, quantity, sku) {
+        const $popup = $('.ec-cart-popup__container');
+         $('#form-action-addToCart').val('Add to Cart');
+        // Set content dynamically
+        $popup.find('.ec-cart-popup__title').text('Item already in cart');
+        $popup.find('.ec-cart-popup__message').html(
+            `You already have <strong>${quantity}</strong> of <strong>${itemName}</strong> SKU: <strong> ${sku}</strong> in your cart.<br>
+            Update the quantity if you’d like to make a change.`
+        );
+
+        // Stop any previous animation and show popup
+        $popup.stop(true, true).fadeIn(200);
+
+        // Auto-hide after 4 seconds
+        setTimeout(() => {
+            $popup.fadeOut(300);
+        }, 8000);
+
+        // Close button
+        $popup.find('.ec-cart-popup__close').off('click').on('click', function() {
+            $popup.fadeOut(200);
+        });
+    }
+
+
+
+
+
+
+
+
 
     /**
      * Get cart contents
@@ -533,6 +689,7 @@ export default class ProductDetails {
         };
 
         utils.api.cart.getContent(options, onComplete);
+
     }
 
     /**
@@ -577,6 +734,7 @@ export default class ProductDetails {
                 $sideCartActions.html(response.actions);
 
                 $('body').trigger('cart-quantity-update', response.counter);
+                
             });
         }
 
@@ -595,7 +753,7 @@ export default class ProductDetails {
             const $cartQuantity = $('[data-cart-quantity]', modal.$content);
             const $cartCounter = $('.navUser-action .cart-count');
             const quantity = $cartQuantity.data('cartQuantity') || 0;
-
+        
             $cartCounter.addClass('cart-count--positive');
             $body.trigger('cart-quantity-update', quantity);
 
