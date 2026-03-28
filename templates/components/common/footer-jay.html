@@ -1,0 +1,93 @@
+<div class="container-footer-j container">
+      <div class="news-letter-box">
+            <h3>Newsletter</h3>
+             <form class="form" action="{{urls.subscribe.action}}" method="post" class="custom-jay-form">
+                  <fieldset class="form-fieldset">
+                  <input type="hidden" name="action" value="subscribe">
+                  <input type="hidden" name="nl_first_name" value="bc">
+                  <input type="hidden" name="check" value="1">
+                  <div class="form-field">
+                        <label class="form-label is-srOnly" for="nl_email">{{lang 'common.email_address'}}</label>
+                        <div class="form-prefixPostfix wrap">
+                              <input class="form-input" name="nl_email" type="email" value="{{customer.email}}" placeholder="Your Email Address">
+                              <input class="button button--primary form-prefixPostfix-button--postfix" type="submit" value="SUBMIT">
+                        </div>
+                  </div>
+                  </fieldset>
+            </form>
+      </div>
+      <div class="container-footer-nav">
+            <div class="col-foot">
+                  <div class="col-foot-title">
+                        <h3>About Architects Corner</h3>
+                  </div>
+                  <div class="foot-items">
+                        <a href="/sitemap"><svg><use xlink:href="#icon-chevron-down"></use></svg> Sitemap</a>
+                        <a href="/about-us"><svg><use xlink:href="#icon-chevron-down"></use></svg> About Us</a>
+                        <a href="/contact"><svg><use xlink:href="#icon-chevron-down"></use></svg> Contact Us</a>
+                        <a href="#"><svg><use xlink:href="#icon-chevron-down"></use></svg> Copyright Notification</a>
+                        <a href="#"><svg><use xlink:href="#icon-chevron-down"></use></svg> Privacy Statement</a>
+                  </div>
+            </div>
+            <div class="col-foot">
+                   <div class="col-foot-title">
+                        <h3>Customer Resources</h3>
+                  </div>
+                  <div class="foot-items">
+                        <a href="#"><svg><use xlink:href="#icon-chevron-down"></use></svg> Recently viewed products</a>
+                        <a href="#"><svg><use xlink:href="#icon-chevron-down"></use></svg> New products</a>
+                        <a href="#"><svg><use xlink:href="#icon-chevron-down"></use></svg> FAQ</a>
+                        <a href="#"><svg><use xlink:href="#icon-chevron-down"></use></svg> Delivery info</a>
+                        <a href="#"><svg><use xlink:href="#icon-chevron-down"></use></svg> Support</a>
+                  </div>
+            </div>
+            <div class="col-foot">
+                   <div class="col-foot-title">
+                        <h3>My Account</h3>
+                  </div>
+                   <div class="foot-items">
+                        <a href="/login.php"><svg><use xlink:href="#icon-chevron-down"></use></svg> My Account</a>
+                        <a href="#"><svg><use xlink:href="#icon-chevron-down"></use></svg> Orders</a>
+                        <a href="#"><svg><use xlink:href="#icon-chevron-down"></use></svg> Addresses</a>
+                        <a href="#"><svg><use xlink:href="#icon-chevron-down"></use></svg> Purchase Items</a>
+                        <a href="#"><svg><use xlink:href="#icon-chevron-down"></use></svg> School/Material List</a>
+                  </div>
+            </div>
+            <div class="col-foot col-foot-logo">
+                  {{#if settings.store_logo.image}}
+                  {{#if theme_settings.logo_size '===' 'original'}}
+                        <img class="header-logo-image-unknown-size" src="{{getImage settings.store_logo.image 'logo_size'}}" alt="{{settings.store_logo.title}}" title="{{settings.store_logo.title}}">
+                  {{else}}
+                        <div class="header-logo-image-container">
+                              <img class="header-logo-image" data-sizes="auto" src="{{getImage settings.store_logo.image 'logo_size'}}" alt="{{settings.store_logo.title}}" title="{{settings.store_logo.title}}">
+                        </div>
+                  {{/if}}
+                  {{else}}
+                  <span class="header-logo-text">{{settings.store_logo.title}}</span>
+                  {{/if}}
+            </div>
+      </div>
+
+</div>
+<div class="payment-card-footer header__inner">
+<span>Copyright {{moment format="YYYY"}} {{settings.store_name}}. All rights reserved.</span>
+<img src="https://cdn11.bigcommerce.com/s-mpz8cpc433/images/stencil/original/image-manager/payment-img.png?t=1772623241" alt="payment-footer"/>
+</div>
+
+
+<div class="ec-cart-popup__container" style="display:none;">
+    <button class="ec-cart-popup__close">&times;</button>
+    <strong class="ec-cart-popup__title"></strong>
+    <p class="ec-cart-popup__message"></p>
+</div>
+
+<div class="ec-qty-popup__container" style="display:none;">
+  <div class="ec-qty-popup__content">
+    <p class="ec-qty-popup__message"></p>
+    <div class="ec-qty-popup__buttons">
+      <button class="ec-qty-popup__btn ec-qty-popup__btn--add">Add to Current Quantity</button>
+      <button class="ec-qty-popup__btn ec-qty-popup__btn--replace">Replace with New Quantity</button>
+      <button class="ec-qty-popup__btn ec-qty-popup__btn--close">Go Back & Close</button>
+    </div>
+  </div>
+</div>

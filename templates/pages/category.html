@@ -3,6 +3,7 @@ category:
     shop_by_price: true
     products:
         limit: {{theme_settings.categorypage_products_per_page}}
+gql:
 ---
 {{inject "categoryProductsPerPage" theme_settings.categorypage_products_per_page}}
 {{#unless theme_settings.performance_mode_swatches}}
@@ -16,6 +17,7 @@ category:
 {{inject "enableSideCart" theme_settings.enable_side_cart}}
 {{inject "disableMinicart" theme_settings.enable_side_cart}}
 {{inject "displayMode" theme_settings.product_list_display_mode}}
+{{inject "categoryProducts" category.products}}
 {{#partial "head"}}
     {{#if pagination.category.previous}}
         <link rel="prev" href="{{pagination.category.previous}}">
@@ -48,7 +50,7 @@ category:
 
 {{{snippet 'categories'}}}
 
-<div class="page-sidebar" id="faceted-search-container">
+<div class="page-sidebar" id="faceted-search-container" style="display:none;">
     {{> components/category/sidebar}}
 </div>
 
@@ -91,5 +93,12 @@ category:
         {{> components/f/b2b/side-cart enable_sticky=true}}
     {{/if}}
 </div>
+{{#if category.products.length '==' '1'}}
+<script>
+    var link = '{{category.products.0.url}}';
+    window.location.href = link;
+</script>
+{{/if}}
+
 {{/partial}}
 {{> layout/base}}

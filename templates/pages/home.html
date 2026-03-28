@@ -30,7 +30,13 @@ blog:
         {{/if}}
     {{/each}}
 
+{{!-- {{> components/common/custom-homepage-category-tiles}} --}}
+
+
+{{> components/common/custom-3-block-tile}}
+   {{{region name="homepage_tiles"}}}
 <div class="main full flex-container {{#if theme_settings.carousel-type "===" "storyboard"}}
+ 
     {{#if carousel.slides.length ">" 1}}
     flex-container--carousel-more-than-one
     {{/if}}

@@ -7,7 +7,7 @@
     </div>
 {{/if}}
 
-{{> components/f/products/stock}}
+
 
 {{#if theme_settings.show_product_quantity_box}}
     <div class="form-field form-field--increments">
@@ -15,13 +15,20 @@
 
         <div class="cart-add-container">
             <div class="form-increment" data-quantity-change>
+                    <button class="button button--icon" data-action="inc">
+                        <span class="is-srOnly">{{lang 'products.quantity_increase' name=product.title}}</span>
+                        <i class="icon" aria-hidden="true">
+                            <span>+</span>
+                        </i>
+                    </button>
                 <input class="form-input form-input--incrementTotal"
                        data-id="qty-{{product.id}}"
                        id="qty[]"
                        data-product-id="{{product.id}}"
                        name="qty[]"
                        type="tel"
-                       value="{{#if product.min_purchase_quantity}}{{product.min_purchase_quantity}}{{else}}1{{/if}}"
+                       {{!-- value="{{#if product.min_purchase_quantity}}{{product.min_purchase_quantity}}{{else}}0{{/if}}" --}}
+                       value="0"
                        data-quantity-min="{{product.min_purchase_quantity}}"
                        data-quantity-max="{{product.max_purchase_quantity}}"
                        data-quantity-min-error="{{lang 'products.quantity_min' quantity=product.min_purchase_quantity}}"
@@ -30,6 +37,12 @@
                        {{#if product.max_purchase_quantity}}max="{{product.max_purchase_quantity}}"{{/if}}
                        pattern="[0-9]*"
                        aria-live="polite">
+                       <button class="button button--icon" data-action="dec">
+                        <span class="is-srOnly">{{lang 'products.quantity_decrease' name=product.title}}</span>
+                        <i class="icon" aria-hidden="true">
+                            <span>-</span>
+                        </i>
+                    </button>
             </div>
 
             {{#if settings.bulk_discount_enabled}}

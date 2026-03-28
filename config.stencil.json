@@ -5,7 +5,7 @@
     "page": {},
     "product": {}
   },
-  "normalStoreUrl": "https://architects-corner-la.mybigcommerce.com",
+  "normalStoreUrl": "https://aclastore.com",
   "port": 3000,
   "packageManager": "npm"
 }

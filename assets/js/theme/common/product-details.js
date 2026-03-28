@@ -7,10 +7,11 @@ import _ from 'lodash';
 import Wishlist from '../wishlist';
 import swal from '../global/sweet-alert';
 import bannerUtils from './utils/banner-utils';
-import { getCartItemJF,updateOptions,updateProduct } from './custom-jay';
+import { showQtyPopup } from './custom-jay-v2';
 
 export default class ProductDetails {
     constructor($scope, context, productAttributesData = {}) {
+        
         this.$overlay = $('[data-cart-item-add] .loadingOverlay');
         this.$scope = $scope;
         this.context = context;
@@ -32,19 +33,20 @@ export default class ProductDetails {
         }
         const $buyNowBtn = $('#buy-now-button-main');
         const $atcBtn = $('#form-action-addToCart');
-
         $productOptionsElement.on('change', event => {
             this.productOptionsChanged(event);
             this.setProductVariant();
         });
 
         $atcBtn.on('click', event => {
+            event.preventDefault();
             if (! $form[0].checkValidity()) {
                 $form[0].reportValidity();
-                $('#form-action-addToCart').val('Add to Cart');
             } else {
-
-                this.addProductToCart(event, $form[0]);
+        
+                utils.api.cart.getCart({}, (err, cart) => {
+                    this.addProductToCart(event, $form[0],cart);
+                });
             }
         });
 
@@ -55,6 +57,7 @@ export default class ProductDetails {
                 this.buyNowButton(event);
             }
         });
+
 
         // Update product attributes. Also update the initial view in case items are oos
         // or have default variant properties that change the view
@@ -80,11 +83,8 @@ export default class ProductDetails {
 
         this.previewModal = modalFactory('#previewModal')[0];
         this.quickviewModal = modalFactory('#modal')[0];
+        this.atcTimeout = null;
     }
-
-
-
-
 
     /**
      * https://stackoverflow.com/questions/49672992/ajax-request-fails-when-sending-formdata-including-empty-file-input-in-safari
@@ -361,32 +361,32 @@ export default class ProductDetails {
             const quantityMax = parseInt($input.data('quantity-max'), 10);
 
             let qty = parseInt($input.val(), 10);
-
             // If action is incrementing
             if ($target.data('action') === 'inc') {
+
                 // If quantity max option is set
                 if (quantityMax > 0) {
+
                     // Check quantity does not exceed max
                     if ((qty + 1) <= quantityMax) {
                         qty++;
                     }
+
                 } else {
                     qty++;
                 }
-            // } else if (qty > 0) {
-            //     // If quantity min option is set
-            //     if (quantityMin > 0) {
-            //         // Check quantity does not fall below min
-            //         if ((qty - 1) >= quantityMin) {
-            //             qty--;
-            //         }
-            //     } else {
-            //         qty--;
-            //     }
-            // }
-            }else{
-                qty = Math.max(qty - 1, 0); // never go below 0
+
+            } else {
+
+                // Decrement but never go below 0
+                qty = Math.max(qty - 1, 0);
+
             }
+
+           
+
+
+
 
             // update hidden input
             viewModel.quantity.$input.val(qty);
@@ -416,9 +416,14 @@ export default class ProductDetails {
      * Add a product to cart
      *
      */
-       addProductToCart(event, form) {
-        const self = this;
-        const $addToCartBtn = $('#form-action-addToCart', $(event.target));
+    addProductToCart(event, form,cart) {
+
+
+        // const isQuickView = this.$el.closest('.modal').length > 0;
+        // console.log("Is QuickView?", isQuickView);
+
+        
+        const $addToCartBtn = $(event.currentTarget);
         const originalBtnVal = $addToCartBtn.val();
         const waitMessage = $addToCartBtn.data('waitMessage');
 
@@ -440,10 +445,6 @@ export default class ProductDetails {
         // Prevent default
         event.preventDefault();
 
-        $addToCartBtn
-            .val(waitMessage)
-            .prop('disabled', true);
-
         // Does not quality for min/max quantity
         if (newQty < qtyMin) {
             $addToCartBtn
@@ -454,7 +455,6 @@ export default class ProductDetails {
                 text: minErr,
                 type: 'error',
             }).catch(swal.noop);
-            $('#form-action-addToCart').val('Add to Cart');
         } else if (qtyMax > 0 && newQty > qtyMax) {
             $addToCartBtn
                 .val(originalBtnVal)
@@ -464,7 +464,6 @@ export default class ProductDetails {
                 text: maxErr,
                 type: 'error',
             }).catch(swal.noop);
-             $('#form-action-addToCart').val('Add to Cart');
         } else if (newQty < 0 || Number.isNaN(newQty)) {
             $addToCartBtn
                 .val(originalBtnVal)
@@ -478,195 +477,178 @@ export default class ProductDetails {
                 type: 'error',
             })
                 .catch(swal.noop);
-            $('#form-action-addToCart').val('Add to Cart');
         } else {
-                const output = updateOptions();
+            this.$overlay.show();
+            if(cart){
+                //show popup cart
+                // Assume 'form' is your submitted form element
+               if (form) {
+                // Grab only selected/checked/typed inputs
+                const $selected = $(form).find(
+                    'input:checked, select option:selected, textarea, input[type="text"], input[type="number"]'
+                );
+                const productId = Number($('input[type="hidden"][name="product_id"]').val());
+                const qty = Number($('input[id="qty[]"]').val());
+                const self = this;
+                $selected.each(function() {
+                    const el = this; // actual DOM element
+                    const $el = $(this); // jQuery wrapper
+                    const name = $el.attr('name');
+                    const value = $el.val();
+                    const label = document.querySelector(`[data-product-attribute-value="${value}"]`);
+                    const sku = $(label).attr('custom-attribute-sku');
+                    const matchItem = cart.lineItems.physicalItems.find(
+                        (item) =>  item.productId === productId && item.sku === sku
+                    )
+                    //now show popup
+                    if(matchItem){
+                        self.customAddToCart(form, "edit",null, () => {
+                            
+                            showQtyPopup({
+                                cartQuantity: matchItem.quantity,
+                                inputQuantity: qty,
+                                itemName: $('h1.productView-title').text().trim(),
+                                itemSku: matchItem.sku,
+                                onAdd: () => { 
+                                    // Disable and show Adding...
+                                    $addToCartBtn
+                                        .val("Adding...")
+                                        .prop('disabled', true);
 
-                const itemName =   $('h1.productView-title').text();
-                const input_qty = $('input[id="qty[]"]').val();
-                const result =  window.live_cart ? window.live_cart.lineItems.physicalItems : this.context.cartItems;
+                                    self.customAddToCart(form, "add", matchItem.quantity, () => {
+                                        // Re-enable after API call success
+                                        $addToCartBtn
+                                            .val("Add to Cart")
+                                            .prop('disabled', false);
+                                    });
+                                },
+                                onReplace: () => { 
+                                    // Disable and show Replacing...
+                                    $addToCartBtn
+                                        .val("Replacing...")
+                                        .prop('disabled', true);
 
-                if (output.status === "add-to-cart") {
-                    this.addProductNormally(form, $addToCartBtn, originalBtnVal);
-                } else if (output.status === "popup-decline") {
-                    this.showEcCartPopup(
-                       itemName,
-                        input_qty,
-                        output.sku
-                    );
-                } else if (output.status === "popup-choose") {
+                                    self.cartUpdate(utils, matchItem.id, qty,matchItem.quantity, () => {
+                                        // Re-enable after API call success
+                                        $addToCartBtn
+                                            .val("Add to Cart")
+                                            .prop('disabled', false);
+                                    });
+                                },
+                                onClose: ()=>{
+                                    $addToCartBtn
+                                        .val(originalBtnVal)
+                                        .prop('disabled', false);
 
-                       document.querySelector('.ec-qty-popup__container').style.display = 'block';
-                       const itemId = result.find((item)=> item.sku === output.sku );
-                       const live_qty = itemId.quantity;
-                       const cartVariantId = itemId.id;
-                       const option_name = itemId.options ? itemId.options[0].value : output.title;
-                       this.showUpdateCartPopup(
-                        itemName,
-                        live_qty,
-                        input_qty, 
-                        output.sku, 
-                        option_name,
-                        ()=>{ //on ADD
-                            this.addProductNormally(form, $addToCartBtn, originalBtnVal);
-                        },
-                        ()=>{ //on Replace
-                              updateProduct(utils, cartVariantId, input_qty, (updatedCartId) => {
-                                this.updateCartContent(this.previewModal, updatedCartId);
-                                
+                                }
                             });
-                        },
-                        ()=>{ //onclose
-                            document.querySelector('.ec-qty-popup__container').style.display = 'none';
                         });
+                    }else{
+                        //proceed to add to cart normally
+                            $addToCartBtn
+                            .val("Adding...")
+                            .prop('disabled', true);
+                        
+                        self.customAddToCart(form,"add",null,null);
+                    }
 
-                }
-
-            //   
-        }
-    }
-    
-
-
-/**
- * Add product to cart normally
- * @param {HTMLFormElement} form - The product form
- * @param {jQuery} $addToCartBtn - Add-to-cart button
- * @param {string} originalBtnVal - Original text of the button
- */
-addProductNormally(form, $addToCartBtn, originalBtnVal) {
-
-    this.$overlay.show();
-    //else of checker
-    utils.api.cart.itemAdd(this.filterEmptyFilesFromForm(new FormData(form)), (err, response) => {
-        const errorMessage = err || response.data.error;
-        this.$overlay.hide();
-
-        $addToCartBtn
-            .val(originalBtnVal)
-            .prop('disabled', false);
-
-        // Guard: show error if exists
-        if (errorMessage) {
-            const tmp = document.createElement('DIV');
-            tmp.innerHTML = errorMessage;
-            $('#form-action-addToCart').val('Add to Cart');
-            return showAlertModal(tmp.textContent || tmp.innerText);
-        }
-
-        // Close quickview modal if open
-        if (this.quickviewModal) {
-            $('#form-action-addToCart').val('Add to Cart');
-            this.quickviewModal.close();
-        }
-
-        // Preview modal logic
-        if (this.previewModal) {
-
-
-          
-            if (this.context.addToCartMode === 'popup') {
-                // this.previewModal.open();
+                });
+            } else {
+                console.warn('Form does not exist!');
             }
 
-            //custom call js
-            getCartItemJF(utils,response);
+            }else{
+                // Add item to cart
+                $addToCartBtn
+                    .val("Adding...")
+                    .prop('disabled', true);
 
-
-            this.updateCartContent(this.previewModal, response.data.cart_item.id);
-            $('#form-action-addToCart').val('Added to cart!');
-            setTimeout(() => {
-                $('#form-action-addToCart').val('Add to Cart');
-            }, 1000);
-            
-
-
-        } else {
-            // If no modal, show overlay and redirect to cart page
-            this.$overlay.show();
-            this.redirectTo(response.data.cart_item.cart_url || this.context.urls.cart);
+                this.customAddToCart(form,"add",null,null);
+               
+            }
         }
-     
-    });
-
-}
-
-
-    /**
-     * Show the update cart popup when the user tries to add a product that's already in the cart
-     * @param {string} itemName - Name of the product
-     * @param {number} quantity - Quantity already in cart
-     */
-    showUpdateCartPopup(itemName, quantity,livequantity, sku,optionName, onAdd, onReplace, onClose) {
-    const $popup = $('.ec-qty-popup__container');
-
-    const message = `
-        You currently have qty: <strong>${quantity}</strong> in your cart for item: <strong>${itemName} (${sku} : ${optionName} )</strong><br><br>
-        Choose to <strong>ADD Qty:</strong> ${livequantity}<br><br>
-        or <strong>REPLACE WITH Qty:</strong> ${livequantity}
-    `;
-
-    $popup.find('.ec-qty-popup__message').html(message);
-    $popup.fadeIn(200);
-
-    // Button handlers
-    $popup.find('.ec-qty-popup__btn--add').off('click').on('click', () => {
-        if (typeof onAdd === 'function') onAdd();
-        $popup.fadeOut(200);
-    });
-
-    $popup.find('.ec-qty-popup__btn--replace').off('click').on('click', () => {
-        if (typeof onReplace === 'function') onReplace();
-        $popup.fadeOut(200);
-    });
-
-    $popup.find('.ec-qty-popup__btn--close').off('click').on('click', () => {
-        if (typeof onClose === 'function') onClose();
-        $popup.fadeOut(200);
-    });
     }
-    
+    customAddToCart(form,param,matchItem,callback){
+        if(param == "add"){
+            utils.api.cart.itemAdd(this.filterEmptyFilesFromForm(new FormData(form)), (err, response) => {
+                const errorMessage = err || response.data.error;
+                this.$overlay.hide(); 
+                // Guard statement
+                if (errorMessage) {
+                    // Strip the HTML from the error message
+                    const tmp = document.createElement('DIV');
+                    tmp.innerHTML = errorMessage;
 
+                    return showAlertModal(tmp.textContent || tmp.innerText);
+                }
 
+                if (this.quickviewModal) {
+                    this.quickviewModal.close();
+                }
 
+                // Open preview modal and update content
+                if (this.previewModal) {
+                    if (this.context.addToCartMode === 'popup') {
+                        // this.previewModal.open();
+                    }
+                    if(matchItem){
+                        const match_elem = $('[data-product-sku]').text().trim();
+                        const match_label_elem = $('[custom-attribute-sku="'+match_elem +'"]');
+                        $(match_label_elem).attr('custom-attribute-cart-quantity',Number($('input[id="qty[]"]').val()) + matchItem);
+                        $('input[id="qty[]"]').val(Number($('input[id="qty[]"]').val()) + matchItem);
+                    }else{
+                        const elem = $('[data-product-sku]').text().trim();
+                        const label_elem = $('[custom-attribute-sku="'+elem +'"]');
+                        $(label_elem).attr('custom-attribute-cart-quantity',$('input[id="qty[]"]').val());
+                    }
 
-    /**
-     * Show the ecommerce cart popup
-     * @param {string} itemName - Name of the product
-     * @param {number} quantity - Quantity already in cart
-    */
-    showEcCartPopup(itemName, quantity, sku) {
-        const $popup = $('.ec-cart-popup__container');
-         $('#form-action-addToCart').val('Add to Cart');
-        // Set content dynamically
-        $popup.find('.ec-cart-popup__title').text('Item already in cart');
-        $popup.find('.ec-cart-popup__message').html(
-            `You already have <strong>${quantity}</strong> of <strong>${itemName}</strong> SKU: <strong> ${sku}</strong> in your cart.<br>
-            Update the quantity if you’d like to make a change.`
-        );
-
-        // Stop any previous animation and show popup
-        $popup.stop(true, true).fadeIn(200);
-
-        // Auto-hide after 4 seconds
-        setTimeout(() => {
-            $popup.fadeOut(300);
-        }, 8000);
-
-        // Close button
-        $popup.find('.ec-cart-popup__close').off('click').on('click', function() {
-            $popup.fadeOut(200);
-        });
+                    this.updateCartContent(this.previewModal, response.data.cart_item.id,null,"Added!...");
+                } else {
+                    this.$overlay.show();
+                    // if no modal, redirect to the cart page
+                    this.redirectTo(response.data.cart_item.cart_url || this.context.urls.cart);
+                }
+            });
+        }else if(param == "edit"){
+             if (typeof callback === "function") {
+                callback(); 
+            }
+        }
     }
 
+    cartUpdate(utils,itemId,newQty){
+        utils.api.cart.itemUpdate(itemId, newQty, (err, response) => {
+            const errorMessage = err || response.data?.error;
 
+            this.$overlay.hide();
 
+            if (errorMessage) {
+                const tmp = document.createElement('DIV');
+                tmp.innerHTML = errorMessage;
+                return showAlertModal(tmp.textContent || tmp.innerText);
+            }
 
+            if (this.quickviewModal) {
+                
+                this.quickviewModal.close();
+            }
 
+            if (this.previewModal) {
+                if (this.context.addToCartMode === 'popup') {
+                    // this.previewModal.open();
+                }
+                const elem = $('[data-product-sku]').text().trim();
+                const label_elem = $('[custom-attribute-sku="'+elem +'"]');
+                $(label_elem).attr('custom-attribute-cart-quantity',newQty);
 
-
-
-
+                // 👇 this is the important part
+                this.updateCartContent(this.previewModal, itemId,null,"Replacing...");
+            } else {
+                this.$overlay.show();
+                this.redirectTo(this.context.urls.cart);
+            }
+    });
+    }
     /**
      * Get cart contents
      *
@@ -689,7 +671,6 @@ addProductNormally(form, $addToCartBtn, originalBtnVal) {
         };
 
         utils.api.cart.getContent(options, onComplete);
-
     }
 
     /**
@@ -712,7 +693,7 @@ addProductNormally(form, $addToCartBtn, originalBtnVal) {
      * @param {String} cartItemId
      * @param {Function} onComplete
      */
-    updateCartContent(modal, cartItemId, onComplete) {
+    updateCartContent(modal, cartItemId, onComplete,btnMessage) {
         const $sideCart = $('.side-cart-content');
 
         if ($sideCart) {
@@ -733,8 +714,9 @@ addProductNormally(form, $addToCartBtn, originalBtnVal) {
                 $sideCartDetails.html(response.details);
                 $sideCartActions.html(response.actions);
 
+                //  countPill counter is going here <---
+
                 $('body').trigger('cart-quantity-update', response.counter);
-                
             });
         }
 
@@ -750,11 +732,30 @@ addProductNormally(form, $addToCartBtn, originalBtnVal) {
 
             // Update cart counter
             const $body = $('body');
+            const $atc = $('#form-action-addToCart');
+
+            // clear previous timeout
+            if (this.atcTimeout) {
+                clearTimeout(this.atcTimeout);
+            }
+
+            // only update text if message exists
+            if (btnMessage) {
+                $atc.val(btnMessage);
+            }
+
+            // reset button after delay
+            this.atcTimeout = setTimeout(() => {
+                $atc
+                    .val('Add to Cart')
+                    .prop('disabled', false);
+            }, 2000);
             const $cartQuantity = $('[data-cart-quantity]', modal.$content);
             const $cartCounter = $('.navUser-action .cart-count');
             const quantity = $cartQuantity.data('cartQuantity') || 0;
-        
+
             $cartCounter.addClass('cart-count--positive');
+
             $body.trigger('cart-quantity-update', quantity);
 
             if (onComplete) {
@@ -917,6 +918,8 @@ addProductNormally(form, $addToCartBtn, originalBtnVal) {
         if (data.sku) {
             viewModel.sku.$value.text(data.sku);
             viewModel.sku.$label.show();
+            
+
         } else {
             viewModel.sku.$label.hide();
             viewModel.sku.$value.text('');
@@ -1118,10 +1121,10 @@ addProductNormally(form, $addToCartBtn, originalBtnVal) {
                     if ($radio.data('state') === true) {
                         $radio.prop('checked', false);
                         $radio.data('state', false);
-
-                        $radio.trigger('change');
+                        $radio.trigger('change'); 
                     } else {
                         $radio.data('state', true);
+                       
                     }
 
                     this.initRadioAttributes();

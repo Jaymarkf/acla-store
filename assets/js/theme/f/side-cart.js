@@ -91,6 +91,7 @@ export default function sideCart() {
             $('.side-cart-loading').css('display', 'none');
             $('.side-cart-item').css('opacity', '1');
             itemInCart();
+    
         });
 
         updateCartSize();

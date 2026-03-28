@@ -19,7 +19,7 @@
         {{/if}}
 
         <li class="navUser-item navUser-item--account">
-            <a class="navUser-action {{#if customer}}has-dropdown{{/if}}" href="{{urls.account.index}}" {{#if customer}}data-dropdown="accountOptions" aria-controls="accountOptions" aria-expanded="false" data-account-menu{{/if}}><span class="top-utilities-icon"><svg><use xlink:href="#icon-user"></use></svg></span><span class="navUser-text"> {{lang 'common.account'}}</span> {{#if customer}}<span class="navUser-dropdown-arrow"><span class="top-utilities-icon top-utilities-icon--arrow"><svg><use xlink:href="#icon-chevron-down"></use></svg></span></span>{{/if}}</a>
+            <a class="navUser-action {{#if customer}}has-dropdown{{/if}}" href="{{urls.account.index}}" {{#if customer}}data-dropdown="accountOptions" aria-controls="accountOptions" aria-expanded="false" data-account-menu{{/if}}><span class="top-utilities-icon"><svg><use xlink:href="#icon-user"></use></svg></span><span class="navUser-text"> {{#if customer}}{{lang 'common.account'}}{{else}}LOGIN{{/if}}</span> {{#if customer}}<span class="navUser-dropdown-arrow"><span class="top-utilities-icon top-utilities-icon--arrow"><svg><use xlink:href="#icon-chevron-down"></use></svg></span></span>{{/if}}</a>
             {{#if customer}}
             <ul class="dropdown-menu dropdown-menu--arrow-right is-open f-open-dropdown" id="accountOptions" data-dropdown-content="" aria-hidden="false" tabindex="-1">
                 <li class="dropdown-menu-item">

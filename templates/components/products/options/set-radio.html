@@ -1,10 +1,12 @@
 <div class="form-field" data-product-attribute="set-radio">
     <label class="form-label form-label--alternate form-label--inlineSmall">
         {{ this.display_name }}:
+       
 
         {{#if required}}
             <small class="required-label">{{lang 'common.required'}}</small>
         {{/if}}
+
     </label>
 
     {{#each this.values}}
@@ -19,6 +21,10 @@
                 data-default
             {{/if}}
             {{#if ../required}}required{{/if}}>
-        <label data-product-attribute-value="{{id}}" class="form-label" for="attribute_radio_{{../id}}_{{id}}">{{this.label}}</label>
+        <label data-product-attribute-value="{{id}}" class="form-label" for="attribute_radio_{{../id}}_{{id}}"
+        custom-attribute-sku="{{#each ../cart}}{{#each options}}{{#if value '==' ../../this.label}}{{../../sku}}{{/if}}{{/each}}{{/each}}"
+        custom-attribute-cart-quantity="{{#each ../cart}}{{#each options}}{{#if value '==' ../../this.label}}{{../../quantity}}{{/if}}{{/each}}{{/each}}"
+        >{{this.label}}
+    </label>
     {{/each}}
 </div>

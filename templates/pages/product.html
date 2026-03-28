@@ -128,7 +128,9 @@ gql: "query productById(
 {{inject "watchers_min" (toInt theme_settings.watchers_min)}}
 {{inject "watchers_max" (toInt theme_settings.watchers_max)}}
 {{inject "watchers_update" (toInt theme_settings.watchers_update)}}
+{{inject "cartItems" cart.items}}
 {{#partial "page"}}
+
 
     <div>
         <div class="product-breadcrumbs">

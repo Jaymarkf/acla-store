@@ -635,11 +635,11 @@
 
   .productCard--grid {
     @include breakpoint("large") {
-      width: 33.33%;
+      width: calc(100% / 4);
     }
 
     @include breakpoint("xlarge") {
-      width: 25%;
+      width: calc(100% / 5);
     }
 
     @include breakpoint(2000px) {

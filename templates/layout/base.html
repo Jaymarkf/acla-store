@@ -98,7 +98,7 @@
             {{> components/f/b2b/body-lockdown }}
         {{/or}}
 
-        {{> components/common/footer }}
+        {{> components/common/footer-jay }}
 
         {{#if theme_settings.show_recent_sellers}}
             {{> components/f/recent-sellers/recent-sellers-popup}}
@@ -114,17 +114,79 @@
         <script nonce="{{nonce}}" src="{{cdn 'assets/dist/theme-bundle.main.js' resourceHint='preload' as='script'}}" onload="onThemeBundleMain()"></script>
 
         {{{footer.scripts}}}
+        <script>
+            window.Colors = JSON.parse(document.getElementById('colors-data').textContent);
+        </script>
+        {{#if template_file '==' 'pages/home'}}
+            <script src="https://cdn.jsdelivr.net/npm/@splidejs/splide@3.6.12/dist/js/splide.min.js"></script>
+            <link href="https://cdn.jsdelivr.net/npm/@splidejs/splide@3.6.12/dist/css/splide.min.css" rel="stylesheet">
+            <script>
+                document.addEventListener('DOMContentLoaded', function () {
+                    document.querySelectorAll('.splide').forEach(function (el) {
+                        new Splide(el, {
+                            type: 'slide',
+                            perPage: 1,
+                            gap: '20px',
+                        }).mount();
+                    });
+                });
+            </script>
+        {{/if}}
+        <script>
+        // Set scrolling speed (pixels per second)
+        const speed = 50; // adjust as needed
+
+        // Find all announcement bars on the page
+        const bars = document.querySelectorAll('.container-announcement-bar');
+
+        bars.forEach(container => {
+            const wrapper = container.querySelector('.announce-wrapper');
+            if (!wrapper) return;
+
+            // Ensure container styles are correct
+            container.style.overflow = 'hidden';
+            container.style.position = 'relative';
+
+            // Start scroll
+            let pos = container.offsetWidth;
+
+            function step() {
+            pos -= speed / 60; // approx 60fps
+            if (pos < -wrapper.offsetWidth) pos = container.offsetWidth;
+            wrapper.style.transform = 'translateX(' + pos + 'px)';
+            requestAnimationFrame(step);
+            }
+
+            requestAnimationFrame(step);
+        });
+        </script>
         {{{snippet 'footer'}}}
         {{> components/f/pagebuilder/info}}
-        <script>
-            document.addEventListener('DOMContentLoaded', function() {
-                const addToCartButton = document.querySelector('#form-action-addToCart');
-                if (addToCartButton) {
-                    addToCartButton.addEventListener('click', function() {
-                        this.value = 'Adding to cart...';
-                    });
-                }
-            });
-        </script>
     </body>
 </html>
+
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const phoneInputs = document.querySelectorAll('.phone-input');
+
+    phoneInputs.forEach(input => {
+        // Only attach if not already attached
+        if (!input.dataset.maskAttached) {
+            input.addEventListener('input', function(e) {
+                let x = e.target.value.replace(/\D/g, '').substring(0,10);
+                let formatted = x;
+                if (x.length > 6) {
+                    formatted = `(${x.substring(0,3)})${x.substring(3,6)}-${x.substring(6,10)}`;
+                } else if (x.length > 3) {
+                    formatted = `(${x.substring(0,3)})${x.substring(3,6)}`;
+                } else if (x.length > 0) {
+                    formatted = `(${x}`;
+                }
+                e.target.value = formatted;
+            });
+            input.dataset.maskAttached = 'true';
+        }
+    });
+});
+</script>

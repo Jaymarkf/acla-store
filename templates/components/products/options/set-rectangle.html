@@ -2,7 +2,6 @@
     <label class="form-label form-label--alternate form-label--inlineSmall">
         {{this.display_name}}:
         <span data-option-value></span>
-
         {{#if required}}
             <small class="required-label">{{lang 'common.required'}}</small>
         {{/if}}
@@ -20,7 +19,9 @@
                 data-default
             {{/if}}
             {{#if ../required}}required{{/if}}>
-        <label class="form-option" for="attribute_rectangle_{{../id}}_{{id}}" data-product-attribute-value="{{id}}">
+            <label class="form-option" for="attribute_rectangle_{{../id}}_{{id}}" data-product-attribute-value="{{id}}"
+            custom-attribute-sku="{{#each ../cart}}{{#each options}}{{#if value '==' ../../this.label}}{{../../sku}}{{/if}}{{/each}}{{/each}}"
+            custom-attribute-cart-quantity="{{#each ../cart}}{{#each options}}{{#if value '==' ../../this.label}}{{../../quantity}}{{/if}}{{/each}}{{/each}}">
             <span class="form-option-variant">{{this.label}}</span>
         </label>
     {{/each}}

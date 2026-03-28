@@ -347,6 +347,7 @@ export default class Cart extends PageManager {
 
             const quantity = $('[data-cart-quantity]', this.$cartContent).data('cart-quantity') || 0;
             $('body').trigger('cart-quantity-update', quantity);
+            console.log('test');
         });
     }
 

@@ -7,14 +7,18 @@ import sideCart from './f/side-cart';
 import Url from 'url';
 import gridSwitcher from './f/grid-list-switcher';
 import { createTranslationDictionary } from '../theme/common/utils/translations-utils';
+// import { variantSplitter } from '../theme/custom-jay/variant-splitter';
 
 export default class Category extends CatalogPage {
     constructor(context) {
         super(context);
         this.validationDictionary = createTranslationDictionary(context);
+        //  variantSplitter(context.categoryProducts, context.authorization);
+ 
     }
 
     onReady() {
+       
         compareProducts(this.context);
 
         if ($('#facetedSearch').length > 0) {

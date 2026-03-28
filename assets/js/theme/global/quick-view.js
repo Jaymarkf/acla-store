@@ -123,7 +123,6 @@ export default function (context) {
 
     $('body').on('click', '.quickview', event => {
         event.preventDefault();
-
         const productId = $(event.currentTarget).data('productId');
         const taxLabel = $(event.currentTarget).data('taxLabel');
         const columnLabels = $(event.currentTarget).data('gridSort');
@@ -157,6 +156,7 @@ export default function (context) {
                         optionsGrid(data, productId, optionsConfig);
                     }
                 });
+            
             });
 
             return new ProductDetails(modal.$content.find('.quickView'), context);
