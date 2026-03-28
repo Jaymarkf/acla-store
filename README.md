@@ -1,8 +1,12 @@
-Please register your theme with us at https://www.flairconsultancy.com/
+# Camden Variant Catalog Theme
 
-Get support and documentation at https://www.flairthemes.com/
+Customized BigCommerce Camden theme focused on improving variant display and user experience.
 
-We do not offer free support for modification of the core theme files.
+## Features
+- Enhanced variant catalog behavior
+- UI/UX improvements
+- Responsive design
 
-If you require a quote for customisation, please visit https://www.flairconsultancy.com/contact
-"# acla-store" 
+## Notes
+- Built on Camden base theme
+- Easy to customize and extend
