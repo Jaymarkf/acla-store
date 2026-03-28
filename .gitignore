@@ -1,3 +1,4 @@
 node_modules
 assets/dist
+secrets.stencil.json
 
