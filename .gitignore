@@ -1,4 +1,5 @@
 node_modules
 assets/dist
 secrets.stencil.json
-
+*.zip
+stencil_context

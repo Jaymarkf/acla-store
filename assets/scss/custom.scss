@@ -607,8 +607,25 @@ span.variant-label{
             align-items: center;
             justify-content: space-between;;
             max-width:100%;
+            @media(max-width:800px){
+                flex-direction:column;
+                .breadcrumbs{
+                    margin-top:18px;
+                }
+                .custom-col-right{
+                    background-color:white;
+                          img{
+                              width:70%;
+                              display:block;
+                              margin:0 auto;
+                          }
+                }
+            }
             .cols{
                   width:50%;
+                  @media(max-width:800px){
+                      width:100%;
+                  }
             }
             .login-row{
                   flex-direction:column;
@@ -620,6 +637,7 @@ span.variant-label{
                         max-width:100%;
                         margin-left:0;
                         background-color:white;
+                        margin-bottom:0;
                   }
                   .new-customer{
                         width:100%;
