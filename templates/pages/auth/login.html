@@ -1,9 +1,14 @@
 {{#partial "page"}}
     <div class="login">
-        {{> components/common/breadcrumbs breadcrumbs=breadcrumbs}}
+
         
         <div class="account-container">
-            <h1 class="page-heading">{{lang 'login.heading' }}</h1>
+            <div class="cols custom-col-right">
+                <img clas="lazyload login-image" data-src="{{cdn 'img/loading.svg'}}" src="{{cdn 'img/coming-soon-v2.jpg'}}" alt="coming soon"> 
+            </div>
+           <div class="cols custom-col-left">
+            {{> components/common/breadcrumbs breadcrumbs=breadcrumbs}}
+         
             {{#if forms.login.error}}
                 {{> components/common/alert-error forms.login.error}}
             {{/if}}
@@ -11,6 +16,7 @@
                 {{> components/common/alert-success forms.login.success}}
             {{/if}}
             <div class="login-row">
+                <h1 class="page-heading">{{lang 'login.heading' }}</h1>
                 {{> components/f/auth/login-form}}
                 {{#if settings.account_creation_enabled}}
                     <div class="new-customer">
@@ -33,6 +39,7 @@
                     </div>
                 {{/if}}
             </div>
+           </div>
         </div>
     </div>
 {{/partial}}

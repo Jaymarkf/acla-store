@@ -13,8 +13,7 @@ export default class Category extends CatalogPage {
     constructor(context) {
         super(context);
         this.validationDictionary = createTranslationDictionary(context);
-         variantSplitter(context.categoryProducts, context.authorization, context.themeSettings.default_image_product);
- 
+         variantSplitter(context);
     }
 
     onReady() {
