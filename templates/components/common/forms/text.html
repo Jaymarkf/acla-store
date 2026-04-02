@@ -1,6 +1,6 @@
-<div class="form-field" id="{{id}}" data-validation="{{validation}}" {{#if private_id}}data-type="{{private_id}}"{{/if}}>
+<div class="form-field" id="{{id}}" data-validation="{{#if label '==' 'Phone Number'}}{'type':'singleline','label':'Phone Number','required':true,'maxlength':0}{{else}}{{validation}}{{/if}}" {{#if private_id}}data-type="{{private_id}}"{{/if}}>
     <label class="form-label" for="{{id}}_input">{{label}}
-        {{#if required}}<small>{{lang 'common.required' }}</small>{{/if}}
+        {{#if required}}<small>{{lang 'common.required' }}</small>{{else if label '==' 'Phone Number'}}<small>{{lang 'common.required' }}</small{{/if}}
     </label>
-    <input type="text" id="{{id}}_input" data-label="{{label}}" name="{{name}}" {{#if value}} value="{{value}}"{{/if}} {{#if placeholder}} placeholder="{{placeholder}}"{{/if}} class="form-input {{#if label '==' 'Phone Number'}}phone-input{{/if}}" aria-required="{{required}}" {{#if private_id}}data-field-type="{{private_id}}"{{/if}}>
+    <input type="text" id="{{id}}_input" data-label="{{label}}" name="{{name}}" {{#if value}} value="{{value}}"{{/if}} {{#if placeholder}} placeholder="{{placeholder}}"{{/if}} class="form-input {{#if label '==' 'Phone Number'}}phone-input{{/if}}" {{#if label '==' 'Phone Number'}}required{{/if}} aria-required="{{#if label '==' 'Phone Number'}}true{{else}}{{required}}{{/if}}" {{#if private_id}}data-field-type="{{private_id}}"{{/if}}>
 </div>
