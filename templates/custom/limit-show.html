@@ -1,0 +1,138 @@
+<label for="cards" class="categ">Cards to show</label>
+<div class="select-wrapper">
+  <select id="cards">
+    <option value="2">2</option>
+    <option value="3">3</option>
+    <option value="4">4</option>
+    <option value="5">5</option>
+    <option value="6">6</option>
+  </select>
+</div>
+
+<script>
+const select = document.getElementById("cards");
+
+function updateCardsBasedOnWidth() {
+  const width = window.innerWidth;
+
+  if (width <= 1024) {
+    select.value = "2";
+  } else if (width <= 1260) {
+    select.value = "3";
+  } else if (width <= 1440) {
+    select.value = "4";
+  } else {
+    select.value = "5";
+  }
+}
+
+updateCardsBasedOnWidth();
+window.addEventListener("resize", updateCardsBasedOnWidth);
+</script>
+
+<style>
+.categ{
+    line-height:3;
+    margin:0 14px;
+    margin-bottom:0 !important;
+}
+/* Wrapper for custom styling */
+.select-wrapper {
+  display: inline-block;
+  position: relative;
+  width: 60px; /* adjust width */
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Style the select element */
+select {
+  appearance: none; /* remove default arrow */
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  width: 100%;
+  padding: 8px 10px 8px 12px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  background-color: #fff;
+  font-size: 16px;
+  cursor: pointer;
+  transition: border 0.2s, box-shadow 0.2s;
+}
+
+/* Hover & focus effects */
+select:hover {
+  border-color: #888;
+}
+
+select:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+/* Custom arrow */
+.select-wrapper::after {
+  content: '▼';
+  position: absolute;
+  top: 50%;
+  right: 12px;
+  transform: translateY(-50%);
+  pointer-events: none;
+  font-size: 12px;
+  color: #555;
+}
+</style>
+<style>
+/* Label Styling */
+label[for="cards"] {
+  display: block;             /* puts label above select */
+  margin-bottom: 6px;         /* spacing from select */
+  font-weight: 600;           /* semi-bold */
+  font-size: 14px;            /* slightly smaller than select */
+  color: #333;                /* dark gray for readability */
+  letter-spacing: 0.3px;      /* subtle spacing */
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  transition: color 0.2s;     /* smooth hover effect */
+  cursor: default;
+}
+
+/* Optional: hover effect for label */
+label[for="cards"]:hover {
+  color: #007bff;             /* highlight label on hover */
+}
+</style>
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const selectInput = document.getElementById("cards");
+
+  // Choose elements based on page
+  let cards;
+  {{#if page '==' 'search'}}
+    cards = document.querySelectorAll(".category .productCard--grid");
+  {{else if page '==' 'brands'}}
+    cards = document.querySelectorAll(".brandGrid .brand");
+  {{else if page '==' 'category'}}
+    // For category page: subcategories + products
+    const subCategoryCards = document.querySelectorAll("ul.subCategoryCards li.subCategoryCard");
+    const productCards = document.querySelectorAll(".category .productCard--grid");
+    cards = [...subCategoryCards, ...productCards];
+  {{/if}}
+
+  // Function to update widths
+  function updateCardColumns(numberOfColumns) {
+    const widthPercent = 100 / numberOfColumns;
+    cards.forEach(card => {
+      card.style.width = `calc(${widthPercent}% - 10px)`; // adjust for gap
+    });
+  }
+
+  // Initialize widths on page load
+  updateCardColumns(parseInt(selectInput.value));
+
+  // Update widths when user changes select
+  selectInput.addEventListener("change", () => {
+    const selectedValue = parseInt(selectInput.value);
+    updateCardColumns(selectedValue);
+  });
+});
+</script>

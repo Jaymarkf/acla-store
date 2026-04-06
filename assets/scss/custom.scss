@@ -655,3 +655,12 @@ span.variant-label{
             }
       }
 }
+
+.container-header-brands{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      label.categ{
+            margin-left:auto;
+      }
+}
