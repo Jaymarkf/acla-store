@@ -664,3 +664,111 @@ span.variant-label{
             margin-left:auto;
       }
 }
+
+.cca{
+      display:flex;
+      align-items:stretch;
+      justify-content:center;
+      flex-wrap:wrap;
+      .col-banner{
+            background-color:white;
+            display:flex;
+            align-items:center;
+            justify-content: center;
+            margin-right:20px;
+            width:calc(50% - 20px);
+      }
+      .col-create{
+            width:calc(100% - 20px);
+            margin:0 40px;
+            max-width:700px;
+            border:1px solid #d7d7d7; 
+            border-radius:16px;
+            box-shadow:1px 1px 10px 1px #d7d7d7;
+            padding-left:40px;
+            padding-right:40px;
+            @media(max-width:450px){
+                  padding-left:10px;
+                  padding-right:10px;
+                  margin:0 10px;
+                  width:calc(100% - 20px);
+                  .form-field{
+                        width:100% !important;
+                  }
+            }
+
+      }
+      .form-actions{
+            text-align:left;
+      }
+}
+.form-field{
+      margin-bottom:1rem;
+}
+/* Container */
+.form-row.form-row--half {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+
+/* 2-column rows */
+.form-row--half > .form-field {
+  width: 50%;
+}
+
+/* 3-column rows */
+.form-row--third > .form-field {
+  width: calc(100% / 2);
+}
+.g-recaptcha{
+      width:100%;
+      *{
+            width:100% !important;
+      }
+}
+/* ---------------- REVISED ORDER ---------------- */
+/*  email */
+#FormField_1{ order:1;  width:50% ;}
+#FormField_32{order:2; width:50%;}
+
+/*password*/
+#FormField_2{order:3; width:50% ;}
+#FormField_3{order:4; width:50% ;}
+
+/*company*/
+#FormField_6{order:5; width:100%;input,label{width:48.5%;}}
+
+
+/*fname lname*/
+#FormField_4{order:6; width:50% ;}
+#FormField_5{order:7; width:50% ;}
+
+
+/*country*/
+#FormField_11{order:8; width:100%;input,label{width:48.5%;}}
+
+/*address1 address2*/
+#FormField_8{order:9; width:100%;  input,label{width:48.5%;}}
+#FormField_9{order:10; width:100%; input,label{width:48.5%;}}
+
+/*city, state, zip code*/
+#FormField_10{order:11; width:calc(100% / 3);}
+#FormField_12{order:12; width:calc(100% / 3);}
+#FormField_13{order:13; width:calc(100% / 3);}
+
+
+/*phone number, confirm phone number*/
+#FormField_7{order:14; width:50% ;}
+#FormField_33{order:15; width:50% ;}
+
+
+/*questionnaire*/
+#FormField_31{order:16; width:100%; input,label{width:50%;} margin-top:60px; }
+#FormField_29{order:17; width:100%; input,label{width:50%;}}
+#FormField_30{order:18; width:100%; input,label{width:50%;}}
+.foot-h3{
+      margin-top: 0;
+      margin-bottom: 32px;
+      font-size:16px;
+}
