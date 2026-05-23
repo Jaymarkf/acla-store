@@ -1,5 +1,32 @@
 [
   {
+    "name": "Custom Feature Jay",
+    "settings": [
+      {
+        "type": "heading",
+        "content": "Coupon Popup"
+      },
+      {
+        "type":"checkbox",
+        "label":"Enable Coupon Popup?",
+        "force_reload": true,
+        "id":"isPopupEnable"
+      },
+      {
+        "type":"text",
+        "label":"Coupon Popup Title",
+        "id":"coupon_popup_title",
+        "force_reload":true
+      },
+      {
+        "type":"text",
+        "label":"Coupon Popup Message",
+        "id": "coupon_popup_message",
+        "force_reload": true
+      }
+    ]
+  },
+  {
     "name": "B2B Features",
     "settings": [
       {

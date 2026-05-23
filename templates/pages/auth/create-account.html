@@ -35,5 +35,67 @@
             </div>
         </div>
     </div>
+<style>
+    #FormField_29 input{
+        width:100%;
+    }
+</style>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+    const select = document.querySelector("#FormField_29_select");
+
+    if (!select) return;
+
+    const originalName = "FormField[1][29]";
+
+    // Create textbox
+    const otherInput = document.createElement("input");
+
+    otherInput.type = "text";
+    otherInput.id = "FormField_29_other";
+    otherInput.className = "form-input";
+    otherInput.placeholder = "Please specify";
+    otherInput.style.display = "none";
+    otherInput.style.marginTop = "10px";
+
+    // Insert below select
+    select.insertAdjacentElement("afterend", otherInput);
+
+    function toggleOtherField() {
+
+        if (select.value === "Other") {
+
+            // Show textbox
+            otherInput.style.display = "block";
+
+            // Textbox gets original field name
+            otherInput.name = originalName;
+
+            // Rename select temporarily
+            select.name = originalName + "_select";
+
+        } else {
+
+            // Hide textbox
+            otherInput.style.display = "none";
+
+            // Clear textbox
+            otherInput.value = "";
+
+            // Remove textbox name
+            otherInput.removeAttribute("name");
+
+            // Restore select name
+            select.name = originalName;
+        }
+    }
+
+    toggleOtherField();
+
+    select.addEventListener("change", toggleOtherField);
+
+});
+</script>
 {{/partial}}
 {{> layout/base}}

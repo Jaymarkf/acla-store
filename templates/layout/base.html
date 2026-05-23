@@ -100,6 +100,10 @@
 
         {{> components/common/footer-jay }}
 
+        {{#if theme_settings.isPopupEnable}}
+                    {{> components/common/coupon-popup}}
+        {{/if}}
+        
         {{#if theme_settings.show_recent_sellers}}
             {{> components/f/recent-sellers/recent-sellers-popup}}
         {{/if}}

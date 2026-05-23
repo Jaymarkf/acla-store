@@ -1,0 +1,100 @@
+<style>
+.discount-popup-overlay{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,0.5);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    z-index:9999;
+}
+
+.discount-popup{
+    background:#fff;
+    width:90%;
+    max-width:420px;
+    padding:30px 25px;
+    border-radius:12px;
+    position:relative;
+    text-align:center;
+    box-shadow:0 10px 30px rgba(0,0,0,0.2);
+    animation:popupFade 0.25s ease;
+}
+
+.discount-popup p{
+    margin:8px 0;
+    font-size:18px;
+    line-height:1.5;
+}
+
+.discount-popup strong{
+    color:#d60000;
+}
+
+.popup-close{
+    position:absolute;
+    top:10px;
+    right:15px;
+    border:none;
+    background:none;
+    font-size:26px;
+    cursor:pointer;
+    line-height:1;
+}
+
+@keyframes popupFade{
+    from{opacity:0; transform:scale(0.9);}
+    to{opacity:1; transform:scale(1);}
+}
+#msgc{
+
+}
+</style>
+
+<div class="discount-popup-overlay" id="discountPopup">
+    <div class="discount-popup">
+        <button class="popup-close" id="closePopup">&times;</button>
+            <h2>{{theme_settings.coupon_popup_title}}</h2>
+            <div id="msgc" style="font-size:22px;">{{{theme_settings.coupon_popup_message}}}</div>
+        
+    </div>
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+    const popup = document.getElementById("discountPopup");
+    const box = popup.querySelector(".discount-popup");
+    const closeBtn = document.getElementById("closePopup");
+
+    const KEY = "discount_popup_dismissed";
+
+    // If user already dismissed properly → never show again
+    if (localStorage.getItem(KEY)) {
+        popup.style.display = "none";
+        return;
+    }
+
+    function dismissPopup() {
+        localStorage.setItem(KEY, "1");
+        popup.style.display = "none";
+    }
+
+    // X button = dismiss permanently
+    closeBtn.addEventListener("click", function (e) {
+        e.stopPropagation();
+        dismissPopup();
+    });
+
+    // Click outside popup = dismiss permanently
+    popup.addEventListener("click", function () {
+        dismissPopup();
+    });
+
+    // Prevent inside click from closing
+    box.addEventListener("click", function (e) {
+        e.stopPropagation();
+    });
+
+});
+</script>
