@@ -54,8 +54,6 @@
 
 .productView-thumbnails {
   @include u-listBullets("none");
-  @include grid-row($behavior: "nest");
-
   margin-left: -(spacing("quarter"));
   margin-right: -(spacing("quarter"));
 
@@ -93,7 +91,6 @@
 .productView-thumbnail-link {
   border: container("border");
   display: inline-block;
-  height: 67px;
   padding: 2px;
   position: relative;
   text-align: center;

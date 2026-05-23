@@ -431,8 +431,6 @@ $carousel-arrow-hover-color: stencilColor("carousel-arrow-hover-color");
 
     .slick-track {
       display: flex;
-      width: auto !important;
-
       @include breakpoint("large") {
         display: block;
       }
@@ -474,11 +472,6 @@ $carousel-arrow-hover-color: stencilColor("carousel-arrow-hover-color");
 
   .productView-thumbnail {
     float: none;
-
-    @include breakpoint("small") {
-      width: auto !important;
-    }
-
     &:last-of-type {
       .productView-thumbnail-link {
         margin-right: 0;
@@ -487,9 +480,7 @@ $carousel-arrow-hover-color: stencilColor("carousel-arrow-hover-color");
   }
 
   .productView-thumbnail-link {
-    height: get-height(stencilString("productview_thumb_size"));
     margin-right: spacing("half");
-    width: get-width(stencilString("productview_thumb_size"));
 
     @include breakpoint("large") {
       margin-right: 0;

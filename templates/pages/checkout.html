@@ -50,6 +50,25 @@
 
 {{{ footer.scripts }}}
 
+<script id="p4x8z2">
+const selector = '.form-legend-container.body-cta a';
+
+document.addEventListener('click', function (e) {
+  const link = e.target.closest(selector);
+
+  if (link) {
+    e.preventDefault();
+    e.stopPropagation();
+    e.stopImmediatePropagation(); // 🔑 stops other listeners on same event
+
+    if (!window.location.pathname.includes('/login.php')) {
+      window.location.href = '/login.php?action=create_account';
+    }
+  }
+}, true); // 🔑 capture phase
+</script>
+
+
 {{/partial}}
 
 {{> layout/empty}}

@@ -18,55 +18,77 @@
 </head>
 <body>
     {{#block "page"}}{{/block}}
+
 <script>
 (function() {
-    // Function to attach the phone formatter to an input
-    function attachPhoneFormatter(input) {
-        if (input.dataset.maskAttached) return; // already attached
+
+    function formatPhone(digits) {
+        if (digits.length > 6) {
+            return `(${digits.substring(0,3)})${digits.substring(3,6)}-${digits.substring(6,10)}`;
+        } else if (digits.length > 3) {
+            return `(${digits.substring(0,3)})${digits.substring(3,6)}`;
+        } else if (digits.length > 0) {
+            return `(${digits}`;
+        }
+        return '';
+    }
+
+    // 🔥 CRITICAL: React-safe setter
+    function setNativeValue(element, value) {
+        const valueSetter = Object.getOwnPropertyDescriptor(element, 'value')?.set;
+        const prototype = Object.getPrototypeOf(element);
+        const prototypeSetter = Object.getOwnPropertyDescriptor(prototype, 'value')?.set;
+
+        if (prototypeSetter && valueSetter !== prototypeSetter) {
+            prototypeSetter.call(element, value);
+        } else if (valueSetter) {
+            valueSetter.call(element, value);
+        } else {
+            element.value = value;
+        }
+
+        // 🔥 THIS is what React listens to
+        element.dispatchEvent(new Event('input', { bubbles: true }));
+    }
+
+    function attachFormatter(input) {
+        if (!input || input.dataset.maskAttached) return;
+
         input.addEventListener('input', function(e) {
-            let x = e.target.value.replace(/\D/g, '').substring(0,10); // only digits
-            let formatted = x;
-            if (x.length > 6) {
-                formatted = `(${x.substring(0,3)})${x.substring(3,6)}-${x.substring(6,10)}`;
-            } else if (x.length > 3) {
-                formatted = `(${x.substring(0,3)})${x.substring(3,6)}`;
-            } else if (x.length > 0) {
-                formatted = `(${x}`;
-            }
-            e.target.value = formatted;
+            let digits = e.target.value.replace(/\D/g, '').substring(0, 10);
+
+            let formatted = formatPhone(digits);
+
+            // 🔥 Use native setter instead of direct assignment
+            setNativeValue(e.target, formatted);
         });
+
         input.dataset.maskAttached = 'true';
     }
 
-    // Observer callback
-    const observer = new MutationObserver((mutations) => {
-        for (const mutation of mutations) {
-            if (mutation.type === 'childList') {
-                mutation.addedNodes.forEach(node => {
-                    if (node.nodeType === 1) { // element
-                        // Look for the phone input inside the added node
-                        const phoneInput = node.querySelector('input[type="tel"]');
-                        if (phoneInput) {
-                            attachPhoneFormatter(phoneInput);
-                        }
-                        // Also check if the node itself is the input
-                        if (node.matches && node.matches('input[type="tel"]')) {
-                            attachPhoneFormatter(node);
-                        }
-                    }
-                });
-            }
+    function init() {
+        const input = document.getElementById('phoneInput');
+        if (input) {
+            attachFormatter(input);
+        }
+    }
+
+    // Initial run
+    init();
+
+    // Watch for re-render (shipping/billing switch)
+    const observer = new MutationObserver(() => {
+        const input = document.getElementById('phoneInput');
+        if (input && !input.dataset.maskAttached) {
+            attachFormatter(input);
         }
     });
 
-    // Start observing the body for any added nodes
     observer.observe(document.body, {
         childList: true,
         subtree: true
     });
 
-    // Run once for existing phone inputs
-    document.querySelectorAll('input[type="tel"]').forEach(input => attachPhoneFormatter(input));
 })();
 </script>
 </body>
